@@ -214,7 +214,8 @@ export function Chart(props: ChartProps) {
           stroke: COLORS.axisText,
           grid: { stroke: COLORS.grid, width: 1 },
           ticks: { stroke: COLORS.grid },
-          splits: (u) => xTicks(rangeRef.current.x0, rangeRef.current.x1, Math.max(2, Math.floor(u.bbox.width / uPlot.pxRatio / 110))),
+          // at least 3: with 2 on a 360 px screen the nice step outgrew the range and only "0" was labelled
+          splits: (u) => xTicks(rangeRef.current.x0, rangeRef.current.x1, Math.max(3, Math.floor(u.bbox.width / uPlot.pxRatio / 110))),
           values: (_u, splits) => splits.map((v) => formatStepTick(v, locale)),
         },
         {
