@@ -38,8 +38,9 @@ const header = [
 
 const chunks = [header];
 const child = spawn(cmd, args, {
-  // FORCE_COLOR=0 alone disables ANSI colours; setting NO_COLOR too makes Node print a warning.
-  env: { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => k !== 'NO_COLOR')), FORCE_COLOR: '0' },
+  // NO_COLOR alone: Vitest treats the mere presence of FORCE_COLOR (even "0") as "colours on", and
+  // Node warns when both are set. Output is piped (not a TTY), so Playwright is colourless anyway.
+  env: { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => k !== 'FORCE_COLOR')), NO_COLOR: '1' },
   stdio: ['inherit', 'pipe', 'pipe'],
 });
 child.stdout.on('data', (d) => {
