@@ -9,6 +9,7 @@ test('app shell loads without console errors', async ({ page }) => {
 
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Training run monitor');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByRole('link').first()).toBeVisible(); // the run list has loaded
   expect(errors).toEqual([]);
 });

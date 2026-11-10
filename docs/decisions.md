@@ -108,6 +108,27 @@ linear ticks (a range straddling 0 needs −s, 0, s). Step axis: integer ticks i
 falling back to one tick at the roundest integer when the nice step has no multiple in a narrow
 window.
 
+## Performance methodology (stage 3)
+
+**P1 · Real Google Chrome, headless, CPU ×4 via CDP**, viewport 1280×900, DPR 2, 5 runs in fresh
+contexts (median and min–max reported) + 1 separate traced run (tracing adds overhead, so the trace
+is for inspection, not for the numbers). `?latency=0` so mock-API latency does not enter the numbers.
+
+**P2 · What is measured** (`src/perf/marks.ts`, identical for naive and optimized UI):
+first render = `chart:first-draw` mark (navigation start → first loss chart draw with data);
+zoom = mouseup → next paint after the new range is drawn; hover = pointermove → next paint;
+TBT = sum of (long task − 50 ms) before first render; memory after GC.
+
+**P3 · Known biases, measured in `docs/experiments.md`:** worker work is not throttled (adjusted
+upper bound reported); Event Timing does not cover hover; `JSHeapUsedSize` misses ArrayBuffers and
+workers. In headless Chrome, "next paint" is not aligned to a 60 Hz display, so hover/zoom times do
+not include the up-to-16 ms wait for vsync a real display adds.
+
+**P4 · The naive baseline is untested on purpose** — it is a throwaway reference for measurements,
+tagged `perf-baseline` and kept reachable at `?impl=naive`. It does contain the known silent
+failures (NaN hidden as gaps, no duplicate handling, request race), which stage 5 uses as the
+"reproduce first" step.
+
 ## Planned (decided in stage 0, implemented later)
 
 - **Log scale with values ≤ 0: hide + mark + count.** Points ≤ 0 break the line, are drawn as

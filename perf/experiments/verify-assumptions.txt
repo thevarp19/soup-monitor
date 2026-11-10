@@ -1,0 +1,50 @@
+# command:  node --no-warnings perf/experiments/verify-assumptions.ts
+# date:     2026-11-10T13:58:12.924Z
+# commit:   6522043
+# node:     v24.8.0
+# platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
+browser: Google Chrome 157.0.8103.39 (headless), Playwright CDP
+crossOriginIsolated: true
+
+== A. CPU throttling ×4 and Web Workers (fixed work: 3e7 × Math.sqrt, median of 3) ==
+              no throttling   page throttled ×4   page + worker targets throttled ×4
+main thread      29 ms          117 ms (×3.99)     117 ms (×3.98)
+web worker       28 ms           29 ms (×1.02)      29 ms (×1.01)
+worker-target CDP response: 1 worker target(s): {"id":1,"error":{"code":-32000,"message":"Operation is only supported for pages, not workers"}}
+
+== B. Event Timing API: which events are reported (handlers busy-wait 60 ms) ==
+pointermove   NOT reported
+mousemove     NOT reported
+pointerover   reported ×1, durations 120 ms
+pointerenter  reported ×4, durations 120, 120, 120, 120 ms
+mouseover     reported ×1, durations 120 ms
+pointerdown   reported ×1, durations 64 ms
+pointerup     NOT reported
+mousedown     reported ×1, durations 64 ms
+mouseup       NOT reported
+click         NOT reported
+
+== C. What each memory metric sees (1M points × 4 fields) ==
+step                                          footprint  JSHeapUsed  perf.memory  uaSpecific
+baseline (empty page)                             60 MB    1.9 MB     1.9 MB      1.4 MB
+                                                uaSpecific breakdown: 0.2 MB Shared 
+                                                uaSpecific breakdown: 0 MB DOM 
+                                                uaSpecific breakdown: 0.3 MB JavaScript blob:http://localhost:9871/2f65cd0c-88a9-4a8e-b7ab-e1106499fde8
+                                                uaSpecific breakdown: 0.9 MB JavaScript http://localhost:9871/
+main: 1M objects {step,loss,lr,grad_norm}        131 MB   66.7 MB    66.7 MB     66.2 MB
+                                                uaSpecific breakdown: 0 MB DOM 
+                                                uaSpecific breakdown: 0.3 MB JavaScript blob:http://localhost:9871/2f65cd0c-88a9-4a8e-b7ab-e1106499fde8
+                                                uaSpecific breakdown: 65.6 MB JavaScript http://localhost:9871/
+                                                uaSpecific breakdown: 0.3 MB Shared 
+main: 4 × Float64Array(1M) (objects freed)        90 MB    1.9 MB    32.4 MB     31.9 MB
+                                                uaSpecific breakdown: 0 MB DOM 
+                                                uaSpecific breakdown: 0.3 MB Shared 
+                                                uaSpecific breakdown: 0.3 MB JavaScript blob:http://localhost:9871/2f65cd0c-88a9-4a8e-b7ab-e1106499fde8
+                                                uaSpecific breakdown: 31.3 MB JavaScript http://localhost:9871/
+worker: 4 × Float64Array(1M) (main freed)         92 MB    1.9 MB     1.9 MB     31.9 MB
+                                                uaSpecific breakdown: 0.8 MB JavaScript http://localhost:9871/
+                                                uaSpecific breakdown: 0 MB DOM 
+                                                uaSpecific breakdown: 30.8 MB JavaScript blob:http://localhost:9871/2f65cd0c-88a9-4a8e-b7ab-e1106499fde8
+                                                uaSpecific breakdown: 0.3 MB Shared 
+
+# exit code: 0

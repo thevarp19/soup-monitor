@@ -20,7 +20,10 @@
     "test:e2e:save": "node scripts/run-and-save.mjs results/e2e-output.txt -- playwright test --reporter=list",
     "ci": "pnpm typecheck && pnpm lint && pnpm test && pnpm test:e2e",
     "test:mutation": "node scripts/run-and-save.mjs results/mutation-output.txt -- node scripts/mutation-check.mjs",
-    "perf:verify": "node scripts/run-and-save.mjs perf/experiments/verify-assumptions.txt -- node --no-warnings perf/experiments/verify-assumptions.ts"
+    "perf:verify": "node scripts/run-and-save.mjs perf/experiments/verify-assumptions.txt -- node --no-warnings perf/experiments/verify-assumptions.ts",
+    "perf": "node --no-warnings perf/run-perf.ts",
+    "perf:before": "node scripts/run-and-save.mjs perf/output-before.txt -- node --no-warnings perf/run-perf.ts --label before --impl naive",
+    "perf:after": "node scripts/run-and-save.mjs perf/output-after.txt -- node --no-warnings perf/run-perf.ts --label after"
   },
   "dependencies": {
     "react": "19.3.1",
