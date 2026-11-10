@@ -3,11 +3,12 @@
 Kept during the work, not reconstructed at the end. The assistant was Claude (Claude Code CLI).
 The "Verified by me" field is filled in by the author only.
 
-Times are wall-clock (UTC+5), approximate, taken from the session and file timestamps.
+Times come from git commit timestamps (`git log --date=format:%H:%M`, UTC+5). A stage spans from
+the previous stage's last commit to its own last commit, so the author's review time is included.
 
 ---
 
-## Stage 0 — plan (17:42–17:55)
+## Stage 0 — plan (repository created 17:42; no commits in this stage)
 
 - **AI proposed:** folder structure (pure `src/core/` + thin React layer), M4 downsampling instead
   of LTTB, tooltip that shows the whole pixel bucket (min/max with their steps) when zoomed out,
@@ -23,7 +24,7 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
 - **Where AI was wrong:** — (the four uncertain claims are still unverified; see stage 3)
 - **Verified by me:**
 
-## Stage 1 — scaffold, generator, normalization (17:55–18:15)
+## Stage 1 — scaffold, generator, normalization (→ 18:15)
 
 - **AI proposed:** Vite 8 + React 19 + TS strict, Vitest + fast-check, Playwright (no retries),
   ESLint flat config, CI workflow, a script that saves test output with a header (command, commit,
@@ -54,7 +55,7 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
     is a separate commit.
 - **Verified by me:**
 
-## Stage 2 — downsampling and truthfulness tests (18:20–19:05)
+## Stage 2 — downsampling and truthfulness tests (18:15 → 18:40)
 
 - **AI proposed:** M4 per device-pixel column with explicit guarantees (per-column min/max equal
   raw; every drawn point is a raw point; no segment across NaN/Inf/gap/≤0-on-log; every undrawable
@@ -83,7 +84,7 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
   - left a dummy test with an unused constant in the first draft of `downsample.test.ts` (removed).
 - **Verified by me:**
 
-## Stage 3 — assumptions, naive baseline, perf script (19:10–19:45)
+## Stage 3 — assumptions, naive baseline, perf script (18:40 → 19:06)
 
 - **AI proposed:** verify the four uncertain stage-0 claims by experiment before measuring
   (`perf/experiments/verify-assumptions.ts`, `docs/experiments.md`); a deliberately naive UI kept
@@ -108,7 +109,7 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
     baseline only, with a scoped `eslint-disable` and a comment.
 - **Verified by me:**
 
-## Stage 4 — real UI, worker, e2e, "after" measurements (19:45–20:50)
+## Stage 4 — real UI, worker, e2e, "after" measurements (19:06 → 19:47)
 
 - **AI proposed:** RunStore in a Web Worker with transferred typed arrays; race-safe
   `useRequest`; list with NaN-safe sorting and URL state; run page with cards, quality report,
@@ -141,5 +142,7 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
   - a leftover no-op `.replace()` chain in `describeChart` and a `key={route.id}`-style masking
     risk were cleaned up before commit; `useMemo` over a value re-created every render (lint).
   - first after-measurement was presented by the raw number (−61% first render); the adjusted
-    number for an unthrottled worker (−5%) is the honest comparison and is shown next to it.
+    number for an unthrottled worker (−5%) is the honest comparison and is shown next to it;
+  - **wrote the stage time ranges in this file by estimate** — stage 4's range ended at 20:50
+    while it was 19:47. Replaced with times from git commit timestamps.
 - **Verified by me:**
