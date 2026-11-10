@@ -5,7 +5,7 @@
  * uPlot is used as a canvas renderer only: x/y ranges and ticks come from src/core/scale.ts,
  * NaN/Inf/≤0 are drawn as markers by us, isolated points (a break on both sides) as dots.
  */
-import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import uPlot from 'uplot';
 import 'uplot/dist/uPlot.min.css';
 import { fetchView } from '../api/mockApi.ts';
@@ -151,6 +151,22 @@ function readoutText(r: Readout | null, locale: string): string {
   return `steps ${formatStep(r.fromStep, locale)}–${formatStep(r.toStep, locale)} · ${formatCount(r.count, locale)} points · ${extremes}${issues.length ? ` · ${issues.join(', ')}` : ''}`;
 }
 
+type ReadoutListener = (r: Readout | null) => void;
+
+/**
+ * The readout has its own state so that a pointer move re-renders only this line, not the whole
+ * chart (perf: with the readout in Chart's state, hover went from 3.6 to 6.6 ms — results-after-v1).
+ */
+function ReadoutLine({ metric, locale, subscribe }: { metric: Metric; locale: string; subscribe: (fn: ReadoutListener) => () => void }) {
+  const [readout, setReadout] = useState<Readout | null>(null);
+  useEffect(() => subscribe(setReadout), [subscribe]);
+  return (
+    <output className="readout" data-testid={`readout-${metric}`}>
+      {readoutText(readout, locale)}
+    </output>
+  );
+}
+
 export function Chart(props: ChartProps) {
   const { runId, metric, title, range, full, onRange, log, emaWeight, locale, syncKey, hintId, firstDrawMark = false } = props;
   const plotEl = useRef<HTMLDivElement>(null);
@@ -161,7 +177,13 @@ export function Chart(props: ChartProps) {
   const fullRef = useRef(full);
   const onRangeRef = useRef(onRange);
   const [widthPx, setWidthPx] = useState(0);
-  const [readout, setReadout] = useState<Readout | null>(null);
+  const readoutListener = useRef<ReadoutListener>(() => {});
+  const subscribeReadout = useCallback((fn: ReadoutListener) => {
+    readoutListener.current = fn;
+    return () => {
+      readoutListener.current = () => {};
+    };
+  }, []);
   const summaryId = useId();
   const titleId = useId();
   const emaOn = emaWeight !== null;
@@ -244,11 +266,11 @@ export function Chart(props: ChartProps) {
           (u) => {
             const left = u.cursor.left ?? -1;
             const current = viewRef.current;
-            if (left < 0 || !current) return setReadout(null);
+            if (left < 0 || !current) return readoutListener.current(null);
             // The pointer has ~1 CSS px resolution: report everything drawn under that pixel.
             const a = u.posToVal(left - 0.5, 'x');
             const b = u.posToVal(left + 0.5, 'x');
-            setReadout(readoutBetween(current.view, current.range.x0, current.range.x1, a, b));
+            readoutListener.current(readoutBetween(current.view, current.range.x0, current.range.x1, a, b));
           },
         ],
       },
@@ -322,23 +344,33 @@ export function Chart(props: ChartProps) {
   };
 
   const v = view.data;
-  const vr = view.dataKey ? (JSON.parse(view.dataKey) as ViewRequest) : null;
-  const counts = v ? notDrawableCounts(v) : null;
-  const notDrawable = counts ? counts.nan + counts.posInf + counts.negInf + counts.nonPositive : 0;
+  // Derived once per view, not on every render.
+  const derived = useMemo(() => {
+    if (!v || !view.dataKey) return null;
+    const vr = JSON.parse(view.dataKey) as ViewRequest;
+    const counts = notDrawableCounts(v);
+    const notDrawable = counts.nan + counts.posInf + counts.negInf + counts.nonPositive;
+    return {
+      counts,
+      notDrawable,
+      density: densityLabel(v.drawnCount, v.sourceCount, notDrawable, locale),
+      description: describeChart(metric, v, vr.x0, vr.x1, locale),
+    };
+  }, [v, view.dataKey, metric, locale]);
+  const counts = derived?.counts ?? null;
+  const notDrawable = derived?.notDrawable ?? 0;
 
   return (
     <figure className="chart" aria-busy={view.status === 'loading'}>
       <figcaption className="chart-head">
         <h3 id={titleId}>{title}</h3>
-        <output className="readout" data-testid={`readout-${metric}`}>
-          {readoutText(readout, locale)}
-        </output>
+        <ReadoutLine metric={metric} locale={locale} subscribe={subscribeReadout} />
       </figcaption>
       <div className="chart-frame" tabIndex={0} role="group" aria-roledescription="chart" aria-labelledby={titleId} aria-describedby={`${summaryId} ${hintId}`} onKeyDown={onKeyDown}>
         <div ref={plotEl} aria-hidden="true" data-chart={metric} />
       </div>
       <p className="chart-meta">
-        <span data-testid={`density-${metric}`}>{v ? densityLabel(v.drawnCount, v.sourceCount, notDrawable, locale) : 'Loading…'}</span>
+        <span data-testid={`density-${metric}`}>{derived ? derived.density : 'Loading…'}</span>
         {counts && notDrawable > 0 && (
           <span className="legend">
             {counts.nan > 0 && <span className="lg-nan">▲ NaN ×{formatCount(counts.nan, locale)}</span>}
@@ -350,7 +382,7 @@ export function Chart(props: ChartProps) {
         {emaOn && <span className="legend">solid thin: raw · dashed thick: EMA (smoothed)</span>}
       </p>
       <p id={summaryId} className="visually-hidden">
-        {v && vr ? describeChart(metric, v, vr.x0, vr.x1, locale) : `${title}: loading`}
+        {derived ? derived.description : `${title}: loading`}
       </p>
     </figure>
   );
