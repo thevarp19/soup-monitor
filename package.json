@@ -16,7 +16,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:save": "node scripts/run-and-save.mjs results/test-output.txt -- vitest run --reporter=verbose",
+    "test:save": "NO_COLOR=1 node scripts/run-and-save.mjs results/test-output.txt -- vitest run --reporter=verbose",
     "test:e2e:save": "node scripts/run-and-save.mjs results/e2e-output.txt -- playwright test --reporter=list",
     "ci": "pnpm typecheck && pnpm lint && pnpm test && pnpm test:e2e"
   },

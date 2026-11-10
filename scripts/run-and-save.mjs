@@ -38,9 +38,8 @@ const header = [
 
 const chunks = [header];
 const child = spawn(cmd, args, {
-  // NO_COLOR alone: Vitest treats the mere presence of FORCE_COLOR (even "0") as "colours on", and
-  // Node warns when both are set. Output is piped (not a TTY), so Playwright is colourless anyway.
-  env: { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => k !== 'FORCE_COLOR')), NO_COLOR: '1' },
+  // Colour env vars are left to the caller (see package.json): Vitest needs NO_COLOR, while
+  // Playwright sets FORCE_COLOR for its own children and Node warns if both are present.
   stdio: ['inherit', 'pipe', 'pipe'],
 });
 child.stdout.on('data', (d) => {
