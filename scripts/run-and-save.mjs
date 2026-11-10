@@ -24,7 +24,8 @@ function git(command) {
   }
 }
 const commit = git('rev-parse --short HEAD');
-const dirty = git('status --porcelain') ? ' (working tree has uncommitted changes)' : '';
+// results/ is excluded: this script writes there itself, so it says nothing about the code under test.
+const dirty = git("status --porcelain -- . ':(exclude)results'") ? ' (working tree has uncommitted changes)' : '';
 
 const header = [
   `# command:  ${[cmd, ...args].join(' ')}`,
@@ -37,7 +38,8 @@ const header = [
 
 const chunks = [header];
 const child = spawn(cmd, args, {
-  env: { ...process.env, FORCE_COLOR: '0', NO_COLOR: '1' },
+  // FORCE_COLOR=0 alone disables ANSI colours; setting NO_COLOR too makes Node print a warning.
+  env: { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => k !== 'NO_COLOR')), FORCE_COLOR: '0' },
   stdio: ['inherit', 'pipe', 'pipe'],
 });
 child.stdout.on('data', (d) => {
