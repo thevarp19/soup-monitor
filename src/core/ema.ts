@@ -18,16 +18,16 @@ export function ema(y: Float64Array, weight: number): Float64Array {
   if (!(weight >= 0 && weight < 1)) throw new RangeError(`EMA weight must be in [0, 1), got ${weight}`);
   const out = new Float64Array(y.length);
   let acc = 0;
-  let k = 0;
+  let wk = 1; // weight^k as a running product (Math.pow is implementation-approximated)
   for (let i = 0; i < y.length; i++) {
     const v = y[i];
     if (!Number.isFinite(v)) {
       out[i] = NaN;
       continue;
     }
-    k++;
+    wk *= weight;
     acc = weight * acc + (1 - weight) * v;
-    out[i] = acc / (1 - Math.pow(weight, k));
+    out[i] = acc / (1 - wk);
   }
   return out;
 }

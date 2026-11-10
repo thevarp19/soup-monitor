@@ -197,7 +197,7 @@ export const RUN_SPECS: readonly RunSpec[] = [
     points: 4000,
     stepEvery: 10,
     status: 'finished',
-    loss: { kind: 'shifted', offset: 2.8 },
+    loss: { kind: 'shifted', offset: 3 },
     lr: cosine(3e-4, 2000),
     defects: [{ kind: 'zeros', metric: 'loss', at: [100, 1200] }],
   },

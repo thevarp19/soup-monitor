@@ -19,9 +19,17 @@ export function mulberry32(seed: number): Rng {
   };
 }
 
-/** Standard normal sample via Box–Muller. `1 - rng()` keeps the log argument in (0, 1]. */
+/**
+ * Approximately standard normal sample: Irwin–Hall, the sum of 12 uniforms minus 6 (mean 0,
+ * variance exactly 1, bounded to [−6, 6]).
+ *
+ * Not Box–Muller on purpose: Math.log and Math.cos are "implementation-approximated" in ECMAScript,
+ * and gave different last bits in Node and Chrome, so the "same seed → same data" promise broke
+ * between the tests and the browser. Additions of exactly representable values are deterministic
+ * in every engine. The bound also keeps multiplicative noise 1 + σ·z positive.
+ */
 export function gaussian(rng: Rng): number {
-  const u1 = 1 - rng();
-  const u2 = rng();
-  return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  let s = 0;
+  for (let i = 0; i < 12; i++) s += rng();
+  return s - 6;
 }

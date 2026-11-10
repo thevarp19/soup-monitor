@@ -29,7 +29,16 @@ describe('mulberry32', () => {
   });
 });
 
-describe('gaussian', () => {
+describe('gaussian (Irwin–Hall: sum of 12 uniforms − 6)', () => {
+  it('stays within [−6, 6] — so multiplicative noise 1 + σ·z can never flip the sign', () => {
+    const rng = mulberry32(5);
+    for (let i = 0; i < 100_000; i++) {
+      const z = gaussian(rng);
+      expect(z).toBeGreaterThanOrEqual(-6);
+      expect(z).toBeLessThanOrEqual(6);
+    }
+  });
+
   it('has mean ≈ 0 and standard deviation ≈ 1, and never returns a non-finite value', () => {
     const rng = mulberry32(99);
     const n = 100_000;

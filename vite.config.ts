@@ -11,6 +11,7 @@ const isolation = {
 export default defineConfig({
   plugins: [react()],
   server: { headers: isolation },
+  worker: { format: 'es' },
   preview: { headers: isolation },
   test: {
     include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.ts'],

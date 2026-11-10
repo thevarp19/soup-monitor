@@ -19,6 +19,13 @@ const base: RunSpec = {
 };
 const make = (over: Partial<RunSpec>): GeneratedRun => generateRun({ ...base, ...over });
 
+// Output of the deterministic generator, recorded once (Node 24) and checked again in Chrome by e2e.
+const GOLDEN = {
+  loss: [10.630498000659049, 11.103713777838841, 2.773330613116519],
+  lr: [0, 0.0000014999999999999998, 0.000029999999999999997],
+  grad_norm: [7.432071556802839, 7.959746759507687, 1.1815218351315706],
+};
+
 function expectSameBits(a: Float64Array, b: Float64Array) {
   expect(a.length).toBe(b.length);
   for (let i = 0; i < a.length; i++) {
@@ -94,6 +101,21 @@ describe('generateRun — clean series', () => {
   });
 });
 
+describe('generateRun — bit-exact golden values', () => {
+  // The generator uses only IEEE-754 exactly-rounded operations (+ − × ÷ √, integer powers by
+  // multiplication). Math.exp/log/cos/pow are "implementation-approximated" in ECMAScript and gave
+  // different last bits in Node 24 and Chrome 157 (found by the e2e card test). These literals pin
+  // the output so any engine — and any refactor — must reproduce it bit for bit.
+  it('healthy-cosine: first values of loss, lr, grad_norm', () => {
+    const spec = RUN_SPECS.find((s) => s.id === 'healthy-cosine');
+    if (!spec) throw new Error('missing');
+    const { raw } = generateRun(spec);
+    expect([raw.loss[0], raw.loss[1], raw.loss[4999]]).toEqual(GOLDEN.loss);
+    expect([raw.lr[0], raw.lr[1], raw.lr[4999]]).toEqual(GOLDEN.lr);
+    expect([raw.grad_norm[0], raw.grad_norm[1], raw.grad_norm[4999]]).toEqual(GOLDEN.grad_norm);
+  });
+});
+
 describe('generateRun — lr schedules', () => {
   const lrAt = (lr: RunSpec['lr'], index: number) => make({ lr }).raw.lr[index];
 
@@ -123,10 +145,10 @@ describe('generateRun — lr schedules', () => {
 describe('generateRun — loss shapes', () => {
   const converge = make({}).raw;
 
-  it('diverge multiplies the clean curve by exp(rate·(t − from)) after `from`', () => {
+  it('diverge multiplies the clean curve by (1 + rate·(t − from))² after `from`', () => {
     const div = make({ loss: { kind: 'diverge', from: 0.5, rate: 2 } }).raw;
     expect(div.loss[30]).toBe(converge.loss[30]); // t = 0.3, before divergence
-    expect(div.loss[100] / converge.loss[100]).toBeCloseTo(Math.E, 12); // t = 1: exp(2·0.5)
+    expect(div.loss[100] / converge.loss[100]).toBeCloseTo(4, 12); // t = 1: (1 + 2·0.5)² = 4
   });
 
   it('plateau stops the downward trend after `from`', () => {
@@ -158,8 +180,8 @@ describe('generateRun — loss shapes', () => {
   });
 
   it('shifted produces negative loss values late in the run', () => {
-    // clean curve at t = 1 is 2 + 8.8 / 26^0.8 ≈ 2.65, so an offset of 2.8 ends at ≈ −0.15
-    const { raw } = make({ loss: { kind: 'shifted', offset: 2.8 } });
+    // clean curve at t = 1 is 2 + 8.8 / 13 ≈ 2.677; with noise at most ×1.12 that is < 3.0
+    const { raw } = make({ loss: { kind: 'shifted', offset: 3 } });
     expect(raw.loss[0]).toBeGreaterThan(0);
     expect(raw.loss[100]).toBeLessThan(0);
   });

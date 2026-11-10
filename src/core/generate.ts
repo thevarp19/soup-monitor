@@ -1,10 +1,18 @@
 import { gaussian, mulberry32 } from './prng.ts';
 import type { Columns, Defect, GeneratedRun, GroundTruth, LossShape, LrSchedule, Metric, RunSpec } from './types.ts';
 
-// Clean loss curve: starts at ~ln(50k vocab) and decays like a power law towards LOSS_FLOOR.
+/*
+ * DETERMINISM: only operations IEEE 754 defines exactly (+ − × ÷ √, comparisons) and integer powers
+ * by repeated multiplication. Math.exp/log/cos/pow are "implementation-approximated" in ECMAScript;
+ * with them, Node 24 and Chrome 157 produced different last bits for the same seed, so the e2e
+ * comparison of cards against the oracle failed (see AI_USAGE.md, stage 4). Curves are therefore
+ * rational/polynomial, and cos is a Taylor polynomial.
+ */
+
+// Clean loss curve: starts at ~ln(50k vocab) and decays hyperbolically towards LOSS_FLOOR.
 const LOSS_START = 10.8;
 const LOSS_FLOOR = 2.0;
-const LOSS_NOISE = 0.02; // multiplicative log-normal noise, σ of log(loss)
+const LOSS_NOISE = 0.02; // multiplicative noise 1 + σ·z, z ∈ [−6, 6]
 const GRAD_START = 8.0;
 const GRAD_FLOOR = 0.6;
 const GRAD_NOISE = 0.15;
@@ -12,7 +20,33 @@ const GRAD_EXPLODE_RATE = 40;
 const LOSS_EXPLODE_RATE = 2;
 
 function cleanLossCurve(t: number): number {
-  return LOSS_FLOOR + (LOSS_START - LOSS_FLOOR) / Math.pow(1 + 25 * t, 0.8);
+  return LOSS_FLOOR + (LOSS_START - LOSS_FLOOR) / (1 + 12 * t);
+}
+
+/** x^n for a non-negative integer n, by repeated multiplication (deterministic in every engine). */
+export function ipow(x: number, n: number): number {
+  let r = 1;
+  for (let i = 0; i < n; i++) r *= x;
+  return r;
+}
+
+const growth2 = (rate: number, d: number) => ipow(1 + rate * d, 2);
+
+// Taylor coefficients (−1)^k / (2k)! computed once by division, k = 0..11.
+const COS_COEF: number[] = [1];
+for (let k = 1; k <= 11; k++) COS_COEF.push(-COS_COEF[k - 1] / ((2 * k - 1) * (2 * k)));
+
+function cosSmall(x: number): number {
+  // |x| ≤ π/2: truncation error < (π/2)^24 / 24! ≈ 8e-20
+  const x2 = x * x;
+  let s = 0;
+  for (let k = COS_COEF.length - 1; k >= 0; k--) s = s * x2 + COS_COEF[k];
+  return s;
+}
+
+/** cos(π·p) for p ∈ [0, 1], with symmetry cos(π − x) = −cos(x) to stay in the accurate range. */
+export function cosPi(p: number): number {
+  return p <= 0.5 ? cosSmall(Math.PI * p) : -cosSmall(Math.PI * (1 - p));
 }
 
 function lossAt(shape: LossShape, t: number, noise: number): number {
@@ -20,19 +54,19 @@ function lossAt(shape: LossShape, t: number, noise: number): number {
     case 'converge':
       return cleanLossCurve(t) * noise;
     case 'diverge':
-      return cleanLossCurve(t) * noise * Math.exp(shape.rate * Math.max(0, t - shape.from));
+      return cleanLossCurve(t) * noise * growth2(shape.rate, Math.max(0, t - shape.from));
     case 'plateau':
       return cleanLossCurve(Math.min(t, shape.from)) * noise;
     case 'explode':
-      return cleanLossCurve(t) * noise * Math.exp(LOSS_EXPLODE_RATE * Math.max(0, t - shape.from));
+      return cleanLossCurve(t) * noise * growth2(LOSS_EXPLODE_RATE, Math.max(0, t - shape.from));
     case 'shifted':
       return cleanLossCurve(t) * noise - shape.offset;
   }
 }
 
 function gradNormAt(shape: LossShape, t: number, noise: number): number {
-  const g = (GRAD_FLOOR + (GRAD_START - GRAD_FLOOR) * Math.exp(-5 * t)) * noise;
-  return shape.kind === 'explode' ? g * Math.exp(GRAD_EXPLODE_RATE * Math.max(0, t - shape.from)) : g;
+  const g = (GRAD_FLOOR + (GRAD_START - GRAD_FLOOR) / (1 + 10 * t)) * noise;
+  return shape.kind === 'explode' ? g * ipow(1 + GRAD_EXPLODE_RATE * Math.max(0, t - shape.from), 4) : g;
 }
 
 function lrAt(schedule: LrSchedule, step: number, lastStep: number): number {
@@ -40,13 +74,13 @@ function lrAt(schedule: LrSchedule, step: number, lastStep: number): number {
     case 'constant':
       return schedule.value;
     case 'step-decay':
-      return schedule.initial * Math.pow(schedule.gamma, Math.floor(step / schedule.everySteps));
+      return schedule.initial * ipow(schedule.gamma, Math.floor(step / schedule.everySteps));
     case 'warmup-cosine': {
       const { peak, warmupSteps, minLr } = schedule;
       if (step < warmupSteps) return (peak * step) / warmupSteps;
       const span = lastStep - warmupSteps;
       const progress = span > 0 ? (step - warmupSteps) / span : 1;
-      return minLr + 0.5 * (peak - minLr) * (1 + Math.cos(Math.PI * progress));
+      return minLr + 0.5 * (peak - minLr) * (1 + cosPi(progress));
     }
   }
 }
@@ -67,8 +101,8 @@ export function generateRun(spec: RunSpec): GeneratedRun {
 
   const lossNoise = new Float64Array(n);
   const gradNoise = new Float64Array(n);
-  for (let i = 0; i < n; i++) lossNoise[i] = Math.exp(LOSS_NOISE * gaussian(rng));
-  for (let i = 0; i < n; i++) gradNoise[i] = Math.exp(GRAD_NOISE * gaussian(rng));
+  for (let i = 0; i < n; i++) lossNoise[i] = 1 + LOSS_NOISE * gaussian(rng);
+  for (let i = 0; i < n; i++) gradNoise[i] = 1 + GRAD_NOISE * gaussian(rng);
 
   const lastStep = Math.max(0, n - 1) * spec.stepEvery;
   const clean: Columns = {
@@ -147,9 +181,9 @@ export function generateRun(spec: RunSpec): GeneratedRun {
       for (let i = d.from; i < d.from + d.length; i++) {
         extraRows.push({
           step: clean.step[i],
-          loss: clean.loss[i] * Math.exp(LOSS_NOISE * gaussian(relogRng)),
+          loss: clean.loss[i] * (1 + LOSS_NOISE * gaussian(relogRng)),
           lr: clean.lr[i],
-          grad_norm: clean.grad_norm[i] * Math.exp(GRAD_NOISE * gaussian(relogRng)),
+          grad_norm: clean.grad_norm[i] * (1 + GRAD_NOISE * gaussian(relogRng)),
         });
         inserted.push(n + extraRows.length - 1);
         truth.relogged.push({ step: clean.step[i], writes: 2 });
