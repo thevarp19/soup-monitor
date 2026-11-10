@@ -108,6 +108,39 @@ linear ticks (a range straddling 0 needs −s, 0, s). Step axis: integer ticks i
 falling back to one tick at the roundest integer when the nice step has no multiple in a narrow
 window.
 
+**E8 · The generator uses only exactly-rounded arithmetic.** ECMAScript specifies `Math.exp`,
+`log`, `cos`, `pow` as "implementation-approximated"; with them, Node 24 and Chrome 157 produced
+different last bits for the same seed, and the e2e test comparing card values with the Node-side
+oracle failed (`11.134177880334821` vs `…823`). Fix: Irwin–Hall noise (sum of 12 uniforms − 6),
+rational/polynomial curves, a Taylor-polynomial `cos(π·p)`, integer powers by multiplication.
+A golden-value unit test pins the output. Alternative rejected: comparing with a tolerance — it
+would hide exactly this class of discrepancy.
+
+## UI (stage 4)
+
+**U1 · Readout line instead of a floating tooltip.** A line above each chart shows the raw values
+under the cursor: one point exactly, or for a pixel that covers many points the count, min and max
+with their steps, and NaN/∞ counts. Visible on a phone, never covers the data, easy to assert in
+e2e. The readout **merges every device-pixel column under the cursor's CSS pixel** (±0.5 px): with
+only the column under the centre, the spike was missed by half a CSS pixel after zooming (e2e).
+
+**U2 · Views keep the previous data while the next range loads** (`useRequest` `keepPrevious`),
+so a zoom stretches the old picture instead of blanking the chart; `dataKey` says which range the
+shown data belongs to, and the readout uses that range's buckets. Never used for run data: a new
+run id never shows the previous run.
+
+**U3 · Charts are keyed by run id** and the zoom range is stored together with its run id, so a
+range chosen on run A is never applied to run B.
+
+**U4 · List sorting ranks missing values explicitly** (numbers, then NaN, then "no data", in both
+directions). `(a, b) => a - b` returns NaN for NaN losses and makes the order implementation-
+defined.
+
+**U5 · Accessibility:** charts are focusable groups with a text summary (visible range, extremes
+with steps, non-finite counts) via `aria-describedby`; keyboard zoom/pan; `/` and arrow keys in the
+list; visible focus ring; table headers are buttons with `aria-sort`; status badges carry text, not
+only colour. Canvas contrast is unit-tested (`colors.test.ts`) because axe cannot see canvas.
+
 ## Performance methodology (stage 3)
 
 **P1 · Real Google Chrome, headless, CPU ×4 via CDP**, viewport 1280×900, DPR 2, 5 runs in fresh
@@ -142,7 +175,8 @@ failures (NaN hidden as gaps, no duplicate handling, request race), which stage 
   downsampled data would make the smoothing change with zoom.
 - **Race-free fetching by hand** (AbortController + request id) instead of TanStack Query, so the
   bug and the fix are visible and testable.
-- **Naive pipeline kept** behind `?impl=naive` (lazy chunk) in addition to the `perf-baseline`
-  tag, so before/after can be re-measured under identical conditions at any time.
+- **Naive pipeline kept** behind `?impl=naive` in addition to the `perf-baseline` tag, so
+  before/after can be re-measured under identical conditions at any time. (Implemented as a plain
+  import, not a lazy chunk — the bundle is small; this was used when the generator changed.)
 - **Deploy to Vercel** (SPA rewrite + custom COOP/COEP headers are possible; GitHub Pages cannot
   set headers).

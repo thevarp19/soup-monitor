@@ -17,7 +17,20 @@ Test output: `results/test-output.txt`. Mutation check: `results/mutation-output
 | **Numbers match the data** | Card values (`lastLoss`, `lastFiniteLoss`, `minLoss`, `currentLr`, `maxGradNorm`, NaN/Inf/duplicate/gap counts) equal a brute-force computation over the raw data for all 20 runs. The last loss of `nan-single` is reported as NaN (not the previous finite value). | `summary.test.ts` |
 | **Axis labels match the data** | For zoom windows on the 1M run, the y-axis range covers the brute-force min and max of the raw data in the window (incl. the spike in the last pixel column). Property (1000 random extents): ticks are increasing, cover the data, every label **parses back to exactly the tick value**, and no two labels are equal (no "0.0003, 0.0003"). Same for log ticks (500) and integer step ticks. | `scale.test.ts` |
 | **Log scale with zeros** | On a log scale, values ≤ 0 are never drawn: they break the line and appear as `nonpositive` markers with counts; `logTicks` refuses a non-positive minimum instead of producing −∞. | `downsample.test.ts`, `scale.test.ts` |
-| **The tests can actually fail** | 22 realistic bugs injected one at a time (first-write-wins, NaN → 0, naive every-2nd-point decimation, min/max without first/last, gaps not breaking, EMA filling NaN, "last loss" = last finite, axis not covering data, labels one digit short, …): **all 22 caught**. | `scripts/mutation-check.mjs` |
+| **The tests can actually fail** | 28 realistic bugs injected one at a time (first-write-wins, NaN → 0, naive every-2nd-point decimation, min/max without first/last, gaps not breaking, EMA filling NaN, "last loss" = last finite, axis not covering data, labels one digit short, NaN breaking the list sort, a late response overwriting the current run, the readout reading one column, …): **all 28 caught**. | `scripts/mutation-check.mjs` |
+
+## In the browser (Playwright, `e2e/`)
+
+| Claim | What the e2e tests assert |
+|---|---|
+| Cards show the data | For `nan-single`, `kitchen-sink`, `long-1m`, `grad-explosion`: each card's exact raw value (`data-value`) and step equal the **Node-side brute-force oracle**; the visible text is that value formatted; NaN/∞/duplicate/gap counts equal the oracle. |
+| Hovering the spike shows its exact value | At full zoom (≈ 1,000 steps per pixel) and after each of 6 keyboard zoom steps, at **DPR 1 and DPR 2**: the readout contains the spike's exact value (10 significant digits) and step 500,000. |
+| The canvas really shows it | `getImageData` on the loss canvas: at the spike's x the topmost line pixel is within 4 device px of the spike's y; at another x the line stays below loss = 10. |
+| Everything else | Keyboard-only use, axe (no serious/critical), states (loading, 500 + Retry, empty, 404, single point), no horizontal scroll at 360 px, naive baseline still reachable. |
+
+What the e2e tests found: the generator was **not bit-reproducible between Node and Chrome**
+(`Math.exp/log/cos` differ in the last bit — decisions E8), and the readout **missed the spike by
+half a CSS pixel** after zooming on a HiDPI screen (decisions U1). Both fixed, both now covered.
 
 Bugs these tests found in my own code while writing it (all fixed, each with a regression test):
 `linearTicks` looped forever on subnormal values (5e-324 · 0.1 underflows to 0, log10(0) = −∞);
@@ -26,16 +39,18 @@ no ticks for a narrow window with no multiple of the chosen step.
 
 ## What the tests would NOT catch
 
-1. **Pixels.** We test the arrays handed to the chart library, not what it paints. uPlot could
-   still drop, simplify or misplace them, and our pixel columns are computed with our formula while
-   uPlot rounds value→pixel its own way, so "pixel-identical to drawing every point" holds only up
-   to column boundaries (the min/max guarantee does not depend on it). *Partially closed in stage
-   4: an e2e test reads the canvas with `getImageData` around the spike.*
-2. **The wiring.** That the UI passes the right range, the width in *device* pixels, recomputes on
-   zoom and on resize, and shows the markers. *e2e in stage 4.*
+1. **Pixels, mostly.** Unit tests check the arrays handed to uPlot. The single pixel test checks
+   one column (the spike) of one run at full zoom. Not pixel-checked: markers, gaps, EMA, other
+   zoom levels, and uPlot's way of drawing gaps — it **clips** a rectangle between the points around
+   a `null` (`docs/experiments.md` §1), so a spike right next to a NaN could be partly clipped; no
+   test covers that case.
+2. **Parts of the wiring.** e2e covers zoom by keyboard and the readout; not covered: drag-zoom
+   precision, resize (re-downsampling at a new width), and cursor sync between the three charts.
 3. **Human perception.** That a 1-px spike or a small NaN marker is actually noticed; marker and
    line contrast on canvas (axe does not inspect canvas pixels).
-4. **Browsers, GPUs, HiDPI, canvas size limits.**
+4. **Other browsers and real input.** e2e runs only in Chromium (Firefox and Safari not tested),
+   with synthetic Playwright mouse events; GPU/canvas differences and real-device HiDPI are not
+   covered beyond DPR 1 and 2.
 5. **Shared misunderstandings.** The generator, its ground-truth manifest, the oracles and the
    implementation were written by the same author (with the same AI). Differential tests catch
    disagreement, not a wrong idea held by both (e.g. if "resume from checkpoint" really meant
@@ -48,6 +63,6 @@ no ticks for a narrow window with no multiple of the chosen step.
 8. **Values below 1e-200** (subnormals): only "no hang" is guaranteed, not exact labels.
 9. **Rare random cases.** Property tests run 300–1000 random cases per run; a rare failure may show
    up only on some runs (fast-check prints the seed to reproduce it).
-10. **Unimagined bugs.** The mutation check covers the 22 bugs we thought of; it is not an
+10. **Unimagined bugs.** The mutation check covers the 28 bugs we thought of; it is not an
     exhaustive mutation-testing tool.
 11. **Performance.** Correct but too slow is not caught here (stage 3).

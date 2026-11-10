@@ -16,7 +16,10 @@ pnpm test               # unit + property tests (Vitest + fast-check)
 pnpm test:e2e           # Playwright (builds and serves the app on :4173)
 pnpm test:save          # unit tests, output saved to results/test-output.txt
 pnpm test:e2e:save      # e2e tests, output saved to results/e2e-output.txt
-pnpm test:mutation      # inject 22 known bugs one by one, check the tests catch each one
+pnpm test:mutation      # inject 28 known bugs one by one, check the tests catch each one
+pnpm perf:before        # naive pipeline (?impl=naive), Chrome, CPU ×4 → perf/results-before.json
+pnpm perf:after         # optimized UI → perf/results-after.json
+pnpm perf:report        # regenerate the table in PERF.md from the result files
 pnpm typecheck && pnpm lint
 ```
 
@@ -51,10 +54,31 @@ Implemented in `src/core/normalize.ts`; reasoning in `docs/decisions.md` (D1–D
 ```
 src/core/          pure TypeScript, no DOM/React: generator, normalization, downsampling (M4),
                    EMA, summary cards, axis ticks/labels — everything that decides truthfulness
+src/worker/        the data worker: RunStore (generate → normalize → views), entry point
+src/api/           mock API (latency, HTTP 500/404, ?latency= / ?fail=), worker RPC with abort
+src/hooks/         useRequest — race-safe fetching (abort + latest-request check)
+src/ui/            list page, run page, chart (uPlot as a renderer), cards, states, formatting
+src/naive/         the naive baseline, kept at ?impl=naive for before/after measurements
 tests/reference/   brute-force oracle implementations, used only by tests
 e2e/               Playwright tests
 scripts/           run-and-save.mjs (saves test output with command/commit/exit-code header)
 results/           saved test output, as is, including failures
 perf/              performance script, traces, before/after metrics (stage 3+)
-docs/              brief and decision log
+docs/              brief, decision log, experiments, truthfulness claims and blind spots
 ```
+
+## URL switches
+
+| Parameter | Effect |
+|---|---|
+| `?latency=0`, `?latency=diverging:1500,*:100` | fixed or per-endpoint mock-API latency (default: random 100–1500 ms) |
+| `?fail=plateau,list` | force HTTP 500 for those endpoints (`server-error` always fails) |
+| `?locale=de-DE` | number formatting locale (default: the browser's) |
+| `?impl=naive` | the naive baseline UI |
+| `?perf` | enable performance marks/measures (used by `perf/run-perf.ts`) |
+
+## Keyboard
+
+List: <kbd>/</kbd> focuses the filter, <kbd>↓</kbd>/<kbd>↑</kbd> move between runs, <kbd>Enter</kbd>
+opens one. Chart (focus it with <kbd>Tab</kbd>): <kbd>+</kbd>/<kbd>−</kbd> zoom, <kbd>←</kbd>/<kbd>→</kbd>
+pan, <kbd>0</kbd> reset. Drag across a chart to zoom; double-click resets.

@@ -1,0 +1,692 @@
+{
+  "label": "after",
+  "impl": "default",
+  "url": "/runs/long-1m?latency=0&perf",
+  "date": "2026-11-10T14:41:35.585Z",
+  "commit": "6833dd9",
+  "environment": {
+    "chrome": "157.0.8103.39",
+    "headless": true,
+    "node": "v24.8.0",
+    "machine": "Apple M1 Pro · 32 GB · darwin 25.6.0"
+  },
+  "settings": {
+    "cpuThrottlingRate": 4,
+    "runs": 5,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "deviceScaleFactor": 2,
+    "firstDrawTimeoutMs": 180000
+  },
+  "summary": {
+    "firstRenderMs": {
+      "median": 667,
+      "min": 635,
+      "max": 764,
+      "n": 5,
+      "values": [
+        764,
+        635,
+        670,
+        667,
+        640
+      ]
+    },
+    "firstRenderAdjustedForUnthrottledWorkerMs": {
+      "median": 1633,
+      "min": 1593,
+      "max": 1754,
+      "n": 5,
+      "values": [
+        1754,
+        1593,
+        1633,
+        1642,
+        1599
+      ]
+    },
+    "totalBlockingTimeBeforeFirstRenderMs": {
+      "median": 40,
+      "min": 34,
+      "max": 57,
+      "n": 5,
+      "values": [
+        57,
+        34,
+        42,
+        40,
+        34
+      ]
+    },
+    "hoverMs_medianPerRun": {
+      "median": 3.7,
+      "min": 3.4,
+      "max": 4,
+      "n": 5,
+      "values": [
+        3.7,
+        3.9,
+        4,
+        3.7,
+        3.4
+      ]
+    },
+    "hoverMs_maxPerRun": {
+      "median": 57.8,
+      "min": 45.9,
+      "max": 67.9,
+      "n": 5,
+      "values": [
+        67.9,
+        57.8,
+        45.9,
+        49.2,
+        63
+      ]
+    },
+    "zoomMs": {
+      "median": 43,
+      "min": 37,
+      "max": 50,
+      "n": 5,
+      "values": [
+        43,
+        37,
+        44,
+        50,
+        37
+      ]
+    },
+    "memory": {
+      "rendererFootprintMB": {
+        "median": 113,
+        "min": 113,
+        "max": 114,
+        "n": 5,
+        "values": [
+          113,
+          114,
+          114,
+          113,
+          113
+        ]
+      },
+      "uaSpecificMB": {
+        "median": 44.4,
+        "min": 44.4,
+        "max": 44.4,
+        "n": 5,
+        "values": [
+          44.4,
+          44.4,
+          44.4,
+          44.4,
+          44.4
+        ]
+      },
+      "jsHeapUsedMB_mainThreadOnly": {
+        "median": 2.5,
+        "min": 2.5,
+        "max": 2.5,
+        "n": 5,
+        "values": [
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5
+        ]
+      },
+      "performanceMemoryMB_mainThreadOnly": {
+        "median": 3.6,
+        "min": 3.6,
+        "max": 3.6,
+        "n": 5,
+        "values": [
+          3.6,
+          3.6,
+          3.6,
+          3.6,
+          3.6
+        ]
+      }
+    },
+    "traceEventDispatchMs": {
+      "pointermove": {
+        "median": 0.4,
+        "min": 0.1,
+        "max": 0.9,
+        "n": 29,
+        "values": [
+          0.4,
+          0.1,
+          0.7,
+          0.8,
+          0.5,
+          0.1,
+          0.4,
+          0.1,
+          0.7,
+          0.4,
+          0.5,
+          0.4,
+          0.5,
+          0.1,
+          0.6,
+          0.1,
+          0.5,
+          0.1,
+          0.9,
+          0.7,
+          0.6,
+          0.1,
+          0.6,
+          0.1,
+          0.2,
+          0.8,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "mousemove": {
+        "median": 0.8,
+        "min": 0.1,
+        "max": 3.7,
+        "n": 29,
+        "values": [
+          3.7,
+          1.8,
+          1.3,
+          0.5,
+          0.7,
+          0.9,
+          0.2,
+          1.2,
+          0.9,
+          0.9,
+          0.6,
+          0.8,
+          0.5,
+          0.8,
+          0.2,
+          0.1,
+          0.4,
+          0.8,
+          0.8,
+          1,
+          0.2,
+          1.3,
+          0.2,
+          0.8,
+          1,
+          0.9,
+          1,
+          1,
+          0.7
+        ]
+      },
+      "mousedown": {
+        "median": 0.7,
+        "min": 0.7,
+        "max": 0.7,
+        "n": 1,
+        "values": [
+          0.7
+        ]
+      },
+      "mouseup": {
+        "median": 14.9,
+        "min": 14.9,
+        "max": 14.9,
+        "n": 1,
+        "values": [
+          14.9
+        ]
+      }
+    }
+  },
+  "trace": {
+    "path": "perf/trace-after.json",
+    "error": null
+  },
+  "iterations": [
+    {
+      "firstRenderMs": 764,
+      "marks": {
+        "chart:first-draw": 764
+      },
+      "tbtMs": 57,
+      "longTasks": 1,
+      "workerMs": 330,
+      "firstRenderAdjustedMs": 1754,
+      "memory": {
+        "rendererFootprintMB": 113,
+        "rendererPids": [
+          99266,
+          99264,
+          99263
+        ],
+        "jsHeapUsedMB": 2.5,
+        "perfMemoryUsedMB": 3.6,
+        "uaSpecificMB": 44.4,
+        "uaSpecificBreakdown": [
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
+          },
+          {
+            "types": [
+              "Canvas"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 9.8
+          },
+          {
+            "types": [
+              "Shared"
+            ],
+            "urls": [],
+            "MB": 0.4
+          },
+          {
+            "types": [
+              "DOM"
+            ],
+            "urls": [],
+            "MB": 0.1
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
+            ],
+            "MB": 31
+          }
+        ]
+      },
+      "hoverMs": [
+        67.9,
+        4.3,
+        3.8,
+        21.9,
+        3.1,
+        2.5,
+        4.1,
+        4.4,
+        3.2,
+        4.2,
+        3.6,
+        3.4,
+        3,
+        3.8,
+        21.4,
+        2.6,
+        2.6,
+        3.9,
+        3.2,
+        3
+      ],
+      "zoomMs": 43
+    },
+    {
+      "firstRenderMs": 635,
+      "marks": {
+        "chart:first-draw": 635
+      },
+      "tbtMs": 34,
+      "longTasks": 1,
+      "workerMs": 320,
+      "firstRenderAdjustedMs": 1593,
+      "memory": {
+        "rendererFootprintMB": 114,
+        "rendererPids": [
+          99619,
+          99617,
+          99616
+        ],
+        "jsHeapUsedMB": 2.5,
+        "perfMemoryUsedMB": 3.6,
+        "uaSpecificMB": 44.4,
+        "uaSpecificBreakdown": [
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
+            ],
+            "MB": 31
+          },
+          {
+            "types": [
+              "Shared"
+            ],
+            "urls": [],
+            "MB": 0.4
+          },
+          {
+            "types": [
+              "Canvas"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 9.8
+          },
+          {
+            "types": [
+              "DOM"
+            ],
+            "urls": [],
+            "MB": 0.1
+          }
+        ]
+      },
+      "hoverMs": [
+        57.8,
+        18.2,
+        3.9,
+        3.9,
+        4.2,
+        3.7,
+        3.9,
+        4.3,
+        3.6,
+        4.7,
+        3.3,
+        3.6,
+        3.6,
+        3.2,
+        4.8,
+        4.3,
+        3.7,
+        3.8,
+        3.7,
+        4.8
+      ],
+      "zoomMs": 37
+    },
+    {
+      "firstRenderMs": 670,
+      "marks": {
+        "chart:first-draw": 670
+      },
+      "tbtMs": 42,
+      "longTasks": 1,
+      "workerMs": 321,
+      "firstRenderAdjustedMs": 1633,
+      "memory": {
+        "rendererFootprintMB": 114,
+        "rendererPids": [
+          99951,
+          99949,
+          99948
+        ],
+        "jsHeapUsedMB": 2.5,
+        "perfMemoryUsedMB": 3.6,
+        "uaSpecificMB": 44.4,
+        "uaSpecificBreakdown": [
+          {
+            "types": [
+              "Shared"
+            ],
+            "urls": [],
+            "MB": 0.4
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
+            ],
+            "MB": 31
+          },
+          {
+            "types": [
+              "DOM"
+            ],
+            "urls": [],
+            "MB": 0.1
+          },
+          {
+            "types": [
+              "Canvas"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 9.8
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
+          }
+        ]
+      },
+      "hoverMs": [
+        45.9,
+        16.4,
+        3.9,
+        4.2,
+        3.7,
+        3.7,
+        3.7,
+        4.3,
+        4.8,
+        3.3,
+        3.1,
+        3.3,
+        21.7,
+        3.5,
+        4.4,
+        4,
+        3.8,
+        3.2,
+        4,
+        4.1
+      ],
+      "zoomMs": 44
+    },
+    {
+      "firstRenderMs": 667,
+      "marks": {
+        "chart:first-draw": 667
+      },
+      "tbtMs": 40,
+      "longTasks": 1,
+      "workerMs": 325,
+      "firstRenderAdjustedMs": 1642,
+      "memory": {
+        "rendererFootprintMB": 113,
+        "rendererPids": [
+          379,
+          377,
+          376
+        ],
+        "jsHeapUsedMB": 2.5,
+        "perfMemoryUsedMB": 3.6,
+        "uaSpecificMB": 44.4,
+        "uaSpecificBreakdown": [
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
+            ],
+            "MB": 31
+          },
+          {
+            "types": [
+              "DOM"
+            ],
+            "urls": [],
+            "MB": 0.1
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
+          },
+          {
+            "types": [
+              "Shared"
+            ],
+            "urls": [],
+            "MB": 0.4
+          },
+          {
+            "types": [
+              "Canvas"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 9.8
+          }
+        ]
+      },
+      "hoverMs": [
+        49.2,
+        17.5,
+        3.9,
+        3.3,
+        4.7,
+        3.6,
+        3.4,
+        21.6,
+        3.8,
+        3.8,
+        21.2,
+        3.3,
+        3.5,
+        3.6,
+        3.4,
+        3.3,
+        4.2,
+        3.7,
+        3.7,
+        3.4
+      ],
+      "zoomMs": 50
+    },
+    {
+      "firstRenderMs": 640,
+      "marks": {
+        "chart:first-draw": 640
+      },
+      "tbtMs": 34,
+      "longTasks": 1,
+      "workerMs": 320,
+      "firstRenderAdjustedMs": 1599,
+      "memory": {
+        "rendererFootprintMB": 113,
+        "rendererPids": [
+          1143,
+          1139,
+          1138
+        ],
+        "jsHeapUsedMB": 2.5,
+        "perfMemoryUsedMB": 3.6,
+        "uaSpecificMB": 44.4,
+        "uaSpecificBreakdown": [
+          {
+            "types": [
+              "Shared"
+            ],
+            "urls": [],
+            "MB": 0.4
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
+          },
+          {
+            "types": [
+              "Canvas"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 9.8
+          },
+          {
+            "types": [
+              "DOM"
+            ],
+            "urls": [],
+            "MB": 0.1
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
+            ],
+            "MB": 31
+          }
+        ]
+      },
+      "hoverMs": [
+        63,
+        16.3,
+        3.4,
+        3.8,
+        3.7,
+        2.7,
+        3.5,
+        3.7,
+        3.4,
+        3.8,
+        3.4,
+        3.2,
+        2.9,
+        3.3,
+        3.2,
+        3.4,
+        4,
+        3.3,
+        3.2,
+        3.1
+      ],
+      "zoomMs": 37
+    }
+  ]
+}

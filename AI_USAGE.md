@@ -107,3 +107,39 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
   - the naive page sets state at the start of an effect (React lint error); kept on purpose in the
     baseline only, with a scoped `eslint-disable` and a comment.
 - **Verified by me:**
+
+## Stage 4 — real UI, worker, e2e, "after" measurements (19:45–20:50)
+
+- **AI proposed:** RunStore in a Web Worker with transferred typed arrays; race-safe
+  `useRequest`; list with NaN-safe sorting and URL state; run page with cards, quality report,
+  three charts (uPlot as renderer only, our ticks, markers, isolated-point dots, readout line,
+  keyboard zoom, screen-reader summary); colour contrast unit-tested; e2e against a Node-side
+  oracle incl. a canvas pixel check; `perf/report.ts` generating the PERF.md table from the files.
+- **Accepted:** —  *(author to fill in)*
+- **Changed:** —  *(author to fill in)*
+- **What was checked and how:** unit tests first for every pure module (red, then green); e2e
+  runs; mutation check extended to 28 bugs (all caught); before/after measured on the same commit.
+- **Where AI was wrong:**
+  - **generator not reproducible across engines**: it used Math.exp/log/cos/pow, which differ in
+    the last bit between Node 24 and Chrome 157 — the claim "same seed → same data everywhere" from
+    stage 1 was false. Found by the e2e card test; generator rewritten with exact arithmetic;
+    this changed the data, so the baseline had to be re-measured;
+  - **the readout missed the spike by half a CSS pixel** on zoom levels where a CSS pixel spans
+    several device columns; found by the e2e zoom test; fixed by merging the columns under the
+    cursor;
+  - **hover regression** in the first optimized version (3.6 → 6.6 ms): the readout state lived in
+    the chart component, so every pointer move re-rendered three charts. Hypothesis checked against
+    the trace (event dispatch time unchanged → cost was after the handler); fixed; re-measured;
+  - the merge code first let a NaN-only column overwrite the min/max (`!(min <= NaN)` is true) —
+    caught by a test written for it before the fix;
+  - a comment in `useRequest` claimed abort alone cannot handle a same-tick response; inaccurate
+    (both checks happen at settle time and are equivalent there) — corrected;
+  - several wrong test expectations: an ambiguous text locator, a rounded range label, a pixel
+    threshold that assumed DPR 2 while Playwright defaults to DPR 1, an arithmetic slip
+    (12,497.5 + 2,499.5 = 14,997, not 14,998), and a tooltip test that built the view for one
+    range and queried another;
+  - a leftover no-op `.replace()` chain in `describeChart` and a `key={route.id}`-style masking
+    risk were cleaned up before commit; `useMemo` over a value re-created every render (lint).
+  - first after-measurement was presented by the raw number (−61% first render); the adjusted
+    number for an unthrottled worker (−5%) is the honest comparison and is shown next to it.
+- **Verified by me:**

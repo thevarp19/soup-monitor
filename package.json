@@ -23,7 +23,8 @@
     "perf:verify": "node scripts/run-and-save.mjs perf/experiments/verify-assumptions.txt -- node --no-warnings perf/experiments/verify-assumptions.ts",
     "perf": "node --no-warnings perf/run-perf.ts",
     "perf:before": "node scripts/run-and-save.mjs perf/output-before.txt -- node --no-warnings perf/run-perf.ts --label before --impl naive",
-    "perf:after": "node scripts/run-and-save.mjs perf/output-after.txt -- node --no-warnings perf/run-perf.ts --label after"
+    "perf:after": "node scripts/run-and-save.mjs perf/output-after.txt -- node --no-warnings perf/run-perf.ts --label after",
+    "perf:report": "node --no-warnings perf/report.ts"
   },
   "dependencies": {
     "react": "19.3.1",
