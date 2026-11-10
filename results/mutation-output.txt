@@ -1,6 +1,6 @@
 # command:  node scripts/mutation-check.mjs
-# date:     2026-11-10T13:40:05.071Z
-# commit:   b7e9f2a
+# date:     2026-11-10T14:46:32.033Z
+# commit:   05028ad
 # node:     v24.8.0
 # platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
 CAUGHT (4 failing tests)         normalize.ts: duplicates: first write wins instead of last
@@ -8,8 +8,8 @@ CAUGHT (2 failing tests)         normalize.ts: gaps: >= instead of > at the thre
 CAUGHT (8 failing tests)         normalize.ts: NaN values gathered as 0
 CAUGHT (6 failing tests)         normalize.ts: gap median computed on raw spacing incl. duplicates
 CAUGHT (3 failing tests)         downsample.ts: M4 → min/max only (first/last dropped)
-CAUGHT (41 failing tests)        downsample.ts: every 2nd point only (naive decimation)
-CAUGHT (11 failing tests)        downsample.ts: NaN drawn as 0
+CAUGHT (47 failing tests)        downsample.ts: every 2nd point only (naive decimation)
+CAUGHT (12 failing tests)        downsample.ts: NaN drawn as 0
 CAUGHT (5 failing tests)         downsample.ts: NaN skipped without breaking the line
 CAUGHT (2 failing tests)         downsample.ts: gaps do not break the line
 CAUGHT (4 failing tests)         downsample.ts: pixel column with round() instead of floor()
@@ -17,7 +17,7 @@ CAUGHT (6 failing tests)         downsample.ts: log scale: values ≤ 0 not trea
 CAUGHT (2 failing tests)         downsample.ts: no off-screen edge neighbours
 CAUGHT (1 failing tests)         downsample.ts: tooltip min: latest step on ties
 CAUGHT (3 failing tests)         ema.ts: EMA fills NaN with the previous smoothed value
-CAUGHT (1 failing tests)         ema.ts: EMA treats NaN as 0
+CAUGHT (3 failing tests)         ema.ts: EMA treats NaN as 0
 CAUGHT (2 failing tests)         ema.ts: EMA without debias
 CAUGHT (4 failing tests)         summary.ts: "last loss" shows the last finite value
 CAUGHT (3 failing tests)         summary.ts: max grad_norm includes +Infinity
@@ -25,7 +25,13 @@ CAUGHT (2 failing tests)         summary.ts: empty run: min loss 0 instead of nu
 CAUGHT (6 failing tests)         scale.ts: axis range does not cover the data (round, no guard)
 CAUGHT (8 failing tests)         scale.ts: tick labels with one decimal too few
 CAUGHT (2 failing tests)         scale.ts: visibleExtent ignores the max of the last column
+CAUGHT (2 failing tests)         src/ui/listModel.ts: list sort: NaN treated like a number (comparator returns NaN)
+CAUGHT (3 failing tests)         src/hooks/useRequest.ts: race: a late response may overwrite the current run
+CAUGHT (1 failing tests)         src/hooks/useRequest.ts: a new key shows the previous key's data while loading
+CAUGHT (2 failing tests)         src/ui/tooltip.ts: readout reads only one column under the cursor
+CAUGHT (2 failing tests)         src/ui/format.ts: NaN formatted as 0
+CAUGHT (4 failing tests)         src/ui/format.ts: small lr rounded to fixed decimals
 
-22/22 mutations caught.
+28/28 mutations caught.
 
 # exit code: 0
