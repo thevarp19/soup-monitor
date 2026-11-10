@@ -44,5 +44,12 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
     before installing);
   - wrote a generator test expecting negative loss with an offset of 2.5, but the clean curve ends
     at ≈ 2.65, so it could never go negative; noticed while writing the catalogue, before running;
-  - left an unused variable in the first draft of `generate.ts` (removed before the first run).
+  - left an unused variable in the first draft of `generate.ts` (removed before the first run);
+  - added redundant `!` non-null assertions on typed-array reads (69 lint errors) although
+    `noUncheckedIndexedAccess` is off by its own decision E2; removed;
+  - the output-saving script needed three iterations: its "dirty tree" flag fired because of the
+    results file it had just written itself, and its colour handling was wrong twice (Vitest turns
+    colours *on* when `FORCE_COLOR` is merely present, even `FORCE_COLOR=0`; Playwright sets
+    `FORCE_COLOR` for its children, so a global `NO_COLOR` produced Node warnings). Each iteration
+    is a separate commit.
 - **Verified by me:**

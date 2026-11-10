@@ -1,0 +1,227 @@
+# command:  vitest run --reporter=verbose
+# date:     2026-11-10T13:15:19.936Z
+# commit:   e301a6d
+# node:     v24.8.0
+# platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
+
+ RUN  v5.1.0 /Users/yerlanjumabayev/dev/soup-monitor
+
+ ✓ src/core/normalize.test.ts > normalize — ordering > sorts rows by step and keeps every row’s values together 1ms
+ ✓ src/core/normalize.test.ts > normalize — ordering > reports zero order breaks for sorted input 0ms
+ ✓ src/core/normalize.test.ts > normalize — ordering > does not mutate its input 0ms
+ ✓ src/core/normalize.test.ts > normalize — duplicate steps (policy: last write in log order wins) > keeps the last write even when it arrives out of order, and counts what it overwrote 0ms
+ ✓ src/core/normalize.test.ts > normalize — duplicate steps (policy: last write in log order wins) > a later NaN overrides an earlier finite value (no "last finite wins" masking) 0ms
+ ✓ src/core/normalize.test.ts > normalize — duplicate steps (policy: last write in log order wins) > a NaN that was later overwritten is still reported (the run did hit NaN before resuming) 0ms
+ ✓ src/core/normalize.test.ts > normalize — NaN and ±Infinity are kept, never replaced > keeps them at their steps, does not turn them into 0, leaves neighbours untouched 0ms
+ ✓ src/core/normalize.test.ts > normalize — NaN and ±Infinity are kept, never replaced > tracks each metric separately 0ms
+ ✓ src/core/normalize.test.ts > normalize — rows with an invalid step > drops rows whose step is NaN or ±Infinity and counts them 0ms
+ ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > finds the hole between 30 and 60 when the median spacing is 10 0ms
+ ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > treats a single missing point as a gap 0ms
+ ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > a spacing of exactly 1.5 × median is not a gap (strictly greater is required) 0ms
+ ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > does not treat jitter below the threshold as a gap 0ms
+ ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > measures spacing on unique steps, so duplicates do not shrink the median 0ms
+ ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > respects a custom gap factor 0ms
+ ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > has no spacing statistics for fewer than two rows 0ms
+ ✓ src/core/normalize.test.ts > normalize — edge cases > empty input 0ms
+ ✓ src/core/normalize.test.ts > normalize — edge cases > single row 0ms
+ ✓ src/core/normalize.test.ts > normalize — properties > matches the oracle on arbitrary input (duplicates, NaN, Inf, invalid steps, any order) 29ms
+ ✓ src/core/normalize.test.ts > normalize — properties > always outputs strictly increasing steps 11ms
+ ✓ src/core/normalize.test.ts > normalize — properties > gives the same series for any permutation of rows when steps are unique 11ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-cosine > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-cosine > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-cosine > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-cosine > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-step > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-step > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-step > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-step > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-constant > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-constant > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-constant > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run healthy-constant > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run diverging > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run diverging > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run diverging > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run diverging > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run late-divergence > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run late-divergence > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run late-divergence > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run late-divergence > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run plateau > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run plateau > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run plateau > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run plateau > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run grad-explosion > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run grad-explosion > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run grad-explosion > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run grad-explosion > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-single > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-single > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-single > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-single > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-series > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-series > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-series > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run nan-series > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run inf-values > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run inf-values > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run inf-values > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run inf-values > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run duplicate-steps > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run duplicate-steps > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run duplicate-steps > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run duplicate-steps > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run unsorted-steps > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run unsorted-steps > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run unsorted-steps > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run unsorted-steps > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run gaps > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run gaps > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run gaps > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run gaps > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run long-1m > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run long-1m > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run long-1m > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run long-1m > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run log-hostile > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run log-hostile > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run log-hostile > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run log-hostile > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run empty > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run empty > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run empty > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run empty > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run single-point > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run single-point > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run single-point > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run single-point > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run kitchen-sink > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run kitchen-sink > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run kitchen-sink > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run kitchen-sink > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run server-error > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run server-error > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run server-error > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run server-error > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/normalize.test.ts > catalogue run live > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run live > finds exactly the injected duplicate steps and gaps 0ms
+ ✓ src/core/normalize.test.ts > catalogue run live > detects the unsorted log order exactly when it was injected 0ms
+ ✓ src/core/normalize.test.ts > catalogue run live > keeps one row per logged step: points minus the removed (gap) rows 0ms
+ ✓ src/core/generate.test.ts > generateRun — determinism > returns bit-identical columns for the same spec (including NaN positions) 1ms
+ ✓ src/core/generate.test.ts > generateRun — determinism > changes the values when the seed changes 0ms
+ ✓ src/core/generate.test.ts > generateRun — determinism > does not perturb other values when a defect is added (defects use their own randomness) 1ms
+ ✓ src/core/generate.test.ts > generateRun — clean series > logs steps 0, stepEvery, 2·stepEvery, … in order 1ms
+ ✓ src/core/generate.test.ts > generateRun — clean series > produces only finite, positive loss and grad_norm 2ms
+ ✓ src/core/generate.test.ts > generateRun — clean series > starts near ln(50k) ≈ 10.8 and converges downwards 0ms
+ ✓ src/core/generate.test.ts > generateRun — clean series > reports no injected defects 0ms
+ ✓ src/core/generate.test.ts > generateRun — clean series > handles an empty run and a single-point run 0ms
+ ✓ src/core/generate.test.ts > generateRun — lr schedules > warmup-cosine: 0 at step 0, linear to peak, cosine down to minLr at the last step 0ms
+ ✓ src/core/generate.test.ts > generateRun — lr schedules > step-decay: multiplies by gamma at each boundary 0ms
+ ✓ src/core/generate.test.ts > generateRun — lr schedules > constant 1ms
+ ✓ src/core/generate.test.ts > generateRun — loss shapes > diverge multiplies the clean curve by exp(rate·(t − from)) after `from` 0ms
+ ✓ src/core/generate.test.ts > generateRun — loss shapes > plateau stops the downward trend after `from` 0ms
+ ✓ src/core/generate.test.ts > generateRun — loss shapes > explode: grad_norm hits +Infinity at infAt, then loss and grad_norm are NaN to the end 1ms
+ ✓ src/core/generate.test.ts > generateRun — loss shapes > shifted produces negative loss values late in the run 0ms
+ ✓ src/core/generate.test.ts > generateRun — value defects > nan: puts NaN exactly at the given indices and leaves neighbours finite 0ms
+ ✓ src/core/generate.test.ts > generateRun — value defects > nan-series: a run of consecutive NaN 0ms
+ ✓ src/core/generate.test.ts > generateRun — value defects > inf: ±Infinity at the given indices 0ms
+ ✓ src/core/generate.test.ts > generateRun — value defects > spike: a single value multiplied by factor, reported with its exact value 0ms
+ ✓ src/core/generate.test.ts > generateRun — value defects > zeros: exact zeros at the given indices 0ms
+ ✓ src/core/generate.test.ts > generateRun — row defects > gap: removes the rows and reports the surrounding steps 0ms
+ ✓ src/core/generate.test.ts > generateRun — row defects > relog: writes rows a second time with different values right after the originals 0ms
+ ✓ src/core/generate.test.ts > generateRun — row defects > swap-blocks: exchanges adjacent blocks of rows 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > has 20 runs with unique ids and seeds 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > contains the brief’s special runs: empty, single point, server error, live 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: exactly 1,000,000 points and one spike at step 500,000 that is the global maximum 215ms
+ ✓ src/core/prng.test.ts > mulberry32 > produces the identical sequence for the same seed (generator is reproducible) 6ms
+ ✓ src/core/prng.test.ts > mulberry32 > produces a different sequence for a different seed 0ms
+ ✓ src/core/prng.test.ts > mulberry32 > stays in [0, 1) and is roughly uniform 481ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-cosine: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-cosine: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-cosine: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-cosine: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-step: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-step: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-step: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-step: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-constant: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-constant: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-constant: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-constant: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > diverging: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > diverging: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > diverging: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > diverging: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > late-divergence: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > late-divergence: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > late-divergence: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > late-divergence: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > plateau: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > plateau: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > plateau: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > plateau: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > grad-explosion: ground truth matches raw data > non-finite entries are the last write at their step 6ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > grad-explosion: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > grad-explosion: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > grad-explosion: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-single: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-single: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-single: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-single: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-series: ground truth matches raw data > non-finite entries are the last write at their step 2ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-series: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-series: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > nan-series: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > inf-values: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > inf-values: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > inf-values: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > inf-values: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > relogged steps appear exactly `writes` times 11ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > unsorted-steps: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > unsorted-steps: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > unsorted-steps: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > unsorted-steps: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > gaps: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > gaps: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > gaps: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > gaps: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 1ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > log-hostile: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > log-hostile: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > log-hostile: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > log-hostile: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > empty: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > empty: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > empty: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > empty: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > single-point: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > single-point: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > single-point: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > single-point: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > kitchen-sink: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > kitchen-sink: ground truth matches raw data > relogged steps appear exactly `writes` times 5ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > kitchen-sink: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > kitchen-sink: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > server-error: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > server-error: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > server-error: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > server-error: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > live: ground truth matches raw data > non-finite entries are the last write at their step 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > live: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > live: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > live: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
+ ✓ src/core/prng.test.ts > gaussian > has mean ≈ 0 and standard deviation ≈ 1, and never returns a non-finite value 221ms
+
+ Test Files  3 passed (3)
+      Tests  211 passed (211)
+   Start at  18:15:20
+   Duration  808ms (tests 63%, import 35%, transform 1%)
+
+
+# exit code: 0

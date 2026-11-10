@@ -1,0 +1,13 @@
+# command:  playwright test --reporter=list
+# date:     2026-11-10T13:15:21.240Z
+# commit:   e301a6d
+# node:     v24.8.0
+# platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium] › e2e/smoke.spec.ts:3:1 › app shell loads without console errors (110ms)
+
+  1 passed (2.5s)
+
+# exit code: 0
