@@ -7,6 +7,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    # A synchronous infinite loop cannot be stopped by Vitest's own timeout (decisions E7).
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

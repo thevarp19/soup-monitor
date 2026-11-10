@@ -72,6 +72,42 @@ only on the dedicated `log-hostile` run.
 **E6 · Test output is saved with a header** (`scripts/run-and-save.mjs`): exact command, date,
 commit, dirty flag, Node version, platform, exit code. A red run stays red in the file.
 
+**E7 · Watchdog on test runs.** Vitest's `testTimeout` cannot interrupt a *synchronous* infinite
+loop — when `linearTicks` looped forever on a subnormal value, the whole run hung with no output.
+During development tests ran under an external alarm; CI has `timeout-minutes`. The root cause is
+fixed and every step-search loop now throws on a non-finite/zero step instead of spinning.
+
+## Chart pipeline (stage 2)
+
+**C1 · Downsampling = M4 per device-pixel column**, recomputed from the raw normalized arrays for
+the visible range on every call. Details:
+- one raw point beyond each edge is included so the line reaches the plot edges; it is excluded
+  from statistics, markers and the y-range (`interiorFrom/interiorTo`);
+- a break is a `null` at the step of the first undrawable value (NaN, ±Inf, ≤ 0 on log), or
+  half-way across a gap — so x stays strictly increasing and the null sits where the problem is;
+- markers are aggregated per pixel column and kind (`step` = first occurrence, `count`);
+- per-column stats (count, step range, min/max with their steps, counts per kind) are returned
+  for the tooltip, so hover shows raw values without a round trip to the worker;
+- ties: the earliest step, same as the summary cards.
+Alternatives: LTTB (selects points — can drop a lone spike), every-nth / random sampling (drops
+the spike — this exact bug is one of the mutations the tests catch), uPlot's built-in handling of
+1M points (not under our control, and keeps 1M points in the main thread).
+
+**C2 · EMA**: debiased (TensorBoard-style), index-based, computed on raw data; NaN/±Inf give NaN
+at the same index and are skipped by the accumulator. Off by default (stage 4).
+
+**C3 · Summary cards**: statistics over finite values only; NaN/±Inf are counted, never folded into
+a number; "last loss" is the last *logged* value even if it is NaN, with the last finite value
+shown separately; empty → `null`, never 0; plain loops (`Math.min(...arr)` throws a RangeError on
+large arrays).
+
+**C4 · Axes are computed by us, not by uPlot**: y range = [first tick, last tick] enclosing the
+visible min/max; label digits derived from the tick spacing (so labels are unique and parse back
+exactly); scientific notation below 1e-3 or from 1e6; locale always passed explicitly. At least 3
+linear ticks (a range straddling 0 needs −s, 0, s). Step axis: integer ticks inside the window,
+falling back to one tick at the roundest integer when the nice step has no multiple in a narrow
+window.
+
 ## Planned (decided in stage 0, implemented later)
 
 - **Log scale with values ≤ 0: hide + mark + count.** Points ≤ 0 break the line, are drawn as
