@@ -1,0 +1,119 @@
+# command:  node --no-warnings perf/run-perf.ts --label before --impl naive
+# date:     2026-11-10T14:04:21.034Z
+# commit:   53683bb
+# node:     v24.8.0
+# platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
+perf "before" — commit 53683bb, /runs/long-1m?latency=0&perf&impl=naive, 5 runs, CPU ×4
+
+> soup-monitor@0.1.0 build /Users/yerlanjumabayev/dev/soup-monitor
+> tsc -b && vite build
+
+vite v8.3.7 building client environment for production...
+transforming...
+✓ 27 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.51 kB │ gzip:  0.35 kB
+dist/assets/index-CnsZ1jie.css    1.64 kB │ gzip:  0.69 kB
+dist/assets/index-Da2pAeju.js   284.57 kB │ gzip: 95.46 kB
+
+✓ built in 78ms
+run 1: first render 1206 ms (TBT 1000 ms), hover median 4 ms, zoom 42 ms, footprint 175 MB
+run 2: first render 1233 ms (TBT 1038 ms), hover median 3.3 ms, zoom 44 ms, footprint 174 MB
+run 3: first render 1182 ms (TBT 984 ms), hover median 3.4 ms, zoom 43 ms, footprint 175 MB
+run 4: first render 1188 ms (TBT 989 ms), hover median 3.4 ms, zoom 42 ms, footprint 176 MB
+run 5: first render 1194 ms (TBT 995 ms), hover median 3.4 ms, zoom 44 ms, footprint 175 MB
+
+written perf/results-before.json and perf/trace-before.json
+{
+  "firstRenderMs": {
+    "median": 1194,
+    "min": 1182,
+    "max": 1233,
+    "n": 5
+  },
+  "firstRenderAdjustedForUnthrottledWorkerMs": {
+    "median": 1194,
+    "min": 1182,
+    "max": 1233,
+    "n": 5
+  },
+  "totalBlockingTimeBeforeFirstRenderMs": {
+    "median": 995,
+    "min": 984,
+    "max": 1038,
+    "n": 5
+  },
+  "hoverMs_medianPerRun": {
+    "median": 3.4,
+    "min": 3.3,
+    "max": 4,
+    "n": 5
+  },
+  "hoverMs_maxPerRun": {
+    "median": 59.8,
+    "min": 43.4,
+    "max": 62.3,
+    "n": 5
+  },
+  "zoomMs": {
+    "median": 43,
+    "min": 42,
+    "max": 44,
+    "n": 5
+  },
+  "memory": {
+    "rendererFootprintMB": {
+      "median": 175,
+      "min": 174,
+      "max": 176,
+      "n": 5
+    },
+    "uaSpecificMB": {
+      "median": 111.4,
+      "min": 111.3,
+      "max": 111.4,
+      "n": 5
+    },
+    "jsHeapUsedMB_mainThreadOnly": {
+      "median": 98.4,
+      "min": 98.4,
+      "max": 98.5,
+      "n": 5
+    },
+    "performanceMemoryMB_mainThreadOnly": {
+      "median": 98.7,
+      "min": 98.7,
+      "max": 98.8,
+      "n": 5
+    }
+  },
+  "traceEventDispatchMs": {
+    "pointermove": {
+      "median": 0.1,
+      "min": 0.1,
+      "max": 1.2,
+      "n": 29
+    },
+    "mousemove": {
+      "median": 0.8,
+      "min": 0.1,
+      "max": 3.4,
+      "n": 29
+    },
+    "mousedown": {
+      "median": 0.4,
+      "min": 0.4,
+      "max": 0.4,
+      "n": 1
+    },
+    "mouseup": {
+      "median": 29.5,
+      "min": 29.5,
+      "max": 29.5,
+      "n": 1
+    }
+  }
+}
+
+# exit code: 0

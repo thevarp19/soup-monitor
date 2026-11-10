@@ -82,3 +82,28 @@ Times are wall-clock (UTC+5), approximate, taken from the session and file times
     (`visibleExtent` never had its max in the last pixel column) → test added, now 22/22 caught;
   - left a dummy test with an unused constant in the first draft of `downsample.test.ts` (removed).
 - **Verified by me:**
+
+## Stage 3 — assumptions, naive baseline, perf script (19:10–19:45)
+
+- **AI proposed:** verify the four uncertain stage-0 claims by experiment before measuring
+  (`perf/experiments/verify-assumptions.ts`, `docs/experiments.md`); a deliberately naive UI kept
+  for comparison; shared perf marks for both UIs; a CDP perf script (5 untraced runs + 1 traced
+  run, four memory metrics, an "adjusted for unthrottled worker" first render).
+- **Accepted:** —  *(author to fill in)*
+- **Changed:** —  *(author to fill in)*
+- **What was checked and how:** all four stage-0 claims were checked in Chrome 157 and **all four
+  held**: uPlot collapses points per pixel internally (source read); page CPU throttling does not
+  slow a worker (×1.02) and Chrome refuses to throttle worker targets; Event Timing reports no
+  pointermove/mousemove; CDP `JSHeapUsedSize` misses ArrayBuffer backing stores and workers.
+  One result was *not* predicted: `performance.memory.usedJSHeapSize` **does** count the
+  ArrayBuffers (32.4 MB) while CDP `JSHeapUsedSize` does not (1.9 MB) — two "heap" numbers from
+  the same page differ by the whole data set.
+- **Where AI was wrong:**
+  - first attempt to throttle the worker via its CDP target read the wrong message (an
+    `Inspector.workerScriptLoaded` event instead of the command's reply) and printed it as the
+    result; fixed by waiting for the reply with the matching id, which turned out to be an error;
+  - wrote `<NaiveRunPage key={route.id}>`, which remounts the page on every run switch and would
+    have **hidden the request race** the naive page is supposed to reproduce; removed before commit;
+  - the naive page sets state at the start of an effect (React lint error); kept on purpose in the
+    baseline only, with a scoped `eslint-disable` and a comment.
+- **Verified by me:**
