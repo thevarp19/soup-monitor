@@ -6,7 +6,11 @@ whether to stop a $500 run?* The focus is on the chart being **truthful**, not j
 > Work in progress — see `docs/decisions.md` for every decision and its alternatives,
 > `docs/truthfulness.md` for what the tests prove about the chart and what they cannot catch, and
 > `docs/silent-failures.md` for what looks fine but is wrong, and how each case was checked.
-> Deployed link: _TBD (stage 6)_.
+> **Live: https://soup-monitor-seven.vercel.app/** — e.g. [the 1M-point run](https://soup-monitor-seven.vercel.app/runs/long-1m),
+> [all defects at once](https://soup-monitor-seven.vercel.app/runs/kitchen-sink),
+> [a live run whose refreshes fail](https://soup-monitor-seven.vercel.app/runs/live?poll=1000&stale=2500&fail=live@2),
+> [the naive baseline](https://soup-monitor-seven.vercel.app/runs/long-1m?impl=naive).
+> The full e2e suite also passes against the deployed site: `results/e2e-deployed-output.txt`.
 
 ## Run it
 
@@ -34,7 +38,8 @@ routes; real files take precedence) and sends `Cross-Origin-Opener-Policy` /
 `Cross-Origin-Embedder-Policy` (cross-origin isolation, needed by
 `performance.measureUserAgentSpecificMemory()`; the app loads no third-party resources).
 Import the GitHub repository at vercel.com/new — no other settings needed.
-Check the deployed site with the same e2e suite: `E2E_BASE_URL=https://<deployment> pnpm test:e2e`.
+Check the deployed site with the same e2e suite: `pnpm test:e2e:deployed`
+(or `E2E_BASE_URL=https://<deployment> pnpm test:e2e`).
 
 ## Data
 

@@ -220,6 +220,23 @@ the previous stage's last commit to its own last commit, so the author's review 
   - `/runs/log-hostile` with log scale on — values ≤ 0 shown as ▼ markers with a count;
   - `/?locale=de-DE` — numbers formatted with a decimal comma.
 
+## Stage 6 — deployment (2026-11-11)
+
+- **AI proposed:** `vercel.json` (pnpm build, `dist/`, SPA rewrite — checked against the Vercel docs
+  that real files take precedence over rewrites — and the COOP/COEP headers the preview server also
+  sends); running the same e2e suite against the deployed URL; a warning before the first push that
+  the git author e-mail becomes public.
+- **Accepted:** ✎ as proposed.
+- **Changed:** — ✎
+- **Checked by Claude (how):** after deployment — `curl`: a deep link (`/runs/long-1m`) returns the
+  app with both headers, assets are served as JavaScript, and the asset file name equals the local
+  build's (so the deployed code is the pushed commit); the full e2e suite against the live URL:
+  48 passed (`results/e2e-deployed-output.txt`).
+- **Where AI was wrong:** —
+- **Verified by me:** ✎ created the GitHub repository, pushed (the first push failed with HTTP 400
+  over HTTPS; a larger `http.postBuffer` fixed it) and deployed on Vercel:
+  https://soup-monitor-seven.vercel.app/
+
 ## Author's re-run of all tests (2026-11-11, from 15:09 UTC+5, commit de608eb)
 
 Run by the author in their own terminal on a clean working tree; output shared in the session.
