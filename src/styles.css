@@ -395,3 +395,24 @@ table.runs {
     padding: 12px 16px;
   }
 }
+
+.freshness {
+  flex-basis: 100%;
+  margin: 0 0 10px;
+  font-size: 0.9em;
+  color: var(--muted);
+}
+.freshness-stale {
+  color: var(--warn);
+}
+.badge-stale {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: var(--warn-bg);
+  border: 1px solid #e3b341;
+  color: var(--warn);
+}
+.freshness-error {
+  color: var(--bad);
+}

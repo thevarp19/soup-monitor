@@ -12,7 +12,7 @@ import { normalize, type NormalizedRun, type QualityReport } from '../core/norma
 import { RUN_SPECS } from '../core/runSpecs.ts';
 import { visibleExtent } from '../core/scale.ts';
 import { summarize, type RunSummary } from '../core/summary.ts';
-import type { Metric, RunSpec, RunStatus } from '../core/types.ts';
+import type { Columns, Metric, RunSpec, RunStatus } from '../core/types.ts';
 
 export class NotFoundError extends Error {
   readonly status = 404;
@@ -23,6 +23,8 @@ export interface RunMeta {
   name: string;
   description: string;
   status: RunStatus;
+  /** Still training: new points keep arriving (the client polls it). */
+  live: boolean;
 }
 
 export interface RunListItem extends RunMeta {
@@ -69,12 +71,19 @@ export function issueCount(q: QualityReport): number {
   return nonFinite + q.duplicateSteps + q.gaps.ranges.length + q.orderBreaks + q.invalidStepRows;
 }
 
-const meta = (s: RunSpec): RunMeta => ({ id: s.id, name: s.name, description: s.description, status: s.status });
+const meta = (s: RunSpec): RunMeta => ({ id: s.id, name: s.name, description: s.description, status: s.status, live: s.live !== undefined });
 const toF64 = (y: Array<number | null>) => Float64Array.from(y, (v) => (v === null ? NaN : v));
 
 export class RunStore {
   private readonly runs = new Map<string, NormalizedRun>();
   private readonly smoothed = new Map<string, Float64Array>();
+  private readonly liveRaw = new Map<string, Columns>();
+  private readonly startedAt: number;
+
+  /** `now` is injectable so tests can move time; the live run grows from the store's creation. */
+  constructor(private readonly now: () => number = Date.now) {
+    this.startedAt = now();
+  }
 
   private spec(id: string): RunSpec {
     const s = RUN_SPECS.find((r) => r.id === id);
@@ -83,11 +92,30 @@ export class RunStore {
   }
 
   private ensure(id: string): NormalizedRun {
+    const spec = this.spec(id);
+    if (spec.live) return this.ensureLive(spec, spec.live);
     let run = this.runs.get(id);
     if (!run) {
-      run = normalize(generateRun(this.spec(id)).raw);
+      run = normalize(generateRun(spec).raw);
       this.runs.set(id, run);
     }
+    return run;
+  }
+
+  /** A live run exposes only the rows "logged so far": initialPoints + pointsPerSecond × elapsed. */
+  private ensureLive(spec: RunSpec, live: NonNullable<RunSpec['live']>): NormalizedRun {
+    let raw = this.liveRaw.get(spec.id);
+    if (!raw) {
+      raw = generateRun(spec).raw;
+      this.liveRaw.set(spec.id, raw);
+    }
+    const elapsedS = Math.max(0, this.now() - this.startedAt) / 1000;
+    const n = Math.min(raw.step.length, live.initialPoints + Math.floor(elapsedS * live.pointsPerSecond));
+    const cached = this.runs.get(spec.id);
+    if (cached && cached.quality.rawRows === n) return cached;
+    const r = raw;
+    const run = normalize({ step: r.step.subarray(0, n), loss: r.loss.subarray(0, n), lr: r.lr.subarray(0, n), grad_norm: r.grad_norm.subarray(0, n) });
+    this.runs.set(spec.id, run);
     return run;
   }
 
@@ -117,7 +145,7 @@ export class RunStore {
     const d = downsample({ ...base, y: run[req.metric] });
     let smooth: ViewResult['ema'] = null;
     if (req.emaWeight !== null) {
-      const key = `${req.runId}:${req.metric}:${req.emaWeight}`;
+      const key = `${req.runId}:${req.metric}:${req.emaWeight}:${run.step.length}`; // live runs grow
       let y = this.smoothed.get(key);
       if (!y) {
         y = ema(run[req.metric], req.emaWeight);

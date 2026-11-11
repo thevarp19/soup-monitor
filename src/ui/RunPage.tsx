@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useId, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import { fetchRun } from '../api/mockApi.ts';
+import { parseApiOptions } from '../api/options.ts';
 import type { Metric } from '../core/types.ts';
 import { useRequest } from '../hooks/useRequest.ts';
 import { zoomStarted } from '../perf/marks.ts';
 import { Link } from '../router.ts';
 import { Chart } from './Chart.tsx';
 import { formatStep } from './format.ts';
+import { Freshness } from './Freshness.tsx';
 import { QualityPanel } from './QualityPanel.tsx';
 import { SummaryCards } from './SummaryCards.tsx';
 import { EmptyState, ErrorState, Skeleton } from './states.tsx';
@@ -29,6 +31,16 @@ export function RunPage({ id, locale, listSearch }: { id: string; locale: string
   const [emaWeight, setEmaWeight] = useState<number | null>(null);
 
   const data = run.data;
+  const { pollMs, staleMs } = useMemo(() => parseApiOptions(window.location.search), []);
+  const live = data?.live ?? false;
+  const { retry } = run;
+
+  // A live run is polled; a failed poll keeps the last data and is shown by <Freshness>.
+  useEffect(() => {
+    if (!live) return;
+    const t = setInterval(retry, pollMs);
+    return () => clearInterval(t);
+  }, [live, retry, pollMs]);
   const full: Range | null = data && data.firstStep !== null && data.lastStep !== null ? { x0: data.firstStep, x1: data.lastStep } : null;
   const range = zoom && zoom.runId === id ? zoom.range : full;
 
@@ -53,9 +65,10 @@ export function RunPage({ id, locale, listSearch }: { id: string; locale: string
         <h1>{data ? data.name : id}</h1>
         {data && <span className={`status status-${data.status}`}>{data.status}</span>}
         {data && <p className="run-desc">{data.description}</p>}
+        <Freshness lastSuccessAt={run.lastSuccessAt} live={live} staleMs={staleMs} error={run.status === 'error' ? run.error : null} locale={locale} />
       </header>
 
-      {run.status === 'error' && <ErrorState title="Could not load this run" error={run.error} onRetry={run.retry} />}
+      {run.status === 'error' && !data && <ErrorState title="Could not load this run" error={run.error} onRetry={run.retry} />}
       {run.status === 'loading' && !data && (
         <>
           <Skeleton label="Loading run summary…" lines={2} className="skeleton-cards" />
@@ -63,7 +76,7 @@ export function RunPage({ id, locale, listSearch }: { id: string; locale: string
         </>
       )}
 
-      {data && run.status !== 'error' && (
+      {data && (
         <>
           <SummaryCards summary={data.summary} locale={locale} />
           <QualityPanel quality={data.quality} locale={locale} />
@@ -113,6 +126,7 @@ export function RunPage({ id, locale, listSearch }: { id: string; locale: string
                   syncKey={`run:${id}`}
                   hintId={hintId}
                   firstDrawMark={i === 0}
+                  dataVersion={data.summary.points}
                 />
               ))}
             </section>

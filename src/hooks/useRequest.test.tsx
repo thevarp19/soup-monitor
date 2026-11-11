@@ -109,5 +109,18 @@ describe('useRequest — latest request wins', () => {
     rerender({ id: 'B' });
     expect(result.current).toMatchObject({ status: 'loading', data: null, dataKey: null });
   });
+
+  it('a failed refresh of the same key keeps the last good data, reports the error, and keeps lastSuccessAt', async () => {
+    let n = 0;
+    const fetcher = () => (++n === 1 ? Promise.resolve('v1') : Promise.reject(new Error('HTTP 500')));
+    const { result } = renderHook(() => useRequest('live', fetcher));
+    await act(async () => {});
+    const firstSuccess = result.current.lastSuccessAt;
+    expect(typeof firstSuccess).toBe('number');
+    await act(async () => result.current.retry());
+    expect(result.current).toMatchObject({ status: 'error', data: 'v1', dataKey: 'live' });
+    expect(String(result.current.error)).toContain('HTTP 500');
+    expect(result.current.lastSuccessAt).toBe(firstSuccess);
+  });
 });
 

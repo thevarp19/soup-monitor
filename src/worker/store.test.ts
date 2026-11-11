@@ -59,4 +59,29 @@ describe('RunStore', () => {
   it('view() before load() → NotFoundError (the client must load first)', () => {
     expect(() => new RunStore().view({ runId: 'healthy-cosine', metric: 'loss', x0: 0, x1: 1, width: 10, log: false, emaWeight: null })).toThrow(NotFoundError);
   });
+
+  it('live run: reveals initialPoints at start, then pointsPerSecond more as time passes', () => {
+    let now = 1_000_000;
+    const store = new RunStore(() => now);
+    const first = store.load('live');
+    expect(first.live).toBe(true);
+    expect(first.summary.points).toBe(2000); // live: { initialPoints: 2000, pointsPerSecond: 5 }
+    expect(first.lastStep).toBe(19_990);
+    now += 10_000;
+    const later = store.load('live');
+    expect(later.summary.points).toBe(2050);
+    expect(later.lastStep).toBe(20_490);
+    const v = store.view({ runId: 'live', metric: 'loss', x0: 0, x1: 20_490, width: 100, log: false, emaWeight: null });
+    expect(v.sourceCount).toBe(2050); // views use the newest data
+  });
+
+  it('a finished run is not live and does not change over time', () => {
+    let now = 0;
+    const store = new RunStore(() => now);
+    const a = store.load('healthy-cosine');
+    now += 3_600_000;
+    expect(store.load('healthy-cosine')).toEqual(a);
+    expect(a.live).toBe(false);
+  });
 });
+

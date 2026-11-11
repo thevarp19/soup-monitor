@@ -11,6 +11,12 @@ import { abortError, ApiError, callWorker } from './workerClient.ts';
 export { ApiError };
 
 const options = () => parseApiOptions(window.location.search);
+const requestCount = new Map<string, number>();
+const nth = (endpoint: string) => {
+  const n = (requestCount.get(endpoint) ?? 0) + 1;
+  requestCount.set(endpoint, n);
+  return n;
+};
 
 function delay(ms: number, signal?: AbortSignal): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -30,14 +36,14 @@ function delay(ms: number, signal?: AbortSignal): Promise<void> {
 export async function fetchRuns({ signal }: { signal?: AbortSignal } = {}): Promise<RunListItem[]> {
   const o = options();
   await delay(o.latencyFor('list', Math.random), signal);
-  if (o.fails('list')) throw new ApiError('HTTP 500: the run list could not be loaded', 500);
+  if (o.fails('list', nth('list'))) throw new ApiError('HTTP 500: the run list could not be loaded', 500);
   return callWorker<RunListItem[]>({ type: 'list' }, signal);
 }
 
 export async function fetchRun(id: string, { signal }: { signal?: AbortSignal } = {}): Promise<RunDetails> {
   const o = options();
   await delay(o.latencyFor(id, Math.random), signal);
-  if (RUN_SPECS.find((s) => s.id === id)?.serverError || o.fails(id)) {
+  if (RUN_SPECS.find((s) => s.id === id)?.serverError || o.fails(id, nth(id))) {
     throw new ApiError(`HTTP 500: the data for run "${id}" could not be loaded`, 500);
   }
   return callWorker<RunDetails>({ type: 'load', runId: id }, signal);

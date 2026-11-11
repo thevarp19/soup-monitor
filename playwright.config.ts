@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 4173;
+// A port of its own (not vite preview's default 4173): a preview server left running by hand must
+// never be picked up silently, so every e2e run builds and serves the current code.
+const PORT = 4317;
 
 export default defineConfig({
   testDir: 'e2e',
@@ -16,7 +18,7 @@ export default defineConfig({
   webServer: {
     command: `pnpm build && pnpm preview --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 120_000,
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],

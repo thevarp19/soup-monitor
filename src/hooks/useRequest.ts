@@ -20,6 +20,8 @@ export interface RequestState<T> {
   dataKey: string | null;
   /** Date.now() of the last successful or failed response for this key. */
   fetchedAt: number | null;
+  /** Date.now() of the last SUCCESSFUL response for this key — what "is this data current?" needs. */
+  lastSuccessAt: number | null;
   retry: () => void;
 }
 
@@ -47,7 +49,7 @@ export function useRequest<T>(
   { keepPrevious = false }: RequestOptions = {},
 ): RequestState<T> {
   const [settled, setSettled] = useState<Settled<T> | null>(null);
-  const [lastGood, setLastGood] = useState<{ key: string; data: T } | null>(null);
+  const [lastGood, setLastGood] = useState<{ key: string; data: T; at: number } | null>(null);
   const [attempt, setAttempt] = useState(0);
   const latest = useRef(0);
   const fetcherRef = useRef(fetcher);
@@ -60,8 +62,9 @@ export function useRequest<T>(
     const ctrl = new AbortController();
     const settle = (s: Omit<Settled<T>, 'key' | 'attempt' | 'fetchedAt'>) => {
       if (latest.current !== id || ctrl.signal.aborted) return;
-      setSettled({ ...s, key, attempt, fetchedAt: Date.now() });
-      if (s.status === 'success') setLastGood({ key, data: s.data as T });
+      const at = Date.now();
+      setSettled({ ...s, key, attempt, fetchedAt: at });
+      if (s.status === 'success') setLastGood({ key, data: s.data as T, at });
     };
     fetcherRef.current(key, ctrl.signal).then(
       (data) => settle({ status: 'success', data, error: null }),
@@ -72,8 +75,14 @@ export function useRequest<T>(
 
   const retry = useCallback(() => setAttempt((a) => a + 1), []);
 
+  const lastSuccessAt = lastGood && lastGood.key === key ? lastGood.at : null;
   if (settled && settled.key === key && settled.attempt === attempt) {
-    return { ...settled, dataKey: settled.status === 'success' ? key : null, retry };
+    // A failed REFRESH keeps the last good data of this key (with the error): blanking a chart
+    // because one poll failed is worse than showing the data with an explicit "refresh failed".
+    if (settled.status === 'error' && lastGood && lastGood.key === key) {
+      return { ...settled, data: lastGood.data, dataKey: key, lastSuccessAt, retry };
+    }
+    return { ...settled, dataKey: settled.status === 'success' ? key : null, lastSuccessAt, retry };
   }
   // Loading. A retry/refresh of the SAME key keeps the last good data visible; a new key does so
   // only with keepPrevious.
@@ -86,6 +95,7 @@ export function useRequest<T>(
     dataKey: shown ? shown.key : null,
     error: null,
     fetchedAt: sameKey ? settled.fetchedAt : null,
+    lastSuccessAt,
     retry,
   };
 }

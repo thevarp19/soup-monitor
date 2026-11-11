@@ -36,6 +36,8 @@ export interface ChartProps {
   syncKey: string;
   hintId: string;
   firstDrawMark?: boolean;
+  /** Changes when the run's data changes (a live run grows) so the view is requested again. */
+  dataVersion?: number;
 }
 
 /** x range actually given to uPlot (a zero-width range is padded so the single point is visible). */
@@ -168,7 +170,7 @@ function ReadoutLine({ metric, locale, subscribe }: { metric: Metric; locale: st
 }
 
 export function Chart(props: ChartProps) {
-  const { runId, metric, title, range, full, onRange, log, emaWeight, locale, syncKey, hintId, firstDrawMark = false } = props;
+  const { runId, metric, title, range, full, onRange, log, emaWeight, locale, syncKey, hintId, firstDrawMark = false, dataVersion = 0 } = props;
   const plotEl = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | null>(null);
   const viewRef = useRef<{ view: ViewResult; range: Range } | null>(null);
@@ -306,7 +308,7 @@ export function Chart(props: ChartProps) {
   }, [metric, title, color, log, emaOn, locale, syncKey, firstDrawMark]);
 
   // Request the downsampled view for the visible range at the plot's device-pixel width.
-  const reqKey = widthPx > 0 ? JSON.stringify({ runId, metric, x0: range.x0, x1: range.x1, width: widthPx, log, emaWeight } satisfies ViewRequest) : '';
+  const reqKey = widthPx > 0 ? JSON.stringify({ runId, metric, x0: range.x0, x1: range.x1, width: widthPx, log, emaWeight, dataVersion }) : '';
   const fetcher = useCallback((key: string, signal: AbortSignal) => (key ? fetchView(JSON.parse(key) as ViewRequest, { signal }) : new Promise<ViewResult>(() => {})), []);
   const view = useRequest(reqKey, fetcher, { keepPrevious: true });
 

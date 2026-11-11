@@ -31,4 +31,19 @@ describe('parseApiOptions — demo/test switches for the mock API', () => {
     const o = parseApiOptions('?latency=abc,x:-5,y:');
     expect(o.latencyFor('x', () => 0)).toBe(100);
   });
+
+  it('?fail=live@2 fails from the 2nd request on (the first load succeeds, refreshes fail)', () => {
+    const o = parseApiOptions('?fail=live@2');
+    expect(o.fails('live', 1)).toBe(false);
+    expect(o.fails('live', 2)).toBe(true);
+    expect(o.fails('live', 7)).toBe(true);
+    expect(o.fails('other', 2)).toBe(false);
+  });
+
+  it('?poll= and ?stale= (ms) with defaults of 10 s and 30 s', () => {
+    expect(parseApiOptions('')).toMatchObject({ pollMs: 10_000, staleMs: 30_000 });
+    expect(parseApiOptions('?poll=1000&stale=2500')).toMatchObject({ pollMs: 1000, staleMs: 2500 });
+    expect(parseApiOptions('?poll=-1&stale=x')).toMatchObject({ pollMs: 10_000, staleMs: 30_000 });
+  });
 });
+
