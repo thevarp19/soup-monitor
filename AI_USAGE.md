@@ -145,4 +145,10 @@ the previous stage's last commit to its own last commit, so the author's review 
     number for an unthrottled worker (−5%) is the honest comparison and is shown next to it;
   - **wrote the stage time ranges in this file by estimate** — stage 4's range ended at 20:50
     while it was 19:47. Replaced with times from git commit timestamps.
+  - **"tab memory" was the sum of three renderer processes**, not the tab: the script took the
+    footprint of every renderer of the headless browser (the tab + two others of ~11 and ~24 MB).
+    **Found by the author**: the manual Chrome Task Manager screenshot showed ~80 MB where the
+    script reported 113 MB. Fixed (tab = renderer with the most CPU time, others recorded),
+    experiment and both measurements re-run: tab memory 136 → 76 MB (was reported as 175 → 113).
+    Also added page titles — the screenshot could not tell the naive and the final page apart.
 - **Verified by me:**
