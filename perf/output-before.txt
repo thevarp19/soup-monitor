@@ -1,66 +1,66 @@
 # command:  node --no-warnings perf/run-perf.ts --label before --impl naive
-# date:     2026-11-11T09:35:09.087Z
-# commit:   48db2c2 (working tree has uncommitted changes)
+# date:     2026-11-11T11:28:24.408Z
+# commit:   a529246
 # node:     v24.8.0
 # platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
-perf "before" — commit 48db2c2, /runs/long-1m?latency=0&perf&impl=naive, 5 runs, CPU ×4
+perf "before" — commit a529246, /runs/long-1m?latency=0&perf&impl=naive, 5 runs, CPU ×4
 
 > soup-monitor@0.1.0 build /Users/yerlanjumabayev/dev/soup-monitor
 > tsc -b && vite build
 
 vite v8.3.7 building client environment for production...
 transforming...
-✓ 51 modules transformed.
+✓ 57 modules transformed.
 rendering chunks...
 computing gzip size...
 dist/index.html                       0.41 kB │ gzip:   0.28 kB
-dist/assets/dataWorker-DFBe6dx2.js   15.80 kB
-dist/assets/index-CnnFLDea.css        6.60 kB │ gzip:   2.19 kB
-dist/assets/index-mU_7aAxC.js       316.25 kB │ gzip: 106.25 kB
+dist/assets/dataWorker-DibRCFJl.js   16.97 kB
+dist/assets/index-Df_WkqK3.css        7.23 kB │ gzip:   2.28 kB
+dist/assets/index-Duy3oYDQ.js       320.77 kB │ gzip: 107.98 kB
 
 ✓ built in 101ms
-run 1: first render 1716 ms (TBT 1503 ms), hover median 3.3 ms, zoom 46 ms, tab footprint 134 MB (other renderers 11+27 MB)
-run 2: first render 1686 ms (TBT 1485 ms), hover median 3.6 ms, zoom 41 ms, tab footprint 137 MB (other renderers 11+27 MB)
-run 3: first render 1649 ms (TBT 1453 ms), hover median 3 ms, zoom 48 ms, tab footprint 136 MB (other renderers 11+27 MB)
-run 4: first render 1705 ms (TBT 1505 ms), hover median 2.8 ms, zoom 46 ms, tab footprint 135 MB (other renderers 11+27 MB)
-run 5: first render 1801 ms (TBT 1602 ms), hover median 3.4 ms, zoom 42 ms, tab footprint 138 MB (other renderers 12+27 MB)
+run 1: first render 1732 ms (TBT 1491 ms), hover median 3.4 ms, zoom 43 ms, tab footprint 138 MB (other renderers 11+27 MB)
+run 2: first render 1676 ms (TBT 1476 ms), hover median 3.5 ms, zoom 47 ms, tab footprint 136 MB (other renderers 11+27 MB)
+run 3: first render 1704 ms (TBT 1507 ms), hover median 3.5 ms, zoom 42 ms, tab footprint 137 MB (other renderers 11+29 MB)
+run 4: first render 1696 ms (TBT 1504 ms), hover median 3.9 ms, zoom 45 ms, tab footprint 136 MB (other renderers 11+27 MB)
+run 5: first render 1700 ms (TBT 1496 ms), hover median 3.4 ms, zoom 43 ms, tab footprint 134 MB (other renderers 11+27 MB)
 
 written perf/results-before.json and perf/trace-before.json
 {
   "firstRenderMs": {
-    "median": 1705,
-    "min": 1649,
-    "max": 1801,
+    "median": 1700,
+    "min": 1676,
+    "max": 1732,
     "n": 5
   },
   "firstRenderAdjustedForUnthrottledWorkerMs": {
-    "median": 1705,
-    "min": 1649,
-    "max": 1801,
+    "median": 1700,
+    "min": 1676,
+    "max": 1732,
     "n": 5
   },
   "totalBlockingTimeBeforeFirstRenderMs": {
-    "median": 1503,
-    "min": 1453,
-    "max": 1602,
+    "median": 1496,
+    "min": 1476,
+    "max": 1507,
     "n": 5
   },
   "hoverMs_medianPerRun": {
-    "median": 3.3,
-    "min": 2.8,
-    "max": 3.6,
+    "median": 3.5,
+    "min": 3.4,
+    "max": 3.9,
     "n": 5
   },
   "hoverMs_maxPerRun": {
-    "median": 55.3,
-    "min": 44.4,
-    "max": 58.9,
+    "median": 48.8,
+    "min": 42.9,
+    "max": 58.3,
     "n": 5
   },
   "zoomMs": {
-    "median": 46,
-    "min": 41,
-    "max": 48,
+    "median": 43,
+    "min": 42,
+    "max": 47,
     "n": 5
   },
   "memory": {
@@ -73,12 +73,12 @@ written perf/results-before.json and perf/trace-before.json
     "otherRenderersFootprintMB_notTheTab": {
       "median": 38,
       "min": 38,
-      "max": 39,
+      "max": 40,
       "n": 5
     },
     "uaSpecificMB": {
       "median": 111.8,
-      "min": 111.7,
+      "min": 111.8,
       "max": 111.8,
       "n": 5
     },
@@ -97,27 +97,27 @@ written perf/results-before.json and perf/trace-before.json
   },
   "traceEventDispatchMs": {
     "pointermove": {
-      "median": 0.2,
+      "median": 0.5,
       "min": 0.1,
-      "max": 0.7,
+      "max": 1.3,
       "n": 29
     },
     "mousemove": {
       "median": 0.8,
-      "min": 0.1,
-      "max": 3.9,
+      "min": 0.3,
+      "max": 3.8,
       "n": 29
     },
     "mousedown": {
-      "median": 1.1,
-      "min": 1.1,
-      "max": 1.1,
+      "median": 0.5,
+      "min": 0.5,
+      "max": 0.5,
       "n": 1
     },
     "mouseup": {
-      "median": 32.5,
-      "min": 32.5,
-      "max": 32.5,
+      "median": 29.7,
+      "min": 29.7,
+      "max": 29.7,
       "n": 1
     }
   }

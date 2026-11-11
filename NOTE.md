@@ -41,14 +41,14 @@ spacing) are right. Full list: `docs/truthfulness.md`.
 
 | | naive | final |
 |---|---|---|
-| Main thread blocked before the chart appears (TBT) | 1,503 ms | **36 ms** |
-| Tab memory (renderer footprint, incl. worker) | 136 MB | **76 MB** |
-| First render, measured / if the worker were throttled too | 1,705 ms | 652 / **1,621 ms** |
-| Hover · zoom | 3.3 · 46 ms | 3.3 · 39 ms |
+| Main thread blocked before the chart appears (TBT) | 1,496 ms | **34 ms** |
+| Tab memory (renderer footprint, incl. worker) | 136 MB | **75 MB** |
+| First render, measured / if the worker were throttled too | 1,700 ms | 636 / **1,599 ms** |
+| Hover · zoom | 3.5 · 43 ms | 3.2 · 38 ms |
 
-A Web Worker with transferred Float64Arrays stopped the page from freezing and cut memory by 44%
+A Web Worker with transferred Float64Arrays stopped the page from freezing and cut memory by 45%
 (a manual Task Manager check agrees: 131 → 72 MB). It did **not** make the data arrive faster:
-DevTools throttling skips workers, so the honest first-render gain is ~5%, not 62%.
+DevTools throttling skips workers, so the honest first-render gain is ~6%, not 63%.
 
 ## Silent failures (`docs/silent-failures.md`)
 

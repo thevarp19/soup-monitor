@@ -250,8 +250,10 @@ the previous stage's last commit to its own last commit, so the author's review 
   that paragraph — was written by Claude** and is submitted as written. The surprises listed there
   are the project's documented findings (`docs/experiments.md`, `docs/silent-failures.md`, PERF.md).
 - **Checked by Claude (how):** every figure in NOTE.md compared with the result files (spike value
-  67.094…, 1,705 → 652 / 1,621 ms, TBT 1,503 → 36 ms, 136 → 76 MB, 47 tests failing on the
-  every-2nd-point mutation, …); length checked by rendering to A4 at 11 pt: 1.85 pages.
+  67.094…, 1,700 → 636 / 1,599 ms, TBT 1,496 → 34 ms, 136 → 75 MB, 47 tests failing on the
+  every-2nd-point mutation, …); length checked by rendering to A4 at 11 pt: 1.85 pages. The
+  performance numbers were re-measured on the final code first (they had been measured before
+  stage 5 added UI), and the prose in NOTE.md/PERF.md updated to them.
 - **Where AI was wrong:** the first draft was 1,124 words (over two pages) and quoted the UI's
   "12 seconds ago" as "12 s ago"; the spike value would have been wrong if taken from memory
   (62.09… belonged to the first generator) — it was recomputed.
