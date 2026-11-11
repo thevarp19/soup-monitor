@@ -4,6 +4,9 @@ import { defineConfig, devices } from '@playwright/test';
 // never be picked up silently, so every e2e run builds and serves the current code.
 const PORT = 4317;
 
+// E2E_BASE_URL=https://… runs the same tests against a deployed site (no local server).
+const REMOTE = process.env.E2E_BASE_URL;
+
 export default defineConfig({
   testDir: 'e2e',
   fullyParallel: true,
@@ -12,10 +15,10 @@ export default defineConfig({
   retries: 0,
   reporter: [['list']],
   use: {
-    baseURL: `http://localhost:${PORT}`,
+    baseURL: REMOTE ?? `http://localhost:${PORT}`,
     trace: 'retain-on-failure',
   },
-  webServer: {
+  webServer: REMOTE ? undefined : {
     command: `pnpm build && pnpm preview --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: false,

@@ -27,6 +27,15 @@ pnpm typecheck && pnpm lint
 
 First Playwright run: `pnpm exec playwright install chromium`.
 
+## Deploy (Vercel)
+
+`vercel.json` builds with pnpm, serves `dist/`, rewrites every path to `index.html` (client-side
+routes; real files take precedence) and sends `Cross-Origin-Opener-Policy` /
+`Cross-Origin-Embedder-Policy` (cross-origin isolation, needed by
+`performance.measureUserAgentSpecificMemory()`; the app loads no third-party resources).
+Import the GitHub repository at vercel.com/new — no other settings needed.
+Check the deployed site with the same e2e suite: `E2E_BASE_URL=https://<deployment> pnpm test:e2e`.
+
 ## Data
 
 `src/core/runSpecs.ts` defines 20 runs (seeded, fully deterministic — `src/core/generate.ts`):
