@@ -5,7 +5,8 @@
  * client-side defence against them. Normalized columns stay here; the main thread only receives
  * summaries and downsampled views for the visible range.
  */
-import { downsample, type BucketStats, type Marker } from '../core/downsample.ts';
+import { smoothingGap } from '../core/divergence.ts';
+import { downsample, lowerBound, upperBound, type BucketStats, type Marker } from '../core/downsample.ts';
 import { ema } from '../core/ema.ts';
 import { generateRun } from '../core/generate.ts';
 import { normalize, type NormalizedRun, type QualityReport } from '../core/normalize.ts';
@@ -62,7 +63,13 @@ export interface ViewResult {
   sourceCount: number;
   drawnCount: number;
   extent: { min: number; max: number } | null;
-  ema: { x: Float64Array; y: Float64Array; extent: { min: number; max: number } | null } | null;
+  ema: {
+    x: Float64Array;
+    y: Float64Array;
+    extent: { min: number; max: number } | null;
+    /** Largest gap between the EMA and the recent raw values in the visible range. */
+    gap: { maxRelGap: number; atStep: number; smoothedIs: 'above' | 'below' } | null;
+  } | null;
 }
 
 export function issueCount(q: QualityReport): number {
@@ -152,7 +159,8 @@ export class RunStore {
         this.smoothed.set(key, y);
       }
       const e = downsample({ ...base, y });
-      smooth = { x: e.x, y: toF64(e.y), extent: visibleExtent(e) };
+      const g = smoothingGap(run[req.metric], y, lowerBound(run.step, req.x0), upperBound(run.step, req.x1) - 1);
+      smooth = { x: e.x, y: toF64(e.y), extent: visibleExtent(e), gap: g && { maxRelGap: g.maxRelGap, atStep: run.step[g.atIndex], smoothedIs: g.smoothedIs } };
     }
     return {
       x: d.x,

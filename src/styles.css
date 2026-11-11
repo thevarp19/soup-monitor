@@ -433,3 +433,13 @@ table.runs {
   color: var(--bad);
   font-size: 0.9em;
 }
+
+.warn {
+  margin: 6px 0 0;
+  padding: 6px 10px;
+  border: 1px solid #e3b341;
+  border-radius: 6px;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 0.9em;
+}

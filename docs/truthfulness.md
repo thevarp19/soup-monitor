@@ -63,6 +63,6 @@ no ticks for a narrow window with no multiple of the chosen step.
 8. **Values below 1e-200** (subnormals): only "no hang" is guaranteed, not exact labels.
 9. **Rare random cases.** Property tests run 300–1000 random cases per run; a rare failure may show
    up only on some runs (fast-check prints the seed to reproduce it).
-10. **Unimagined bugs.** The mutation check covers the 28 bugs we thought of; it is not an
+10. **Unimagined bugs.** The mutation check covers the 35 bugs we thought of; it is not an
     exhaustive mutation-testing tool.
 11. **Performance.** Correct but too slow is not caught here (stage 3).

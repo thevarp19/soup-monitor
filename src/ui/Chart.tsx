@@ -16,6 +16,7 @@ import { markOnce, measureToNextPaint, PERF, zoomSettled } from '../perf/marks.t
 import type { ViewRequest, ViewResult } from '../worker/store.ts';
 import { COLORS, withAlpha } from './colors.ts';
 import { densityLabel, describeChart, notDrawableCounts } from './describe.ts';
+import { SMOOTHING_GAP_THRESHOLD, SMOOTHING_GAP_WINDOW } from '../core/divergence.ts';
 import { formatCount, formatPrecise, formatStep } from './format.ts';
 import { readoutBetween, type Readout } from './tooltip.ts';
 import { panBy, rangeFromSelection, zoomBy, type Range } from './zoom.ts';
@@ -379,11 +380,21 @@ export function Chart(props: ChartProps) {
             {counts.nan > 0 && <span className="lg-nan">▲ NaN ×{formatCount(counts.nan, locale)}</span>}
             {counts.posInf > 0 && <span className="lg-inf">↑ +∞ ×{formatCount(counts.posInf, locale)}</span>}
             {counts.negInf > 0 && <span className="lg-inf">↓ −∞ ×{formatCount(counts.negInf, locale)}</span>}
-            {counts.nonPositive > 0 && <span className="lg-nonpos">▼ ≤ 0 not shown on log scale ×{formatCount(counts.nonPositive, locale)}</span>}
+            {counts.nonPositive > 0 && (
+              <span className="lg-nonpos" data-testid={`logscale-note-${metric}`}>
+                ▼ {formatCount(counts.nonPositive, locale)} value{counts.nonPositive === 1 ? '' : 's'} ≤ 0 cannot be drawn on a log scale: shown as markers at the bottom edge
+              </span>
+            )}
           </span>
         )}
         {emaOn && <span className="legend">solid thin: raw · dashed thick: EMA (smoothed)</span>}
       </p>
+      {emaOn && v?.ema?.gap && v.ema.gap.maxRelGap > SMOOTHING_GAP_THRESHOLD && (
+        <p className="warn" role="status" data-testid={`ema-warning-${metric}`}>
+          ⚠ Smoothing hides a change here: at step {formatStep(v.ema.gap.atStep, locale)} the smoothed line is {Math.round(v.ema.gap.maxRelGap * 100)}%{' '}
+          {v.ema.gap.smoothedIs} the recent raw values (mean of the last {SMOOTHING_GAP_WINDOW} points). Read the raw line, or use less smoothing.
+        </p>
+      )}
       <p id={summaryId} className="visually-hidden">
         {derived ? derived.description : `${title}: loading`}
       </p>

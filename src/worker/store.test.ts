@@ -83,5 +83,14 @@ describe('RunStore', () => {
     expect(store.load('healthy-cosine')).toEqual(a);
     expect(a.live).toBe(false);
   });
+
+  it('view() with EMA reports the smoothing gap of the visible range (late divergence, EMA 0.999)', () => {
+    const store = new RunStore();
+    const d = store.load('late-divergence');
+    const v = store.view({ runId: 'late-divergence', metric: 'loss', x0: 0, x1: d.lastStep ?? 0, width: 400, log: false, emaWeight: 0.999 });
+    expect(v.ema?.gap?.maxRelGap).toBeGreaterThan(0.1);
+    expect(v.ema?.gap?.atStep).toBeGreaterThan(0.95 * (d.lastStep ?? 0));
+    expect(v.ema?.gap?.smoothedIs).toBe('below');
+  });
 });
 

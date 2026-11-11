@@ -45,6 +45,14 @@ const MUTATIONS = [
   { file: 'src/ui/tooltip.ts', name: 'readout reads only one column under the cursor', find: 'const p0 = columnOf(clamp(Math.min(a, b)), x0, x1, width);', replace: 'const p0 = columnOf(clamp(Math.max(a, b)), x0, x1, width);', tests: ['src/ui/tooltip.test.ts'] },
   { file: 'src/ui/format.ts', name: 'NaN formatted as 0', find: "if (Number.isNaN(v)) return 'NaN';", replace: "if (Number.isNaN(v)) return '0';", tests: ['src/ui/format.test.ts'] },
   { file: 'src/ui/format.ts', name: 'small lr rounded to fixed decimals', find: "if (scientific(x)) return nf(locale, { notation: 'scientific', maximumSignificantDigits: 3 }).format(x);", replace: "if (scientific(x)) return nf(locale, { maximumFractionDigits: 3 }).format(x);", tests: ['src/ui/format.test.ts'] },
+  // silent failures (stage 5)
+  { file: 'src/ui/parse.ts', name: 'parser: single separator always grouping (ignores the locale)', find: "const isGrouping = sep === groupSeparatorOf(locale) && /^\\d{3}$/.test(b) && /^\\d{1,3}$/.test(a);", replace: 'const isGrouping = /^\\d{3}$/.test(b) && /^\\d{1,3}$/.test(a);', tests: ['src/ui/parse.test.ts'] },
+  { file: 'src/ui/parse.ts', name: 'parser: behaves like parseFloat', find: "const value = Number(sign + digits + exp);", replace: "const value = parseFloat(text);", tests: ['src/ui/parse.test.ts'] },
+  { file: 'src/ui/time.ts', name: 'stale measured from the last attempt, not the last success (>= at the threshold)', find: 'return lastSuccessAt !== null && now - lastSuccessAt > staleMs;', replace: 'return lastSuccessAt !== null && now - lastSuccessAt >= staleMs;', tests: ['src/ui/time.test.ts'] },
+  { file: 'src/ui/time.ts', name: 'time printed without its zone', find: "timeZoneName: 'short', timeZone });", replace: 'timeZone });', tests: ['src/ui/time.test.ts', 'src/ui/Freshness.test.tsx'] },
+  { file: 'src/hooks/useRequest.ts', name: 'a failed refresh blanks the data', find: '    if (settled.status === \'error\' && lastGood && lastGood.key === key) {', replace: '    if (false) {', tests: ['src/hooks/useRequest.test.tsx'] },
+  { file: 'src/core/divergence.ts', name: 'smoothing gap compares with the raw point, not the recent mean', find: 'const m = sum / count;', replace: 'const m = Number.isFinite(v) ? v : sum / count;', tests: ['src/core/divergence.test.ts'] },
+  { file: 'src/core/divergence.ts', name: 'smoothing gap reports the wrong direction', find: "smoothedIs: e < m ? 'below' : 'above'", replace: "smoothedIs: e < m ? 'above' : 'below'", tests: ['src/core/divergence.test.ts'] },
 ];
 
 const TIMEOUT_MS = 120_000;

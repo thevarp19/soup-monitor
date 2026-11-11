@@ -183,6 +183,37 @@ the previous stage's last commit to its own last commit, so the author's review 
     Scripting 2,014 → 414 ms; LCP ≈ 0.2 s in both (the LCP element is text, not the chart).
   - Unit, e2e and mutation tests re-run by the author — see "Author's re-run" below.
 
+## Stage 5 — silent failures (from 15:20 on 2026-11-11; see git log for commit times)
+
+- **AI proposed:** reproduce each failure first (the race on the naive page with `test.fail`, the
+  EMA lag and `Math.log10(0)` as characterization tests), then fix and test it; a live run with
+  polling and a last-*successful*-update time; a locale-aware number parser and "Go to step"; the
+  unit suite under 2 time zones × 3 locales with a canary; a smoothing-gap detector;
+  `docs/silent-failures.md`.
+- **Accepted:** ✎ "Ok, начинай этап 5"; review of the stage pending.
+- **Changed:** — ✎
+- **Checked by Claude (how):** unit tests first where possible; e2e tests written after the code
+  were run against the code without the change (stash) to see them fail; naive `test.fail` tests
+  run without `test.fail` to confirm they fail on the data assertions; the canary run with a
+  deliberately wrong expectation to confirm it can fail; mutation check extended to 35 (all caught,
+  after one fix below).
+- **Where AI was wrong:**
+  - first check, before any code: `LANG` really changes Node's default `Intl` locale (risk from the
+    plan) — confirmed, so the matrix is meaningful;
+  - wrote raw invisible characters (no-break spaces, U+2212) into a regular expression instead of
+    `\u` escapes — worked, but unreadable and fragile; caught by lint;
+  - the `Freshness` test used jest-dom matchers that are not installed, and relied on RTL's
+    auto-cleanup, which needs Vitest globals (off here) — fixed in the test;
+  - the first version of the matrix script could not find the canary in Vitest's non-TTY output
+    and reported all six combinations as failed while every test had passed — switched to the
+    verbose reporter;
+  - the mutation check showed a **real test gap**: comparing the EMA with single raw points instead
+    of the recent mean was not caught; it would raise false alarms on noisy metrics; test added;
+  - noticed that Playwright's `reuseExistingServer` would silently test a `vite preview` left
+    running from the manual screenshots instead of the current code — fixed (own port, never reuse);
+  - again ran a small test (`windowAround`) only after writing its implementation.
+- **Verified by me:**
+
 ## Author's re-run of all tests (2026-11-11, from 15:09 UTC+5, commit de608eb)
 
 Run by the author in their own terminal on a clean working tree; output shared in the session.

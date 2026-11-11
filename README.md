@@ -3,8 +3,9 @@
 A training-run monitor built to answer one question: *can you show this chart to someone deciding
 whether to stop a $500 run?* The focus is on the chart being **truthful**, not just looking right.
 
-> Work in progress — see `docs/decisions.md` for every decision and its alternatives, and
-> `docs/truthfulness.md` for what the tests prove about the chart and what they cannot catch.
+> Work in progress — see `docs/decisions.md` for every decision and its alternatives,
+> `docs/truthfulness.md` for what the tests prove about the chart and what they cannot catch, and
+> `docs/silent-failures.md` for what looks fine but is wrong, and how each case was checked.
 > Deployed link: _TBD (stage 6)_.
 
 ## Run it
@@ -16,7 +17,8 @@ pnpm test               # unit + property tests (Vitest + fast-check)
 pnpm test:e2e           # Playwright (builds and serves the app on :4173)
 pnpm test:save          # unit tests, output saved to results/test-output.txt
 pnpm test:e2e:save      # e2e tests, output saved to results/e2e-output.txt
-pnpm test:mutation      # inject 28 known bugs one by one, check the tests catch each one
+pnpm test:mutation      # inject 35 known bugs one by one, check the tests catch each one
+pnpm test:intl          # whole unit suite under 2 time zones × 3 locales (+ canary)
 pnpm perf:before        # naive pipeline (?impl=naive), Chrome, CPU ×4 → perf/results-before.json
 pnpm perf:after         # optimized UI → perf/results-after.json
 pnpm perf:report        # regenerate the table in PERF.md from the result files
@@ -73,6 +75,8 @@ docs/              brief, decision log, experiments, truthfulness claims and bli
 |---|---|
 | `?latency=0`, `?latency=diverging:1500,*:100` | fixed or per-endpoint mock-API latency (default: random 100–1500 ms) |
 | `?fail=plateau,list` | force HTTP 500 for those endpoints (`server-error` always fails) |
+| `?fail=live@2` | fail from the 2nd request on (first load works, refreshes fail) |
+| `?poll=10000`, `?stale=30000` | polling interval of the live run, and when its data counts as stale |
 | `?locale=de-DE` | number formatting locale (default: the browser's) |
 | `?impl=naive` | the naive baseline UI |
 | `?perf` | enable performance marks/measures (used by `perf/run-perf.ts`) |

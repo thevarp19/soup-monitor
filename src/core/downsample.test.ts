@@ -109,6 +109,11 @@ describe('downsample — NaN, ±Infinity and gaps break the line', () => {
 });
 
 describe('downsample — log scale: values ≤ 0 cannot be drawn and are not hidden silently', () => {
+  it('reproduction: a naive log transform turns 0 into −∞ and a negative into NaN — no error, just a lie', () => {
+    // A chart library fed these either draws a line to the bottom edge (−∞) or silently skips the point.
+    expect([Math.log10(1), Math.log10(0), Math.log10(-2)]).toEqual([0, -Infinity, NaN]);
+  });
+
   it('breaks the line at 0 and negatives and reports them as "nonpositive" markers', () => {
     const out = ds([0, 1, 2, 3], [1, 0, -2, 4], { width: 10, log: true });
     expect(Array.from(out.x)).toEqual([0, 1, 3]);
