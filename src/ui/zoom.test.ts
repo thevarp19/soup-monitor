@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isFullRange, panBy, rangeFromSelection, zoomBy } from './zoom.ts';
+import { isFullRange, panBy, rangeFromSelection, windowAround, zoomBy } from './zoom.ts';
 
 const full = { x0: 0, x1: 1000 };
 
@@ -48,3 +48,16 @@ describe('isFullRange', () => {
     expect(isFullRange({ x0: 1, x1: 1000 }, full)).toBe(false);
   });
 });
+
+describe('windowAround (Go to step)', () => {
+  it('a window of 1/50 of the run centred on the step', () => {
+    expect(windowAround(500, full, 1 / 50)).toEqual({ x0: 490, x1: 510 });
+  });
+  it('clamped at the edges, keeping its width', () => {
+    expect(windowAround(0, full, 1 / 50)).toEqual({ x0: 0, x1: 20 });
+  });
+  it('never narrower than the minimum span', () => {
+    expect(windowAround(500, full, 1 / 1000, 10)).toEqual({ x0: 495, x1: 505 });
+  });
+});
+

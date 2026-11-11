@@ -24,7 +24,8 @@
     "perf": "node --no-warnings perf/run-perf.ts",
     "perf:before": "node scripts/run-and-save.mjs perf/output-before.txt -- node --no-warnings perf/run-perf.ts --label before --impl naive",
     "perf:after": "node scripts/run-and-save.mjs perf/output-after.txt -- node --no-warnings perf/run-perf.ts --label after",
-    "perf:report": "node --no-warnings perf/report.ts"
+    "perf:report": "node --no-warnings perf/report.ts",
+    "test:intl": "node scripts/run-and-save.mjs results/test-intl-output.txt -- node scripts/test-intl.mjs"
   },
   "dependencies": {
     "react": "19.3.1",

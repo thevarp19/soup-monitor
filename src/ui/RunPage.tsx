@@ -8,10 +8,11 @@ import { Link } from '../router.ts';
 import { Chart } from './Chart.tsx';
 import { formatStep } from './format.ts';
 import { Freshness } from './Freshness.tsx';
+import { GoToStep } from './GoToStep.tsx';
 import { QualityPanel } from './QualityPanel.tsx';
 import { SummaryCards } from './SummaryCards.tsx';
 import { EmptyState, ErrorState, Skeleton } from './states.tsx';
-import { isFullRange, type Range } from './zoom.ts';
+import { isFullRange, windowAround, type Range } from './zoom.ts';
 
 const CHARTS: Array<{ metric: Metric; title: string }> = [
   { metric: 'loss', title: 'loss' },
@@ -104,6 +105,7 @@ export function RunPage({ id, locale, listSearch }: { id: string; locale: string
                 <button type="button" onClick={(e) => onRange(full, e.timeStamp)} disabled={isFullRange(range, full)}>
                   Reset zoom
                 </button>
+                <GoToStep full={full} locale={locale} onGo={(step, t) => onRange(windowAround(step, full), t)} />
                 <span className="range-label">
                   Steps {formatStep(range.x0, locale)}–{formatStep(range.x1, locale)}
                 </span>

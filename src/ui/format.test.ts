@@ -52,3 +52,26 @@ describe('formatStep / formatCount', () => {
     expect(formatStep(null, EN)).toBe('—');
   });
 });
+
+// Same numbers, three locales. The locale is always passed explicitly, so these hold whatever the
+// machine's own locale/time zone is (scripts/test-intl.mjs re-runs the suite under 6 combinations).
+// Note how "1.235" means 1,235 in de-DE: the footer always names the locale in use.
+describe.each([
+  ['en-US', { big: '1,235', mid: '2.315', lr: '2.96E-4', neg: '-0.15', step: '500,000' }],
+  ['de-DE', { big: '1.235', mid: '2,315', lr: '2,96E-4', neg: '-0,15', step: '500.000' }],
+  ['ru-RU', { big: '1\u00a0235', mid: '2,315', lr: '2,96E-4', neg: '-0,15', step: '500\u00a0000' }],
+])('formatting in %s', (locale, want) => {
+  it('values and steps', () => {
+    expect([formatValue(1234.5, locale), formatValue(2.3147, locale), formatValue(2.96e-4, locale), formatValue(-0.15, locale), formatStep(500_000, locale)]).toEqual([
+      want.big,
+      want.mid,
+      want.lr,
+      want.neg,
+      want.step,
+    ]);
+  });
+  it('non-finite values are named the same way in every locale', () => {
+    expect([formatValue(NaN, locale), formatValue(Infinity, locale), formatValue(null, locale)]).toEqual(['NaN', '+∞', '—']);
+  });
+});
+

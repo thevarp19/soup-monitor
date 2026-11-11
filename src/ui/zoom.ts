@@ -36,3 +36,9 @@ export function rangeFromSelection(a: number, b: number, full: Range, minSpan = 
 }
 
 export const isFullRange = (r: Range, full: Range) => r.x0 <= full.x0 && r.x1 >= full.x1;
+
+/** A window of `fraction` of the full range (at least minSpan) centred on a step. */
+export function windowAround(step: number, full: Range, fraction = 1 / 50, minSpan = MIN_SPAN): Range {
+  const span = Math.max(minSpan, (full.x1 - full.x0) * fraction);
+  return clampRange({ x0: step - span / 2, x1: step + span / 2 }, full);
+}

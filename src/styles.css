@@ -416,3 +416,20 @@ table.runs {
 .freshness-error {
   color: var(--bad);
 }
+
+.goto {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: center;
+}
+.goto input {
+  padding: 3px 6px;
+  border: 1px solid #6e7781;
+  border-radius: 6px;
+}
+.goto-error {
+  flex-basis: 100%;
+  color: var(--bad);
+  font-size: 0.9em;
+}
