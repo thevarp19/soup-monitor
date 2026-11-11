@@ -38,6 +38,26 @@ with the old method, hence "n/a". Manual Task Manager screenshots: `perf/screens
 ³ Shown only to make the trap visible: CDP `JSHeapUsedSize` counts neither typed-array backing
 stores nor the worker's heap (`docs/experiments.md` §4), so it reports a fake −97%.
 
+## Manual cross-check: Chrome Task Manager (taken by the author)
+
+The author's everyday Google Chrome (not headless, no CPU throttling, Retina display), a fresh
+incognito window per page so each page gets its own renderer process (different process IDs), the
+1M-point run fully drawn, ~10 s idle. Values transcribed from the screenshots:
+
+| Page | Task Manager "Memory" | "JavaScript memory" | Process ID | Screenshot |
+|---|---|---|---|---|
+| `/runs/long-1m?impl=naive` | 131 MB | 101,936 KB | 65886 | `perf/screenshots/task-manager-naive.png` |
+| `/runs/long-1m` | 72.4 MB | 4,096 KB | 67245 | `perf/screenshots/task-manager-after.png` |
+
+Agrees with the automated tab footprint (136 → 76 MB). Two notes:
+- Task Manager's "JavaScript memory" column shows only the page's main-thread heap: the worker's
+  ~31 MB of columns are not in the 4 MB — the same trap as `JSHeapUsedSize` (`docs/experiments.md`
+  §4). The "Memory" column does include the worker.
+- A first pair of screenshots was discarded: the second page had been loaded into the **same**
+  renderer process as the first (same process ID), so it carried the first page's heap (180 MB
+  for the optimized page). Closing the tab was not enough; closing the incognito window was.
+  Those screenshots were also not committed because they showed unrelated personal tabs.
+
 ## What changed between "before" and "after", and what it did
 
 | Change | Effect in the numbers |

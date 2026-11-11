@@ -151,4 +151,9 @@ the previous stage's last commit to its own last commit, so the author's review 
     script reported 113 MB. Fixed (tab = renderer with the most CPU time, others recorded),
     experiment and both measurements re-run: tab memory 136 → 76 MB (was reported as 175 → 113).
     Also added page titles — the screenshot could not tell the naive and the final page apart.
+  - **instructions for the manual screenshots were insufficient**: "close the tab between the two
+    pages" let Chrome load the second page into the same renderer process (same PID 53151), so
+    the optimized page showed 180 MB. Caught from the PIDs in the screenshots; the fix was a fresh
+    incognito window per page and the Task Manager search filter (the first screenshots also
+    contained the author's unrelated tabs and e-mail, so they were not committed).
 - **Verified by me:**
