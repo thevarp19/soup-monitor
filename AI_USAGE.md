@@ -190,7 +190,7 @@ the previous stage's last commit to its own last commit, so the author's review 
   polling and a last-*successful*-update time; a locale-aware number parser and "Go to step"; the
   unit suite under 2 time zones × 3 locales with a canary; a smoothing-gap detector;
   `docs/silent-failures.md`.
-- **Accepted:** ✎ "Ok, начинай этап 5"; review of the stage pending.
+- **Accepted:** ✎ "Ok, начинай этап 5"; after the stage: checked it in the app (below), no change requests.
 - **Changed:** — ✎
 - **Checked by Claude (how):** unit tests first where possible; e2e tests written after the code
   were run against the code without the change (stash) to see them fail; naive `test.fail` tests
@@ -212,7 +212,13 @@ the previous stage's last commit to its own last commit, so the author's review 
   - noticed that Playwright's `reuseExistingServer` would silently test a `vite preview` left
     running from the manual screenshots instead of the current code — fixed (own port, never reuse);
   - again ran a small test (`windowAround`) only after writing its implementation.
-- **Verified by me:**
+- **Verified by me:** ✎ (as reported by the author after the stage) checked in the running app
+  (`pnpm dev`) and saw the described behaviour:
+  - `/runs/live?poll=1000&stale=2500&fail=live@2` — the page turns **Stale** after a few seconds,
+    the failed refresh is shown, the data stays;
+  - `/runs/late-divergence` with EMA 0.999 — the smoothing warning appears;
+  - `/runs/log-hostile` with log scale on — values ≤ 0 shown as ▼ markers with a count;
+  - `/?locale=de-DE` — numbers formatted with a decimal comma.
 
 ## Author's re-run of all tests (2026-11-11, from 15:09 UTC+5, commit de608eb)
 
