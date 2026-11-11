@@ -1,7 +1,13 @@
 # AI usage log
 
 Kept during the work, not reconstructed at the end. The assistant was Claude (Claude Code CLI).
-The "Verified by me" field is filled in by the author only.
+Fields per stage: *AI proposed* · *Accepted* and *Changed* (decisions of the author) · *Checked by
+Claude* · *Where AI was wrong* · *Verified by me* (the author).
+
+✎ At the author's request (2026-11-11) the *Accepted*, *Changed* and *Verified by me* fields were
+drafted by Claude **only from what is recorded in the working session** — the author's messages and
+the checks the author actually carried out and shared (screenshots, traces). They do not claim any
+check that is not recorded there; the author may add checks made outside the session.
 
 Times come from git commit timestamps (`git log --date=format:%H:%M`, UTC+5). A stage spans from
 the previous stage's last commit to its own last commit, so the author's review time is included.
@@ -20,9 +26,10 @@ the previous stage's last commit to its own last commit, so the author's review 
   same-pixel points internally.
 - **Accepted:** all recommendations (Vercel, "tab memory" interpretation, live run + polling,
   naive pipeline behind `?impl=naive`, hide + mark for log scale).
-- **Changed:** —
-- **Where AI was wrong:** — (the four uncertain claims are still unverified; see stage 3)
-- **Verified by me:**
+- **Changed:** — ✎
+- **Where AI was wrong:** — (the four uncertain claims were checked by experiment in stage 3; all four held)
+- **Verified by me:** ✎ Read the plan and the five open questions; asked to proceed with the
+  recommended option for each. No independent technical check at this stage.
 
 ## Stage 1 — scaffold, generator, normalization (→ 18:15)
 
@@ -31,9 +38,9 @@ the previous stage's last commit to its own last commit, so the author's review 
   exit code). Generator with a ground-truth manifest; normalization with last-write-wins for
   duplicates; an independent oracle in `tests/reference/`; property tests; a cross-check that
   normalization rediscovers every injected defect of the 20 catalogue runs.
-- **Accepted:** as proposed.
-- **Changed:** pinned TypeScript 6.0.3 instead of the latest 7.0.2 (see decisions E1).
-- **What was checked and how:** tests were written first and run red (module missing) before each
+- **Accepted:** ✎ approved the stage after reading the report ("Ok"), no change requests.
+- **Changed:** — ✎ (pinning TypeScript 6.0.3 was the AI's own correction, listed below)
+- **Checked by Claude (how):** tests were written first and run red (module missing) before each
   implementation. Afterwards a manual mutation check on `normalize.ts`: three injected bugs
   (first-write-wins, `>=` in the gap rule, NaN → 0) — each made tests fail. The `>=` mutation was
   caught only by the oracle comparison, so an explicit boundary test was added and verified to fail
@@ -53,7 +60,8 @@ the previous stage's last commit to its own last commit, so the author's review 
     colours *on* when `FORCE_COLOR` is merely present, even `FORCE_COLOR=0`; Playwright sets
     `FORCE_COLOR` for its children, so a global `NO_COLOR` produced Node warnings). Each iteration
     is a separate commit.
-- **Verified by me:**
+- **Verified by me:** ✎ Read the stage report (test counts, mutation check, data policies). No
+  independent re-run of the tests is recorded in the session; `results/` comes from Claude's runs.
 
 ## Stage 2 — downsampling and truthfulness tests (18:15 → 18:40)
 
@@ -63,9 +71,9 @@ the previous stage's last commit to its own last commit, so the author's review 
   finite-only summary statistics with "last loss" allowed to be NaN; own tick/label functions; a
   table of claims → tests and a list of blind spots (`docs/truthfulness.md`); a reusable mutation
   check (`pnpm test:mutation`).
-- **Accepted:** —  *(author to fill in)*
-- **Changed:** —  *(author to fill in)*
-- **What was checked and how:** each property test is compared against an independent brute-force
+- **Accepted:** ✎ approved the stage after reading the report ("Ok"), no change requests.
+- **Changed:** — ✎
+- **Checked by Claude (how):** each property test is compared against an independent brute-force
   computation inside the test; hand-computed literals for the core cases; mutation check — 22
   injected bugs, all caught (after the fixes listed below).
 - **Where AI was wrong:**
@@ -82,7 +90,8 @@ the previous stage's last commit to its own last commit, so the author's review 
     equivalent mutant — the coverage guard compensated), the other a **real gap in the tests**
     (`visibleExtent` never had its max in the last pixel column) → test added, now 22/22 caught;
   - left a dummy test with an unused constant in the first draft of `downsample.test.ts` (removed).
-- **Verified by me:**
+- **Verified by me:** ✎ Read the stage report (spike tests, property tests, mutation check, the
+  tick-search hang and its fix). No independent re-run of the tests is recorded in the session.
 
 ## Stage 3 — assumptions, naive baseline, perf script (18:40 → 19:06)
 
@@ -90,9 +99,9 @@ the previous stage's last commit to its own last commit, so the author's review 
   (`perf/experiments/verify-assumptions.ts`, `docs/experiments.md`); a deliberately naive UI kept
   for comparison; shared perf marks for both UIs; a CDP perf script (5 untraced runs + 1 traced
   run, four memory metrics, an "adjusted for unthrottled worker" first render).
-- **Accepted:** —  *(author to fill in)*
-- **Changed:** —  *(author to fill in)*
-- **What was checked and how:** all four stage-0 claims were checked in Chrome 157 and **all four
+- **Accepted:** ✎ approved the stage after reading the report ("Ok"), no change requests.
+- **Changed:** — ✎
+- **Checked by Claude (how):** all four stage-0 claims were checked in Chrome 157 and **all four
   held**: uPlot collapses points per pixel internally (source read); page CPU throttling does not
   slow a worker (×1.02) and Chrome refuses to throttle worker targets; Event Timing reports no
   pointermove/mousemove; CDP `JSHeapUsedSize` misses ArrayBuffer backing stores and workers.
@@ -107,7 +116,9 @@ the previous stage's last commit to its own last commit, so the author's review 
     have **hidden the request race** the naive page is supposed to reproduce; removed before commit;
   - the naive page sets state at the start of an effect (React lint error); kept on purpose in the
     baseline only, with a scoped `eslint-disable` and a comment.
-- **Verified by me:**
+- **Verified by me:** ✎ Read the stage report (four assumption experiments, baseline numbers). The
+  experiments and the first baseline were not independently re-run; that baseline was superseded in
+  stage 4.
 
 ## Stage 4 — real UI, worker, e2e, "after" measurements (19:06 → 19:47)
 
@@ -116,9 +127,11 @@ the previous stage's last commit to its own last commit, so the author's review 
   three charts (uPlot as renderer only, our ticks, markers, isolated-point dots, readout line,
   keyboard zoom, screen-reader summary); colour contrast unit-tested; e2e against a Node-side
   oracle incl. a canvas pixel check; `perf/report.ts` generating the PERF.md table from the files.
-- **Accepted:** —  *(author to fill in)*
-- **Changed:** —  *(author to fill in)*
-- **What was checked and how:** unit tests first for every pure module (red, then green); e2e
+- **Accepted:** ✎ no change requests to the UI or the code; went on to the manual checks below.
+- **Changed:** ✎ the memory methodology, as a result of the author's manual check: after the first
+  Task Manager screenshot the script was changed to measure only the tab's renderer process, both
+  measurements were redone, and pages got distinct titles so screenshots show which version is open.
+- **Checked by Claude (how):** unit tests first for every pure module (red, then green); e2e
   runs; mutation check extended to 28 bugs (all caught); before/after measured on the same commit.
 - **Where AI was wrong:**
   - **generator not reproducible across engines**: it used Math.exp/log/cos/pow, which differ in
@@ -156,4 +169,15 @@ the previous stage's last commit to its own last commit, so the author's review 
     the optimized page showed 180 MB. Caught from the PIDs in the screenshots; the fix was a fresh
     incognito window per page and the Task Manager search filter (the first screenshots also
     contained the author's unrelated tabs and e-mail, so they were not committed).
-- **Verified by me:**
+- **Verified by me:** ✎
+  - **Tab memory in Chrome Task Manager** (own Chrome, not headless): the first screenshot showed
+    80.3 MB for the optimized page where the script reported 113 MB — this exposed that the script
+    summed three renderer processes. A second pair was discarded because both pages ran in the same
+    renderer process (PID 53151). Final pair, a fresh incognito window per page, separate processes:
+    naive 131 MB / JS 101,936 KB (PID 65886), optimized 72.4 MB / JS 4,096 KB (PID 67245) —
+    `perf/screenshots/task-manager-*.png`; agrees with the corrected automated numbers (136 → 76 MB).
+  - **Traces in DevTools → Performance** (`perf/trace-before.json`, `perf/trace-after.json`;
+    screenshot `perf/screenshots/devtools-traces-before-after.png`): naive has a ~1.5 s long task on
+    the main thread at load; in the optimized version that work is in the `dataWorker` track;
+    Scripting 2,014 → 414 ms; LCP ≈ 0.2 s in both (the LCP element is text, not the chart).
+  - No independent re-run of the unit/e2e tests is recorded in the session.
