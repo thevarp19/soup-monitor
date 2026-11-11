@@ -1,6 +1,6 @@
 # command:  node scripts/mutation-check.mjs
-# date:     2026-11-11T10:10:21.195Z
-# commit:   de608eb
+# date:     2026-11-11T10:29:04.124Z
+# commit:   bbdcee1
 # node:     v24.8.0
 # platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
 CAUGHT (4 failing tests)         normalize.ts: duplicates: first write wins instead of last
@@ -29,9 +29,16 @@ CAUGHT (2 failing tests)         src/ui/listModel.ts: list sort: NaN treated lik
 CAUGHT (3 failing tests)         src/hooks/useRequest.ts: race: a late response may overwrite the current run
 CAUGHT (1 failing tests)         src/hooks/useRequest.ts: a new key shows the previous key's data while loading
 CAUGHT (2 failing tests)         src/ui/tooltip.ts: readout reads only one column under the cursor
-CAUGHT (2 failing tests)         src/ui/format.ts: NaN formatted as 0
-CAUGHT (4 failing tests)         src/ui/format.ts: small lr rounded to fixed decimals
+CAUGHT (5 failing tests)         src/ui/format.ts: NaN formatted as 0
+CAUGHT (7 failing tests)         src/ui/format.ts: small lr rounded to fixed decimals
+CAUGHT (1 failing tests)         src/ui/parse.ts: parser: single separator always grouping (ignores the locale)
+CAUGHT (11 failing tests)        src/ui/parse.ts: parser: behaves like parseFloat
+CAUGHT (1 failing tests)         src/ui/time.ts: stale measured from the last attempt, not the last success (>= at the threshold)
+CAUGHT (8 failing tests)         src/ui/time.ts: time printed without its zone
+CAUGHT (1 failing tests)         src/hooks/useRequest.ts: a failed refresh blanks the data
+CAUGHT (1 failing tests)         divergence.ts: smoothing gap compares with the raw point, not the recent mean
+CAUGHT (2 failing tests)         divergence.ts: smoothing gap reports the wrong direction
 
-28/28 mutations caught.
+35/35 mutations caught.
 
 # exit code: 0

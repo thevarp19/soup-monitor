@@ -1,0 +1,15 @@
+# command:  node scripts/test-intl.mjs
+# date:     2026-11-11T10:28:31.358Z
+# commit:   bbdcee1
+# node:     v24.8.0
+# platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
+PASS  TZ=Asia/Almaty          LANG=ru_RU.UTF-8  → 497 passed (497) · canary: locale and time zone took effect
+PASS  TZ=Asia/Almaty          LANG=de_DE.UTF-8  → 497 passed (497) · canary: locale and time zone took effect
+PASS  TZ=Asia/Almaty          LANG=en_US.UTF-8  → 497 passed (497) · canary: locale and time zone took effect
+PASS  TZ=America/Los_Angeles  LANG=ru_RU.UTF-8  → 497 passed (497) · canary: locale and time zone took effect
+PASS  TZ=America/Los_Angeles  LANG=de_DE.UTF-8  → 497 passed (497) · canary: locale and time zone took effect
+PASS  TZ=America/Los_Angeles  LANG=en_US.UTF-8  → 497 passed (497) · canary: locale and time zone took effect
+
+All 6 combinations passed.
+
+# exit code: 0
