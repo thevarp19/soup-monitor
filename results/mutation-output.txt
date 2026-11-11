@@ -1,6 +1,6 @@
 # command:  node scripts/mutation-check.mjs
-# date:     2026-11-10T14:46:32.033Z
-# commit:   05028ad
+# date:     2026-11-11T10:10:21.195Z
+# commit:   de608eb
 # node:     v24.8.0
 # platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
 CAUGHT (4 failing tests)         normalize.ts: duplicates: first write wins instead of last
@@ -9,7 +9,7 @@ CAUGHT (8 failing tests)         normalize.ts: NaN values gathered as 0
 CAUGHT (6 failing tests)         normalize.ts: gap median computed on raw spacing incl. duplicates
 CAUGHT (3 failing tests)         downsample.ts: M4 → min/max only (first/last dropped)
 CAUGHT (47 failing tests)        downsample.ts: every 2nd point only (naive decimation)
-CAUGHT (12 failing tests)        downsample.ts: NaN drawn as 0
+CAUGHT (11 failing tests)        downsample.ts: NaN drawn as 0
 CAUGHT (5 failing tests)         downsample.ts: NaN skipped without breaking the line
 CAUGHT (2 failing tests)         downsample.ts: gaps do not break the line
 CAUGHT (4 failing tests)         downsample.ts: pixel column with round() instead of floor()

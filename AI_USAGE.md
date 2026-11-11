@@ -60,8 +60,8 @@ the previous stage's last commit to its own last commit, so the author's review 
     colours *on* when `FORCE_COLOR` is merely present, even `FORCE_COLOR=0`; Playwright sets
     `FORCE_COLOR` for its children, so a global `NO_COLOR` produced Node warnings). Each iteration
     is a separate commit.
-- **Verified by me:** ✎ Read the stage report (test counts, mutation check, data policies). No
-  independent re-run of the tests is recorded in the session; `results/` comes from Claude's runs.
+- **Verified by me:** ✎ Read the stage report (test counts, mutation check, data policies). All
+  tests of this stage were later re-run by the author — see "Author's re-run" at the end.
 
 ## Stage 2 — downsampling and truthfulness tests (18:15 → 18:40)
 
@@ -91,7 +91,8 @@ the previous stage's last commit to its own last commit, so the author's review 
     (`visibleExtent` never had its max in the last pixel column) → test added, now 22/22 caught;
   - left a dummy test with an unused constant in the first draft of `downsample.test.ts` (removed).
 - **Verified by me:** ✎ Read the stage report (spike tests, property tests, mutation check, the
-  tick-search hang and its fix). No independent re-run of the tests is recorded in the session.
+  tick-search hang and its fix). Tests and mutation check later re-run by the author — see
+  "Author's re-run" at the end.
 
 ## Stage 3 — assumptions, naive baseline, perf script (18:40 → 19:06)
 
@@ -180,4 +181,18 @@ the previous stage's last commit to its own last commit, so the author's review 
     screenshot `perf/screenshots/devtools-traces-before-after.png`): naive has a ~1.5 s long task on
     the main thread at load; in the optimized version that work is in the `dataWorker` track;
     Scripting 2,014 → 414 ms; LCP ≈ 0.2 s in both (the LCP element is text, not the chart).
-  - No independent re-run of the unit/e2e tests is recorded in the session.
+  - Unit, e2e and mutation tests re-run by the author — see "Author's re-run" below.
+
+## Author's re-run of all tests (2026-11-11, from 15:09 UTC+5, commit de608eb)
+
+Run by the author in their own terminal on a clean working tree; output shared in the session.
+
+| Command | Result |
+|---|---|
+| `pnpm test` | 17 test files, **434 passed** (started 15:09:32, 1.76 s) |
+| `pnpm test:e2e` | **28 passed** (13.2 s, Chromium) |
+| `pnpm test:mutation` | **28/28 mutations caught**; this run wrote `results/mutation-output.txt` (header: 2026-11-11T10:10:21Z, commit de608eb, exit code 0) |
+
+Per-mutation failure counts differ slightly from the stage-2 file (e.g. "every 2nd point only":
+41 → 47 failing tests) because tests were added in stage 4; every mutation is still caught.
+
