@@ -1,6 +1,6 @@
 # command:  node scripts/mutation-check.mjs
-# date:     2026-11-11T10:29:04.124Z
-# commit:   bbdcee1
+# date:     2026-11-11T11:33:29.370Z
+# commit:   c09278d
 # node:     v24.8.0
 # platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
 CAUGHT (4 failing tests)         normalize.ts: duplicates: first write wins instead of last

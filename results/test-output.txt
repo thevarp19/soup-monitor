@@ -1,12 +1,34 @@
 # command:  vitest run --reporter=verbose
-# date:     2026-11-11T10:28:28.663Z
-# commit:   bbdcee1
+# date:     2026-11-11T11:32:56.534Z
+# commit:   c09278d
 # node:     v24.8.0
 # platform: darwin arm64 · Apple M1 Pro · TZ=(unset)
 
  RUN  v5.1.0 /Users/yerlanjumabayev/dev/soup-monitor
 
- ✓ src/ui/format.test.ts > formatValue (cards, readouts) > 2.3147 → 2.315 15ms
+ ✓ src/ui/parse.test.ts > the silent failure this parser exists for > parseFloat("1,5") silently returns 1, Number("1,5") returns NaN 1ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — "1,5" and "1.5" both mean one and a half, in every locale > en-US 15ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — "1,5" and "1.5" both mean one and a half, in every locale > de-DE 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — "1,5" and "1.5" both mean one and a half, in every locale > ru-RU 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 500 000 (ru-RU) → 500000 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 500 000 (ru-RU) → 500000 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 500 000 (en-US) → 500000 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1,234,567 (en-US) → 1234567 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1.234.567 (de-DE) → 1234567 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1,234.5 (en-US) → 1234.5 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1.234,5 (de-DE) → 1234.5 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — grouping > a single separator followed by exactly 3 digits follows the locale: "1,500" is 1500 in en-US, 1.5 in de-DE 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "   " 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "abc" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "1,2,3" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "12,34,567" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "1.2.3,4" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "--1" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "1e" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "Infinity" 0ms
+ ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "NaN" 0ms
+ ✓ src/ui/format.test.ts > formatValue (cards, readouts) > 2.3147 → 2.315 14ms
  ✓ src/ui/format.test.ts > formatValue (cards, readouts) > 62.0915 → 62.09 0ms
  ✓ src/ui/format.test.ts > formatValue (cards, readouts) > 10.8 → 10.8 0ms
  ✓ src/ui/format.test.ts > formatValue (cards, readouts) > 1234.5 → 1,235 0ms
@@ -28,9 +50,9 @@
  ✓ src/ui/format.test.ts > formatting in de-DE > non-finite values are named the same way in every locale 0ms
  ✓ src/ui/format.test.ts > formatting in ru-RU > values and steps 0ms
  ✓ src/ui/format.test.ts > formatting in ru-RU > non-finite values are named the same way in every locale 0ms
- ✓ src/ui/time.test.ts > formatTime — the time zone is always named > en-US in Asia/Almaty 18ms
+ ✓ src/ui/time.test.ts > formatTime — the time zone is always named > en-US in Asia/Almaty 22ms
  ✓ src/ui/time.test.ts > formatTime — the time zone is always named > en-US in America/Los_Angeles 0ms
- ✓ src/ui/time.test.ts > formatTime — the time zone is always named > de-DE in Asia/Almaty 0ms
+ ✓ src/ui/time.test.ts > formatTime — the time zone is always named > de-DE in Asia/Almaty 1ms
  ✓ src/ui/time.test.ts > formatTime — the time zone is always named > ru-RU in America/Los_Angeles 0ms
  ✓ src/ui/time.test.ts > formatTime — the time zone is always named > en-US in UTC 0ms
  ✓ src/ui/time.test.ts > formatTime — the time zone is always named > without an explicit zone it uses the runtime zone — and still labels it 0ms
@@ -39,28 +61,6 @@
  ✓ src/ui/time.test.ts > formatAgo — relative age, independent of the time zone > 12000 ms in de-DE 0ms
  ✓ src/ui/time.test.ts > formatAgo — relative age, independent of the time zone > 12000 ms in ru-RU 0ms
  ✓ src/ui/time.test.ts > isStale > true only after the threshold has passed since the last SUCCESSFUL update 0ms
- ✓ src/ui/parse.test.ts > the silent failure this parser exists for > parseFloat("1,5") silently returns 1, Number("1,5") returns NaN 1ms
- ✓ src/ui/parse.test.ts > parseUserNumber — "1,5" and "1.5" both mean one and a half, in every locale > en-US 14ms
- ✓ src/ui/parse.test.ts > parseUserNumber — "1,5" and "1.5" both mean one and a half, in every locale > de-DE 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — "1,5" and "1.5" both mean one and a half, in every locale > ru-RU 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 500 000 (ru-RU) → 500000 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 500 000 (ru-RU) → 500000 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 500 000 (en-US) → 500000 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1,234,567 (en-US) → 1234567 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1.234.567 (de-DE) → 1234567 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1,234.5 (en-US) → 1234.5 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > 1.234,5 (de-DE) → 1234.5 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — grouping > a single separator followed by exactly 3 digits follows the locale: "1,500" is 1500 in en-US, 1.5 in de-DE 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "   " 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "abc" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "1,2,3" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "12,34,567" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "1.2.3,4" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "--1" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "1e" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "Infinity" 0ms
- ✓ src/ui/parse.test.ts > parseUserNumber — rejects instead of guessing > "NaN" 0ms
  ✓ src/core/summary.test.ts > summarize — hand-checked > reports the last logged loss even when it is NaN, and the last finite one separately 1ms
  ✓ src/core/summary.test.ts > summarize — hand-checked > min loss over finite values, earliest step on ties 0ms
  ✓ src/core/summary.test.ts > summarize — hand-checked > current lr = last finite lr 0ms
@@ -68,33 +68,44 @@
  ✓ src/core/summary.test.ts > summarize — hand-checked > counts non-finite values over all metrics 0ms
  ✓ src/core/summary.test.ts > summarize — hand-checked > an empty run has no values, not zeros 0ms
  ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > healthy-cosine 17ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > healthy-step 26ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > healthy-constant 9ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > diverging 8ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > late-divergence 7ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > plateau 12ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > grad-explosion 6ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > nan-single 10ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > nan-series 16ms
- ↓ src/ui/intl-env.test.ts > intl environment canary > the default Intl locale is the one the matrix asked for
- ↓ src/ui/intl-env.test.ts > intl environment canary > the default time zone is the one the matrix asked for
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > healthy-step 12ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > healthy-constant 5ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > diverging 6ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > late-divergence 5ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > plateau 4ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > grad-explosion 8ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > nan-single 6ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > nan-series 6ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > inf-values 9ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > duplicate-steps 8ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > unsorted-steps 6ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > gaps 6ms
  ✓ src/ui/tooltip.test.ts > readoutAt — what the tooltip shows at a step > one raw point in the pixel: the exact point 2ms
  ✓ src/ui/tooltip.test.ts > readoutAt — what the tooltip shows at a step > many raw points in the pixel: min and max with their steps, and how many points 0ms
  ✓ src/ui/tooltip.test.ts > readoutAt — what the tooltip shows at a step > a single NaN in the pixel is reported as NaN, not skipped 0ms
  ✓ src/ui/tooltip.test.ts > readoutAt — what the tooltip shows at a step > an empty pixel (zoomed in between logged steps): the nearest logged step 0ms
  ✓ src/ui/tooltip.test.ts > readoutAt — what the tooltip shows at a step > nothing at all in the visible range → null 0ms
  ✓ src/ui/tooltip.test.ts > readoutBetween — the cursor covers a whole CSS pixel, i.e. several device-pixel columns > merges the columns: max is the spike, with its step and the total count 0ms
- ✓ src/ui/tooltip.test.ts > readoutBetween — the cursor covers a whole CSS pixel, i.e. several device-pixel columns > a column holding only NaN does not wipe out the min/max of its neighbours 0ms
+ ✓ src/ui/tooltip.test.ts > readoutBetween — the cursor covers a whole CSS pixel, i.e. several device-pixel columns > a column holding only NaN does not wipe out the min/max of its neighbours 1ms
  ✓ src/ui/tooltip.test.ts > readoutBetween — the cursor covers a whole CSS pixel, i.e. several device-pixel columns > a single column is the same as readoutAt 0ms
- ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > weight 0 returns the input unchanged 6ms
+ ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > weight 0 returns the input unchanged 2ms
  ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > matches a hand computation: w = 0.5 over [2, 4] → [2, 2.5 / 0.75] 0ms
  ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > a constant series stays constant (no pull towards 0 at the start) 0ms
  ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > NaN stays NaN in the smoothed series — it is not filled or interpolated 0ms
  ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > NaN does not leak into later values: smoothing skips it as if it were not there 0ms
  ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > ±Infinity is skipped the same way and does not poison the rest of the series 0ms
- ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > property: the output is non-finite exactly where the input is 85ms
+ ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > property: the output is non-finite exactly where the input is 20ms
  ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > rejects weights outside [0, 1) 0ms
- ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > the smoothed line still breaks across gaps when downsampled with the same gapStarts 1ms
+ ✓ src/core/ema.test.ts > ema (debiased exponential moving average, TensorBoard-style) > the smoothed line still breaks across gaps when downsampled with the same gapStarts 0ms
+ ✓ src/core/divergence.test.ts > the silent failure: heavy smoothing hides a late divergence > reproduced: at the last step the raw loss is >50% above where EMA 0.999 says it is 1ms
+ ✓ src/core/divergence.test.ts > the silent failure: heavy smoothing hides a late divergence > detected: the gap between EMA 0.999 and the recent raw values exceeds 10%, near the end of the run 2ms
+ ✓ src/core/divergence.test.ts > the silent failure: heavy smoothing hides a late divergence > light smoothing (EMA 0.6) stays within 10% over the same range 0ms
+ ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > a constant series has no gap 0ms
+ ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > a step from 1 to 2: the largest gap is right after the step, with the smoothed line below 0ms
+ ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > noise alone does not trigger it: a flat series alternating ±30% stays well under 10% 0ms
+ ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > only looks inside [from, to] 0ms
+ ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > NaN in the raw series is skipped, not propagated 0ms
+ ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > nothing comparable (all NaN) → null 0ms
  ✓ src/ui/listModel.test.ts > list state in the URL > defaults 1ms
  ✓ src/ui/listModel.test.ts > list state in the URL > round-trips through the query string and omits defaults 0ms
  ✓ src/ui/listModel.test.ts > list state in the URL > ignores unknown sort keys and directions instead of breaking the list 0ms
@@ -105,16 +116,7 @@
  ✓ src/ui/listModel.test.ts > sortRuns — missing values never break the order > is stable for equal keys (ties keep catalogue order) 0ms
  ✓ src/ui/listModel.test.ts > sortRuns — missing values never break the order > sorts names with a locale-aware collator, not by code points 0ms
  ✓ src/ui/listModel.test.ts > sortRuns — missing values never break the order > does not mutate its input 0ms
- ✓ src/core/divergence.test.ts > the silent failure: heavy smoothing hides a late divergence > reproduced: at the last step the raw loss is >50% above where EMA 0.999 says it is 1ms
- ✓ src/core/divergence.test.ts > the silent failure: heavy smoothing hides a late divergence > detected: the gap between EMA 0.999 and the recent raw values exceeds 10%, near the end of the run 1ms
- ✓ src/core/divergence.test.ts > the silent failure: heavy smoothing hides a late divergence > light smoothing (EMA 0.6) stays within 10% over the same range 0ms
- ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > a constant series has no gap 0ms
- ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > a step from 1 to 2: the largest gap is right after the step, with the smoothed line below 0ms
- ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > noise alone does not trigger it: a flat series alternating ±30% stays well under 10% 0ms
- ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > only looks inside [from, to] 0ms
- ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > NaN in the raw series is skipped, not propagated 0ms
- ✓ src/core/divergence.test.ts > smoothingGap — hand-checked > nothing comparable (all NaN) → null 0ms
- ✓ src/core/downsample.test.ts > downsample — M4 per pixel column (hand-checked) > emits every point when there are fewer points than columns 2ms
+ ✓ src/core/downsample.test.ts > downsample — M4 per pixel column (hand-checked) > emits every point when there are fewer points than columns 3ms
  ✓ src/core/downsample.test.ts > downsample — M4 per pixel column (hand-checked) > keeps first, min, max and last of a column, in index order 0ms
  ✓ src/core/downsample.test.ts > downsample — M4 per pixel column (hand-checked) > does this per column: x 0–3 fall in column 0, x 4–7 in column 1 0ms
  ✓ src/core/downsample.test.ts > downsample — M4 per pixel column (hand-checked) > reports how many raw points it summarised and how many it drew 0ms
@@ -127,12 +129,12 @@
  ✓ src/core/downsample.test.ts > downsample — log scale: values ≤ 0 cannot be drawn and are not hidden silently > reproduction: a naive log transform turns 0 into −∞ and a negative into NaN — no error, just a lie 0ms
  ✓ src/core/downsample.test.ts > downsample — log scale: values ≤ 0 cannot be drawn and are not hidden silently > breaks the line at 0 and negatives and reports them as "nonpositive" markers 0ms
  ✓ src/core/downsample.test.ts > downsample — log scale: values ≤ 0 cannot be drawn and are not hidden silently > draws the same values normally on a linear scale 0ms
- ✓ src/core/downsample.test.ts > downsample — visible range > summarises only [x0, x1] and adds one off-screen neighbour per side so the line reaches the edges 0ms
+ ✓ src/core/downsample.test.ts > downsample — visible range > summarises only [x0, x1] and adds one off-screen neighbour per side so the line reaches the edges 1ms
  ✓ src/core/downsample.test.ts > downsample — visible range > a window between two points draws the segment that crosses it, and summarises 0 points 0ms
  ✓ src/core/downsample.test.ts > downsample — visible range > handles an empty series and a single point 0ms
  ✓ src/core/downsample.test.ts > downsample — visible range > on ties, reports the earliest step for min and max (same convention as the summary cards) 0ms
  ✓ src/core/downsample.test.ts > downsample — visible range > exposes per-column statistics with the raw values and their steps (for the tooltip) 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > full range: max of the drawn data equals the spike value 56ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > full range: max of the drawn data equals the spike value 41ms
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/10, centred: max of the drawn data equals the spike value 2ms
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/100, centred: max of the drawn data equals the spike value 0ms
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/1000, centred: max of the drawn data equals the spike value 0ms
@@ -141,8 +143,35 @@
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/10, spike on the right edge: max of the drawn data equals the spike value 2ms
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/1000, spike on the left edge: max of the drawn data equals the spike value 0ms
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/1000, spike on the right edge: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > left half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 31ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > left half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 11ms
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > right half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 9ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > an unrelated 1/10 window: the spike is NOT in the visible data, and max equals the raw max there 3ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/1000 window right next to the spike: the spike is NOT in the visible data, and max equals the raw max there 1ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > full range: max of the drawn data equals the spike value 15ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/10, centred: max of the drawn data equals the spike value 2ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/100, centred: max of the drawn data equals the spike value 1ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000, centred: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > ±10 steps around the spike: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/10, spike on the left edge: max of the drawn data equals the spike value 2ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/10, spike on the right edge: max of the drawn data equals the spike value 2ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000, spike on the left edge: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000, spike on the right edge: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > left half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 12ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > right half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 19ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > an unrelated 1/10 window: the spike is NOT in the visible data, and max equals the raw max there 3ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000 window right next to the spike: the spike is NOT in the visible data, and max equals the raw max there 1ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > full range: max of the drawn data equals the spike value 16ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/10, centred: max of the drawn data equals the spike value 2ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/100, centred: max of the drawn data equals the spike value 1ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/1000, centred: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > ±10 steps around the spike: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/10, spike on the left edge: max of the drawn data equals the spike value 9ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/10, spike on the right edge: max of the drawn data equals the spike value 2ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/1000, spike on the left edge: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/1000, spike on the right edge: max of the drawn data equals the spike value 0ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > left half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 10ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > right half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 20ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > an unrelated 1/10 window: the spike is NOT in the visible data, and max equals the raw max there 8ms
  ✓ src/core/normalize.test.ts > normalize — ordering > sorts rows by step and keeps every row’s values together 2ms
  ✓ src/core/normalize.test.ts > normalize — ordering > reports zero order breaks for sorted input 0ms
  ✓ src/core/normalize.test.ts > normalize — ordering > does not mutate its input 0ms
@@ -161,9 +190,9 @@
  ✓ src/core/normalize.test.ts > normalize — gaps (spacing > 1.5 × median spacing breaks the line) > has no spacing statistics for fewer than two rows 0ms
  ✓ src/core/normalize.test.ts > normalize — edge cases > empty input 0ms
  ✓ src/core/normalize.test.ts > normalize — edge cases > single row 0ms
- ✓ src/core/normalize.test.ts > normalize — properties > matches the oracle on arbitrary input (duplicates, NaN, Inf, invalid steps, any order) 72ms
- ✓ src/core/normalize.test.ts > normalize — properties > always outputs strictly increasing steps 34ms
- ✓ src/core/normalize.test.ts > normalize — properties > gives the same series for any permutation of rows when steps are unique 14ms
+ ✓ src/core/normalize.test.ts > normalize — properties > matches the oracle on arbitrary input (duplicates, NaN, Inf, invalid steps, any order) 67ms
+ ✓ src/core/normalize.test.ts > normalize — properties > always outputs strictly increasing steps 33ms
+ ✓ src/core/normalize.test.ts > normalize — properties > gives the same series for any permutation of rows when steps are unique 18ms
  ✓ src/core/normalize.test.ts > catalogue run healthy-cosine > counts NaN / +Inf / −Inf per metric exactly as injected 0ms
  ✓ src/core/normalize.test.ts > catalogue run healthy-cosine > finds exactly the injected duplicate steps and gaps 0ms
  ✓ src/core/normalize.test.ts > catalogue run healthy-cosine > detects the unsorted log order exactly when it was injected 0ms
@@ -244,67 +273,31 @@
  ✓ src/core/normalize.test.ts > catalogue run live > finds exactly the injected duplicate steps and gaps 0ms
  ✓ src/core/normalize.test.ts > catalogue run live > detects the unsorted log order exactly when it was injected 0ms
  ✓ src/core/normalize.test.ts > catalogue run live > keeps one row per logged step: points minus the removed (gap) rows 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > an unrelated 1/10 window: the spike is NOT in the visible data, and max equals the raw max there 3ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 320 px > 1/1000 window right next to the spike: the spike is NOT in the visible data, and max equals the raw max there 1ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > full range: max of the drawn data equals the spike value 15ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/10, centred: max of the drawn data equals the spike value 2ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/100, centred: max of the drawn data equals the spike value 1ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000, centred: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > ±10 steps around the spike: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/10, spike on the left edge: max of the drawn data equals the spike value 2ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/10, spike on the right edge: max of the drawn data equals the spike value 2ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000, spike on the left edge: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000, spike on the right edge: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > left half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 9ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > right half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 13ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > an unrelated 1/10 window: the spike is NOT in the visible data, and max equals the raw max there 7ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 800 px > 1/1000 window right next to the spike: the spike is NOT in the visible data, and max equals the raw max there 1ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > full range: max of the drawn data equals the spike value 19ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/10, centred: max of the drawn data equals the spike value 3ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/100, centred: max of the drawn data equals the spike value 1ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/1000, centred: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > ±10 steps around the spike: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/10, spike on the left edge: max of the drawn data equals the spike value 2ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/10, spike on the right edge: max of the drawn data equals the spike value 2ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/1000, spike on the left edge: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/1000, spike on the right edge: max of the drawn data equals the spike value 0ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > left half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 12ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > right half (spike excluded): the spike is NOT in the visible data, and max equals the raw max there 9ms
- ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > nice ticks that cover the data: [0.3, 9.7] → 0, 2, …, 10 2ms
+ ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > nice ticks that cover the data: [0.3, 9.7] → 0, 2, …, 10 1ms
  ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > decimal steps without floating-point noise: [0.31, 0.58] → 0.3 … 0.6 0ms
  ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > a constant series (constant lr) gets a non-degenerate range around the value 0ms
  ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > regression: a range straddling 0 with a budget of 2 ticks terminates with −s, 0, s 0ms
  ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > an all-zero series gets [−1, 1] 0ms
- ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > regression: does not hang on subnormal extents (it used to loop forever) 0ms
+ ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > regression: does not hang on subnormal extents (it used to loop forever) 1ms
  ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > refuses non-finite or inverted extents instead of drawing nonsense 0ms
- ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > property: ticks are increasing, cover [min, max], and their labels parse back to the tick values and are unique 337ms
- ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > A → B, B answers first, A answers later: the screen keeps B 20ms
- ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > A → B → A: the second A is a new request; the first A’s late answer is ignored 10ms
- ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > an error of an outdated request does not replace the current state 5ms
- ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > shows the error of the current request, and retry() fetches again 10ms
- ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > records when the data was fetched 2ms
- ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > keepPrevious: while a new key loads, the last data stays visible and dataKey says which key it belongs to 2ms
+ ✓ src/core/scale.test.ts > linearTicks — axis range and tick values > property: ticks are increasing, cover [min, max], and their labels parse back to the tick values and are unique 312ms
+ ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > A → B, B answers first, A answers later: the screen keeps B 12ms
+ ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > A → B → A: the second A is a new request; the first A’s late answer is ignored 6ms
+ ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > an error of an outdated request does not replace the current state 4ms
+ ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > shows the error of the current request, and retry() fetches again 15ms
+ ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > records when the data was fetched 3ms
+ ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > keepPrevious: while a new key loads, the last data stays visible and dataKey says which key it belongs to 4ms
  ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > without keepPrevious a new key never shows the previous key’s data 3ms
- ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > a failed refresh of the same key keeps the last good data, reports the error, and keeps lastSuccessAt 4ms
- ✓ src/ui/Freshness.test.tsx > Freshness — "is this data current?" (fake timers) > shows when the data was last updated, then marks it stale once the threshold passes 40ms
- ✓ src/ui/Freshness.test.tsx > Freshness — "is this data current?" (fake timers) > a failed refresh is shown, and the data is not presented as current 4ms
- ✓ src/ui/Freshness.test.tsx > Freshness — "is this data current?" (fake timers) > a finished (not live) run shows the load time but is never "stale" 2ms
- ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > defaults: random latency 100–1500 ms, no forced failures 1ms
- ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?latency=0 sets a fixed latency for everything 0ms
- ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?latency=id:ms,…,*:ms sets per-run latency with a default 0ms
- ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?fail=id,list forces HTTP 500 for those endpoints 0ms
- ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ignores malformed values instead of throwing 0ms
- ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?fail=live@2 fails from the 2nd request on (the first load succeeds, refreshes fail) 0ms
- ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?poll= and ?stale= (ms) with defaults of 10 s and 30 s 1ms
- ✓ src/worker/store.test.ts > RunStore > lists all catalogue runs with summaries and issue counts 660ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > an unrelated 1/10 window: the spike is NOT in the visible data, and max equals the raw max there 6ms
+ ✓ src/hooks/useRequest.test.tsx > useRequest — latest request wins > a failed refresh of the same key keeps the last good data, reports the error, and keeps lastSuccessAt 3ms
  ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > width 1920 px > 1/1000 window right next to the spike: the spike is NOT in the visible data, and max equals the raw max there 2ms
- ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > full range at 1920 px: draws a few thousand points out of 1,000,000 16ms
- ✓ src/core/downsample.test.ts > downsample — properties > per column, min and max of the drawn points equal min and max of the raw drawable values 41ms
- ✓ src/core/downsample.test.ts > downsample — properties > every drawn point is a real raw point (no invented values, NaN never becomes a number) 52ms
- ✓ src/core/prng.test.ts > mulberry32 > produces the identical sequence for the same seed (generator is reproducible) 8ms
- ✓ src/core/prng.test.ts > mulberry32 > produces a different sequence for a different seed 0ms
- ✓ src/core/prng.test.ts > mulberry32 > stays in [0, 1) and is roughly uniform 804ms
+ ✓ src/core/downsample.test.ts > long-1m: the spike survives every zoom level and width > full range at 1920 px: draws a few thousand points out of 1,000,000 29ms
+ ✓ src/core/downsample.test.ts > downsample — properties > per column, min and max of the drawn points equal min and max of the raw drawable values 55ms
+ ✓ src/core/downsample.test.ts > downsample — properties > every drawn point is a real raw point (no invented values, NaN never becomes a number) 41ms
+ ✓ src/ui/Freshness.test.tsx > Freshness — "is this data current?" (fake timers) > shows when the data was last updated, then marks it stale once the threshold passes 42ms
+ ✓ src/ui/Freshness.test.tsx > Freshness — "is this data current?" (fake timers) > a failed refresh is shown, and the data is not presented as current 2ms
+ ✓ src/ui/Freshness.test.tsx > Freshness — "is this data current?" (fake timers) > a finished (not live) run shows the load time but is never "stale" 1ms
+ ↓ src/ui/intl-env.test.ts > intl environment canary > the default Intl locale is the one the matrix asked for
+ ↓ src/ui/intl-env.test.ts > intl environment canary > the default time zone is the one the matrix asked for
  ✓ src/core/scale.test.ts > formatTick — enough digits to tell ticks apart, no more > 0.4 with step 0.2 → 0.4 0ms
  ✓ src/core/scale.test.ts > formatTick — enough digits to tell ticks apart, no more > 10 with step 2 → 10 0ms
  ✓ src/core/scale.test.ts > formatTick — enough digits to tell ticks apart, no more > 0.025 with step 0.025 → 0.025 0ms
@@ -316,7 +309,8 @@
  ✓ src/core/scale.test.ts > formatTick — enough digits to tell ticks apart, no more > 0 with step 0.5 → 0 0ms
  ✓ src/core/scale.test.ts > logTicks > decades covering the data: [3e-5, 3e-4] → 1e-5, 1e-4, 1e-3 0ms
  ✓ src/core/scale.test.ts > logTicks > refuses a non-positive minimum — the caller must handle values ≤ 0 explicitly 0ms
- ✓ src/core/scale.test.ts > logTicks > property: positive, increasing, covering, unique labels that parse back 147ms
+ ✓ src/core/scale.test.ts > logTicks > property: positive, increasing, covering, unique labels that parse back 110ms
+ ✓ src/worker/store.test.ts > RunStore > lists all catalogue runs with summaries and issue counts 530ms
  ✓ src/ui/zoom.test.ts > zoomBy > zooms in by 2× around the centre 1ms
  ✓ src/ui/zoom.test.ts > zoomBy > zooms out and clamps to the full range 0ms
  ✓ src/ui/zoom.test.ts > zoomBy > keeps the span when clamping at an edge 0ms
@@ -328,38 +322,39 @@
  ✓ src/ui/zoom.test.ts > windowAround (Go to step) > a window of 1/50 of the run centred on the step 0ms
  ✓ src/ui/zoom.test.ts > windowAround (Go to step) > clamped at the edges, keeping its width 0ms
  ✓ src/ui/zoom.test.ts > windowAround (Go to step) > never narrower than the minimum span 0ms
- ✓ src/ui/colors.test.ts > contrastRatio (WCAG 2.x) > black on white is 21:1, white on white 1:1 3ms
- ✓ src/ui/colors.test.ts > palette contrast > series loss line ≥ 3:1 on the chart background 0ms
- ✓ src/ui/colors.test.ts > palette contrast > series lr line ≥ 3:1 on the chart background 1ms
- ✓ src/ui/colors.test.ts > palette contrast > series grad_norm line ≥ 3:1 on the chart background 0ms
- ✓ src/ui/colors.test.ts > palette contrast > series loss raw line, faded under EMA, still ≥ 3:1 0ms
- ✓ src/ui/colors.test.ts > palette contrast > series lr raw line, faded under EMA, still ≥ 3:1 0ms
- ✓ src/ui/colors.test.ts > palette contrast > series grad_norm raw line, faded under EMA, still ≥ 3:1 0ms
- ✓ src/ui/colors.test.ts > palette contrast > marker nan ≥ 3:1 0ms
- ✓ src/ui/colors.test.ts > palette contrast > marker inf ≥ 3:1 0ms
- ✓ src/ui/colors.test.ts > palette contrast > marker nonpositive ≥ 3:1 0ms
- ✓ src/ui/colors.test.ts > palette contrast > axis labels ≥ 4.5:1 0ms
- ✓ src/worker/store.test.ts > RunStore > load(): summary and quality equal the core functions on the generated data 10ms
- ✓ src/worker/store.test.ts > RunStore > load(): unknown run → NotFoundError 0ms
- ✓ src/worker/store.test.ts > RunStore > view(): the same result as downsampling the normalized series directly; breaks encoded as NaN 43ms
- ✓ src/worker/store.test.ts > RunStore > view() with EMA: smoothing computed on the RAW series, then downsampled 8ms
- ✓ src/worker/store.test.ts > RunStore > view() before load() → NotFoundError (the client must load first) 0ms
- ✓ src/worker/store.test.ts > RunStore > live run: reveals initialPoints at start, then pointsPerSecond more as time passes 12ms
- ✓ src/worker/store.test.ts > RunStore > a finished run is not live and does not change over time 24ms
- ✓ src/worker/store.test.ts > RunStore > view() with EMA reports the smoothing gap of the visible range (late divergence, EMA 0.999) 4ms
  ✓ src/core/scale.test.ts > xTicks — step axis > integer ticks inside the visible range 0ms
  ✓ src/core/scale.test.ts > xTicks — step axis > regression: a narrow window with no multiple of the nice step still gets a tick 0ms
- ✓ src/core/scale.test.ts > xTicks — step axis > never produces fractional steps, even for a tiny window 5ms
+ ✓ src/core/scale.test.ts > xTicks — step axis > never produces fractional steps, even for a tiny window 0ms
  ✓ src/core/scale.test.ts > xTicks — step axis > labels with grouping, parsing back exactly 0ms
- ✓ src/core/scale.test.ts > xTicks — step axis > property: ticks are integers within [x0, x1], increasing, at most maxTicks 15ms
- ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > full range 30ms
- ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > 1/100 around the spike 8ms
- ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > 1/1000 with the spike in the last column 2ms
- ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > 1/1000 next to the spike 5ms
- ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > first 2000 steps (warmup) 3ms
+ ✓ src/core/scale.test.ts > xTicks — step axis > property: ticks are integers within [x0, x1], increasing, at most maxTicks 5ms
+ ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > full range 40ms
+ ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > 1/100 around the spike 3ms
+ ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > 1/1000 with the spike in the last column 1ms
+ ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > 1/1000 next to the spike 2ms
+ ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > first 2000 steps (warmup) 2ms
  ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > visibleExtent takes min and max from every column, including the first and the last 0ms
  ✓ src/core/scale.test.ts > long-1m: y-axis range covers the raw extent of every zoom window > visibleExtent is null when nothing drawable is visible (the chart must say "no data", not draw an axis) 0ms
- ✓ src/router.test.ts > matchRoute > / 1ms
+ ✓ src/core/downsample.test.ts > downsample — properties > output x is strictly increasing 40ms
+ ✓ src/core/downsample.test.ts > downsample — properties > no line segment crosses a NaN/Inf, a value ≤ 0 on log scale, or a gap 18ms
+ ✓ src/core/downsample.test.ts > downsample — properties > markers account for every non-drawable value in the visible range, by kind 24ms
+ ✓ src/core/downsample.test.ts > downsample — properties > draws at most 4 points per column (+2 edge neighbours) when there are no breaks 13ms
+ ✓ src/core/downsample.test.ts > downsample — properties > per-column tooltip statistics match brute force 53ms
+ ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > defaults: random latency 100–1500 ms, no forced failures 1ms
+ ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?latency=0 sets a fixed latency for everything 0ms
+ ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?latency=id:ms,…,*:ms sets per-run latency with a default 0ms
+ ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?fail=id,list forces HTTP 500 for those endpoints 0ms
+ ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ignores malformed values instead of throwing 0ms
+ ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?fail=live@2 fails from the 2nd request on (the first load succeeds, refreshes fail) 0ms
+ ✓ src/api/options.test.ts > parseApiOptions — demo/test switches for the mock API > ?poll= and ?stale= (ms) with defaults of 10 s and 30 s 1ms
+ ✓ src/worker/store.test.ts > RunStore > load(): summary and quality equal the core functions on the generated data 11ms
+ ✓ src/worker/store.test.ts > RunStore > load(): unknown run → NotFoundError 0ms
+ ✓ src/worker/store.test.ts > RunStore > view(): the same result as downsampling the normalized series directly; breaks encoded as NaN 24ms
+ ✓ src/worker/store.test.ts > RunStore > view() with EMA: smoothing computed on the RAW series, then downsampled 6ms
+ ✓ src/worker/store.test.ts > RunStore > view() before load() → NotFoundError (the client must load first) 0ms
+ ✓ src/worker/store.test.ts > RunStore > live run: reveals initialPoints at start, then pointsPerSecond more as time passes 14ms
+ ✓ src/worker/store.test.ts > RunStore > a finished run is not live and does not change over time 4ms
+ ✓ src/worker/store.test.ts > RunStore > view() with EMA reports the smoothing gap of the visible range (late divergence, EMA 0.999) 5ms
+ ✓ src/router.test.ts > matchRoute > / 3ms
  ✓ src/router.test.ts > matchRoute >  0ms
  ✓ src/router.test.ts > matchRoute > /runs/long-1m 0ms
  ✓ src/router.test.ts > matchRoute > /runs/long-1m/ 0ms
@@ -368,35 +363,44 @@
  ✓ src/router.test.ts > matchRoute > /runs/a/b 0ms
  ✓ src/router.test.ts > matchRoute > /nope 0ms
  ✓ src/router.test.ts > matchRoute > treats a malformed escape as not found instead of throwing 0ms
- ✓ src/core/downsample.test.ts > downsample — properties > output x is strictly increasing 34ms
- ✓ src/core/downsample.test.ts > downsample — properties > no line segment crosses a NaN/Inf, a value ≤ 0 on log scale, or a gap 29ms
- ✓ src/core/downsample.test.ts > downsample — properties > markers account for every non-drawable value in the visible range, by kind 18ms
- ✓ src/core/downsample.test.ts > downsample — properties > draws at most 4 points per column (+2 edge neighbours) when there are no breaks 15ms
- ✓ src/core/downsample.test.ts > downsample — properties > per-column tooltip statistics match brute force 53ms
- ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > duplicate-steps: drawn points = oracle-normalized finite points 16ms
- ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > unsorted-steps: drawn points = oracle-normalized finite points 10ms
- ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > kitchen-sink: drawn points = oracle-normalized finite points 14ms
- ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > shuffling rows with unique steps does not change what is drawn 11ms
+ ✓ src/core/prng.test.ts > mulberry32 > produces the identical sequence for the same seed (generator is reproducible) 9ms
+ ✓ src/core/prng.test.ts > mulberry32 > produces a different sequence for a different seed 1ms
+ ✓ src/core/prng.test.ts > mulberry32 > stays in [0, 1) and is roughly uniform 633ms
+ ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > duplicate-steps: drawn points = oracle-normalized finite points 30ms
+ ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > unsorted-steps: drawn points = oracle-normalized finite points 14ms
+ ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > kitchen-sink: drawn points = oracle-normalized finite points 15ms
+ ✓ src/core/downsample.test.ts > duplicates and unsorted steps do not distort the drawn line > shuffling rows with unique steps does not change what is drawn 15ms
+ ✓ src/ui/colors.test.ts > contrastRatio (WCAG 2.x) > black on white is 21:1, white on white 1:1 1ms
+ ✓ src/ui/colors.test.ts > palette contrast > series loss line ≥ 3:1 on the chart background 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > series lr line ≥ 3:1 on the chart background 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > series grad_norm line ≥ 3:1 on the chart background 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > series loss raw line, faded under EMA, still ≥ 3:1 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > series lr raw line, faded under EMA, still ≥ 3:1 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > series grad_norm raw line, faded under EMA, still ≥ 3:1 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > marker nan ≥ 3:1 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > marker inf ≥ 3:1 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > marker nonpositive ≥ 3:1 0ms
+ ✓ src/ui/colors.test.ts > palette contrast > axis labels ≥ 4.5:1 0ms
  ✓ src/ui/describe.test.ts > describeChart — text alternative for screen readers > states the visible range, the extremes with their steps, and non-finite counts 1ms
  ✓ src/ui/describe.test.ts > describeChart — text alternative for screen readers > says plainly when nothing can be drawn 0ms
  ✓ src/ui/describe.test.ts > densityLabel — the chart says it is downsampled > "Showing N of M points" when points were merged 0ms
  ✓ src/ui/describe.test.ts > densityLabel — the chart says it is downsampled > all points when nothing was merged 0ms
  ✓ src/ui/describe.test.ts > densityLabel — the chart says it is downsampled > points that cannot be drawn are not presented as "merged away" 0ms
- ✓ src/core/generate.test.ts > generateRun — determinism > returns bit-identical columns for the same spec (including NaN positions) 2ms
+ ✓ src/core/generate.test.ts > generateRun — determinism > returns bit-identical columns for the same spec (including NaN positions) 1ms
  ✓ src/core/generate.test.ts > generateRun — determinism > changes the values when the seed changes 0ms
- ✓ src/core/generate.test.ts > generateRun — determinism > does not perturb other values when a defect is added (defects use their own randomness) 4ms
- ✓ src/core/generate.test.ts > generateRun — clean series > logs steps 0, stepEvery, 2·stepEvery, … in order 2ms
+ ✓ src/core/generate.test.ts > generateRun — determinism > does not perturb other values when a defect is added (defects use their own randomness) 1ms
+ ✓ src/core/generate.test.ts > generateRun — clean series > logs steps 0, stepEvery, 2·stepEvery, … in order 1ms
  ✓ src/core/generate.test.ts > generateRun — clean series > produces only finite, positive loss and grad_norm 2ms
  ✓ src/core/generate.test.ts > generateRun — clean series > starts near ln(50k) ≈ 10.8 and converges downwards 0ms
  ✓ src/core/generate.test.ts > generateRun — clean series > reports no injected defects 0ms
  ✓ src/core/generate.test.ts > generateRun — clean series > handles an empty run and a single-point run 0ms
- ✓ src/core/generate.test.ts > generateRun — bit-exact golden values > healthy-cosine: first values of loss, lr, grad_norm 4ms
- ✓ src/core/generate.test.ts > generateRun — lr schedules > warmup-cosine: 0 at step 0, linear to peak, cosine down to minLr at the last step 0ms
+ ✓ src/core/generate.test.ts > generateRun — bit-exact golden values > healthy-cosine: first values of loss, lr, grad_norm 2ms
+ ✓ src/core/generate.test.ts > generateRun — lr schedules > warmup-cosine: 0 at step 0, linear to peak, cosine down to minLr at the last step 1ms
  ✓ src/core/generate.test.ts > generateRun — lr schedules > step-decay: multiplies by gamma at each boundary 0ms
  ✓ src/core/generate.test.ts > generateRun — lr schedules > constant 0ms
  ✓ src/core/generate.test.ts > generateRun — loss shapes > diverge multiplies the clean curve by (1 + rate·(t − from))² after `from` 0ms
  ✓ src/core/generate.test.ts > generateRun — loss shapes > plateau stops the downward trend after `from` 0ms
- ✓ src/core/generate.test.ts > generateRun — loss shapes > explode: grad_norm hits +Infinity at infAt, then loss and grad_norm are NaN to the end 2ms
+ ✓ src/core/generate.test.ts > generateRun — loss shapes > explode: grad_norm hits +Infinity at infAt, then loss and grad_norm are NaN to the end 1ms
  ✓ src/core/generate.test.ts > generateRun — loss shapes > shifted produces negative loss values late in the run 0ms
  ✓ src/core/generate.test.ts > generateRun — value defects > nan: puts NaN exactly at the given indices and leaves neighbours finite 0ms
  ✓ src/core/generate.test.ts > generateRun — value defects > nan-series: a run of consecutive NaN 0ms
@@ -404,11 +408,11 @@
  ✓ src/core/generate.test.ts > generateRun — value defects > spike: a single value multiplied by factor, reported with its exact value 0ms
  ✓ src/core/generate.test.ts > generateRun — value defects > zeros: exact zeros at the given indices 0ms
  ✓ src/core/generate.test.ts > generateRun — row defects > gap: removes the rows and reports the surrounding steps 0ms
- ✓ src/core/generate.test.ts > generateRun — row defects > relog: writes rows a second time with different values right after the originals 0ms
+ ✓ src/core/generate.test.ts > generateRun — row defects > relog: writes rows a second time with different values right after the originals 16ms
  ✓ src/core/generate.test.ts > generateRun — row defects > swap-blocks: exchanges adjacent blocks of rows 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > has 20 runs with unique ids and seeds 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > contains the brief’s special runs: empty, single point, server error, live 0ms
- ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: exactly 1,000,000 points and one spike at step 500,000 that is the global maximum 411ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: exactly 1,000,000 points and one spike at step 500,000 that is the global maximum 328ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-cosine: ground truth matches raw data > non-finite entries are the last write at their step 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-cosine: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > healthy-cosine: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
@@ -450,7 +454,7 @@
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > inf-values: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > inf-values: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > non-finite entries are the last write at their step 0ms
- ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > relogged steps appear exactly `writes` times 12ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > relogged steps appear exactly `writes` times 11ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > duplicate-steps: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > unsorted-steps: ground truth matches raw data > non-finite entries are the last write at their step 0ms
@@ -464,7 +468,7 @@
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > non-finite entries are the last write at their step 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
- ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 2ms
+ ✓ src/core/generate.test.ts > RUN_SPECS catalogue > long-1m: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 1ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > log-hostile: ground truth matches raw data > non-finite entries are the last write at their step 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > log-hostile: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > log-hostile: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
@@ -489,28 +493,21 @@
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > live: ground truth matches raw data > relogged steps appear exactly `writes` times 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > live: ground truth matches raw data > gaps have both endpoints present and nothing in between 0ms
  ✓ src/core/generate.test.ts > RUN_SPECS catalogue > live: ground truth matches raw data > `unsorted` is true exactly when the log order has a descent 0ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > inf-values 6ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > duplicate-steps 15ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > unsorted-steps 11ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > gaps 6ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > long-1m 1568ms
- ✓ src/core/prng.test.ts > gaussian (Irwin–Hall: sum of 12 uniforms − 6) > stays within [−6, 6] — so multiplicative noise 1 + σ·z can never flip the sign 532ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > log-hostile 4ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > long-1m 1258ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > log-hostile 7ms
  ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > empty 0ms
  ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > single-point 0ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > kitchen-sink 8ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > kitchen-sink 9ms
  ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > server-error 3ms
- ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > live 20ms
+ ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > live 16ms
  ✓ src/core/summary.test.ts > summarize — catalogue runs equal brute force over the raw data > nan-single: last logged loss is NaN on the very last step — the card must not show a stale finite value as "last" 3ms
- ✓ src/core/prng.test.ts > gaussian (Irwin–Hall: sum of 12 uniforms − 6) > has mean ≈ 0 and standard deviation ≈ 1, and never returns a non-finite value 232ms
+ ✓ src/core/prng.test.ts > gaussian (Irwin–Hall: sum of 12 uniforms − 6) > stays within [−6, 6] — so multiplicative noise 1 + σ·z can never flip the sign 492ms
+ ✓ src/core/prng.test.ts > gaussian (Irwin–Hall: sum of 12 uniforms − 6) > has mean ≈ 0 and standard deviation ≈ 1, and never returns a non-finite value 239ms
 
  Test Files  21 passed | 1 skipped (22)
       Tests  495 passed | 2 skipped (497)
-   Start at  15:28:28
-   Duration  2.15s (tests 51%, import 30%, environment 16%, transform 3%, worker 1%)
-
-    Isolate  22 workers spawned · ~199ms startup each (spawn + environment, per file)
-             at least ~288ms faster with isolate: false — reuses workers across files instead of one per file
+   Start at  16:32:56
+   Duration  1.79s (tests 60%, import 25%, environment 13%, transform 2%, worker 1%)
 
 
 # exit code: 0
