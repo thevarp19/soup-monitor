@@ -25,7 +25,8 @@
     "perf:before": "node scripts/run-and-save.mjs perf/output-before.txt -- node --no-warnings perf/run-perf.ts --label before --impl naive",
     "perf:after": "node scripts/run-and-save.mjs perf/output-after.txt -- node --no-warnings perf/run-perf.ts --label after",
     "perf:report": "node --no-warnings perf/report.ts",
-    "test:intl": "node scripts/run-and-save.mjs results/test-intl-output.txt -- node scripts/test-intl.mjs"
+    "test:intl": "node scripts/run-and-save.mjs results/test-intl-output.txt -- node scripts/test-intl.mjs",
+    "test:e2e:deployed": "E2E_BASE_URL=https://soup-monitor-seven.vercel.app node scripts/run-and-save.mjs results/e2e-deployed-output.txt -- playwright test --reporter=list"
   },
   "dependencies": {
     "react": "19.3.1",
