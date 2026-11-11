@@ -2,8 +2,8 @@
   "label": "after",
   "impl": "default",
   "url": "/runs/long-1m?latency=0&perf",
-  "date": "2026-11-10T14:41:35.585Z",
-  "commit": "6833dd9",
+  "date": "2026-11-11T09:38:51.448Z",
+  "commit": "48db2c2",
   "environment": {
     "chrome": "157.0.8103.39",
     "headless": true,
@@ -22,95 +22,108 @@
   },
   "summary": {
     "firstRenderMs": {
-      "median": 667,
-      "min": 635,
-      "max": 764,
+      "median": 652,
+      "min": 622,
+      "max": 666,
       "n": 5,
       "values": [
-        764,
-        635,
-        670,
-        667,
-        640
+        654,
+        627,
+        622,
+        652,
+        666
       ]
     },
     "firstRenderAdjustedForUnthrottledWorkerMs": {
-      "median": 1633,
-      "min": 1593,
-      "max": 1754,
+      "median": 1621,
+      "min": 1580,
+      "max": 1637,
       "n": 5,
       "values": [
-        1754,
-        1593,
-        1633,
-        1642,
-        1599
+        1621,
+        1582,
+        1580,
+        1621,
+        1637
       ]
     },
     "totalBlockingTimeBeforeFirstRenderMs": {
-      "median": 40,
-      "min": 34,
-      "max": 57,
+      "median": 36,
+      "min": 33,
+      "max": 42,
       "n": 5,
       "values": [
-        57,
+        33,
         34,
-        42,
-        40,
-        34
+        36,
+        38,
+        42
       ]
     },
     "hoverMs_medianPerRun": {
-      "median": 3.7,
-      "min": 3.4,
-      "max": 4,
+      "median": 3.3,
+      "min": 2.8,
+      "max": 3.4,
       "n": 5,
       "values": [
-        3.7,
-        3.9,
-        4,
-        3.7,
+        2.9,
+        2.8,
+        3.3,
+        3.4,
         3.4
       ]
     },
     "hoverMs_maxPerRun": {
-      "median": 57.8,
-      "min": 45.9,
-      "max": 67.9,
+      "median": 50,
+      "min": 47.3,
+      "max": 58.8,
       "n": 5,
       "values": [
-        67.9,
-        57.8,
-        45.9,
-        49.2,
-        63
+        58.8,
+        55.7,
+        47.3,
+        50,
+        48
       ]
     },
     "zoomMs": {
-      "median": 43,
-      "min": 37,
+      "median": 39,
+      "min": 36,
       "max": 50,
       "n": 5,
       "values": [
-        43,
-        37,
-        44,
+        40,
+        36,
+        39,
         50,
-        37
+        39
       ]
     },
     "memory": {
-      "rendererFootprintMB": {
-        "median": 113,
-        "min": 113,
-        "max": 114,
+      "tabFootprintMB": {
+        "median": 76,
+        "min": 75,
+        "max": 76,
         "n": 5,
         "values": [
-          113,
-          114,
-          114,
-          113,
-          113
+          76,
+          75,
+          76,
+          76,
+          75
+        ]
+      },
+      "otherRenderersFootprintMB_notTheTab": {
+        "median": 38,
+        "min": 38,
+        "max": 40,
+        "n": 5,
+        "values": [
+          38,
+          38,
+          40,
+          39,
+          38
         ]
       },
       "uaSpecificMB": {
@@ -155,95 +168,95 @@
     },
     "traceEventDispatchMs": {
       "pointermove": {
-        "median": 0.4,
+        "median": 0.6,
         "min": 0.1,
         "max": 0.9,
         "n": 29,
         "values": [
-          0.4,
-          0.1,
           0.7,
+          0.5,
+          0.8,
           0.8,
           0.5,
-          0.1,
-          0.4,
-          0.1,
           0.7,
-          0.4,
-          0.5,
-          0.4,
-          0.5,
-          0.1,
+          0.7,
           0.6,
-          0.1,
-          0.5,
-          0.1,
           0.9,
+          0.5,
+          0.1,
+          0.1,
+          0.6,
+          0.4,
           0.7,
+          0.5,
+          0.5,
+          0.5,
           0.6,
           0.1,
-          0.6,
           0.1,
-          0.2,
           0.8,
-          0.1,
-          0.1,
+          0.7,
+          0.5,
+          0.4,
+          0.6,
+          0.8,
+          0.8,
           0.1
         ]
       },
       "mousemove": {
         "median": 0.8,
-        "min": 0.1,
-        "max": 3.7,
+        "min": 0.2,
+        "max": 4.5,
         "n": 29,
         "values": [
-          3.7,
-          1.8,
-          1.3,
+          4.5,
+          1.7,
+          1.5,
+          0.8,
+          0.9,
+          0.2,
+          0.4,
           0.5,
           0.7,
-          0.9,
-          0.2,
+          0.7,
           1.2,
           0.9,
-          0.9,
-          0.6,
-          0.8,
-          0.5,
-          0.8,
           0.2,
-          0.1,
+          0.7,
+          0.6,
           0.4,
           0.8,
-          0.8,
-          1,
-          0.2,
-          1.3,
-          0.2,
-          0.8,
-          1,
+          0.5,
+          0.5,
+          0.7,
+          1.2,
+          1.4,
           0.9,
           1,
-          1,
-          0.7
+          0.8,
+          0.8,
+          0.5,
+          0.5,
+          1.1
         ]
       },
       "mousedown": {
-        "median": 0.7,
-        "min": 0.7,
-        "max": 0.7,
+        "median": 0.8,
+        "min": 0.8,
+        "max": 0.8,
         "n": 1,
         "values": [
-          0.7
+          0.8
         ]
       },
       "mouseup": {
-        "median": 14.9,
-        "min": 14.9,
-        "max": 14.9,
+        "median": 17.7,
+        "min": 17.7,
+        "max": 17.7,
         "n": 1,
         "values": [
-          14.9
+          17.7
         ]
       }
     }
@@ -254,34 +267,38 @@
   },
   "iterations": [
     {
-      "firstRenderMs": 764,
+      "firstRenderMs": 654,
       "marks": {
-        "chart:first-draw": 764
+        "chart:first-draw": 654
       },
-      "tbtMs": 57,
+      "tbtMs": 33,
       "longTasks": 1,
-      "workerMs": 330,
-      "firstRenderAdjustedMs": 1754,
+      "workerMs": 322,
+      "firstRenderAdjustedMs": 1621,
       "memory": {
-        "rendererFootprintMB": 113,
-        "rendererPids": [
-          99266,
-          99264,
-          99263
+        "tabFootprintMB": 76,
+        "tabPid": 54001,
+        "renderers": [
+          {
+            "pid": 54004,
+            "cpuTimeS": 0.04,
+            "footprintMB": 11
+          },
+          {
+            "pid": 54001,
+            "cpuTimeS": 15.94,
+            "footprintMB": 76
+          },
+          {
+            "pid": 54000,
+            "cpuTimeS": 0.09,
+            "footprintMB": 27
+          }
         ],
         "jsHeapUsedMB": 2.5,
         "perfMemoryUsedMB": 3.6,
         "uaSpecificMB": 44.4,
         "uaSpecificBreakdown": [
-          {
-            "types": [
-              "JavaScript"
-            ],
-            "urls": [
-              "http://localhost:4174/runs/long-1m?latency=0&perf"
-            ],
-            "MB": 3.2
-          },
           {
             "types": [
               "Canvas"
@@ -293,10 +310,12 @@
           },
           {
             "types": [
-              "Shared"
+              "JavaScript"
             ],
-            "urls": [],
-            "MB": 0.4
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
           },
           {
             "types": [
@@ -313,48 +332,68 @@
               "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
             ],
             "MB": 31
+          },
+          {
+            "types": [
+              "Shared"
+            ],
+            "urls": [],
+            "MB": 0.4
           }
         ]
       },
       "hoverMs": [
-        67.9,
-        4.3,
-        3.8,
-        21.9,
-        3.1,
+        58.8,
+        17.7,
         2.5,
-        4.1,
-        4.4,
-        3.2,
-        4.2,
-        3.6,
-        3.4,
-        3,
         3.8,
-        21.4,
-        2.6,
-        2.6,
+        3.3,
+        4.5,
         3.9,
-        3.2,
-        3
+        3.3,
+        4.4,
+        3.6,
+        2.6,
+        2.2,
+        2.4,
+        1.5,
+        3.1,
+        2.1,
+        2.2,
+        2.1,
+        2.6,
+        2.3
       ],
-      "zoomMs": 43
+      "zoomMs": 40
     },
     {
-      "firstRenderMs": 635,
+      "firstRenderMs": 627,
       "marks": {
-        "chart:first-draw": 635
+        "chart:first-draw": 627
       },
       "tbtMs": 34,
       "longTasks": 1,
-      "workerMs": 320,
-      "firstRenderAdjustedMs": 1593,
+      "workerMs": 318,
+      "firstRenderAdjustedMs": 1582,
       "memory": {
-        "rendererFootprintMB": 114,
-        "rendererPids": [
-          99619,
-          99617,
-          99616
+        "tabFootprintMB": 75,
+        "tabPid": 54390,
+        "renderers": [
+          {
+            "pid": 54392,
+            "cpuTimeS": 0.04,
+            "footprintMB": 11
+          },
+          {
+            "pid": 54390,
+            "cpuTimeS": 10.48,
+            "footprintMB": 75
+          },
+          {
+            "pid": 54389,
+            "cpuTimeS": 0.09,
+            "footprintMB": 27
+          }
         ],
         "jsHeapUsedMB": 2.5,
         "perfMemoryUsedMB": 3.6,
@@ -368,15 +407,6 @@
               "http://localhost:4174/runs/long-1m?latency=0&perf"
             ],
             "MB": 3.2
-          },
-          {
-            "types": [
-              "JavaScript"
-            ],
-            "urls": [
-              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
-            ],
-            "MB": 31
           },
           {
             "types": [
@@ -400,59 +430,6 @@
             ],
             "urls": [],
             "MB": 0.1
-          }
-        ]
-      },
-      "hoverMs": [
-        57.8,
-        18.2,
-        3.9,
-        3.9,
-        4.2,
-        3.7,
-        3.9,
-        4.3,
-        3.6,
-        4.7,
-        3.3,
-        3.6,
-        3.6,
-        3.2,
-        4.8,
-        4.3,
-        3.7,
-        3.8,
-        3.7,
-        4.8
-      ],
-      "zoomMs": 37
-    },
-    {
-      "firstRenderMs": 670,
-      "marks": {
-        "chart:first-draw": 670
-      },
-      "tbtMs": 42,
-      "longTasks": 1,
-      "workerMs": 321,
-      "firstRenderAdjustedMs": 1633,
-      "memory": {
-        "rendererFootprintMB": 114,
-        "rendererPids": [
-          99951,
-          99949,
-          99948
-        ],
-        "jsHeapUsedMB": 2.5,
-        "perfMemoryUsedMB": 3.6,
-        "uaSpecificMB": 44.4,
-        "uaSpecificBreakdown": [
-          {
-            "types": [
-              "Shared"
-            ],
-            "urls": [],
-            "MB": 0.4
           },
           {
             "types": [
@@ -462,78 +439,80 @@
               "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
             ],
             "MB": 31
-          },
-          {
-            "types": [
-              "DOM"
-            ],
-            "urls": [],
-            "MB": 0.1
-          },
-          {
-            "types": [
-              "Canvas"
-            ],
-            "urls": [
-              "http://localhost:4174/runs/long-1m?latency=0&perf"
-            ],
-            "MB": 9.8
-          },
-          {
-            "types": [
-              "JavaScript"
-            ],
-            "urls": [
-              "http://localhost:4174/runs/long-1m?latency=0&perf"
-            ],
-            "MB": 3.2
           }
         ]
       },
       "hoverMs": [
-        45.9,
-        16.4,
-        3.9,
-        4.2,
-        3.7,
-        3.7,
-        3.7,
-        4.3,
-        4.8,
-        3.3,
+        55.7,
+        16.9,
+        3,
+        2.6,
+        4.1,
         3.1,
         3.3,
-        21.7,
-        3.5,
-        4.4,
+        2.7,
+        2.1,
+        2.9,
+        2.7,
+        3.9,
+        2.1,
+        2.3,
+        2.2,
+        2.9,
+        1.9,
         4,
-        3.8,
-        3.2,
-        4,
-        4.1
+        2.7,
+        1.8
       ],
-      "zoomMs": 44
+      "zoomMs": 36
     },
     {
-      "firstRenderMs": 667,
+      "firstRenderMs": 622,
       "marks": {
-        "chart:first-draw": 667
+        "chart:first-draw": 622
       },
-      "tbtMs": 40,
+      "tbtMs": 36,
       "longTasks": 1,
-      "workerMs": 325,
-      "firstRenderAdjustedMs": 1642,
+      "workerMs": 319,
+      "firstRenderAdjustedMs": 1580,
       "memory": {
-        "rendererFootprintMB": 113,
-        "rendererPids": [
-          379,
-          377,
-          376
+        "tabFootprintMB": 76,
+        "tabPid": 54664,
+        "renderers": [
+          {
+            "pid": 54666,
+            "cpuTimeS": 0.04,
+            "footprintMB": 11
+          },
+          {
+            "pid": 54664,
+            "cpuTimeS": 15.91,
+            "footprintMB": 76
+          },
+          {
+            "pid": 54663,
+            "cpuTimeS": 0.09,
+            "footprintMB": 29
+          }
         ],
         "jsHeapUsedMB": 2.5,
         "perfMemoryUsedMB": 3.6,
         "uaSpecificMB": 44.4,
         "uaSpecificBreakdown": [
+          {
+            "types": [
+              "DOM"
+            ],
+            "urls": [],
+            "MB": 0.1
+          },
+          {
+            "types": [
+              "Shared"
+            ],
+            "urls": [],
+            "MB": 0.4
+          },
           {
             "types": [
               "JavaScript"
@@ -543,6 +522,83 @@
             ],
             "MB": 31
           },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
+          },
+          {
+            "types": [
+              "Canvas"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 9.8
+          }
+        ]
+      },
+      "hoverMs": [
+        47.3,
+        18.9,
+        4.1,
+        4.6,
+        2.6,
+        3.1,
+        3.6,
+        3.2,
+        3.3,
+        4.3,
+        2.8,
+        2.7,
+        2.7,
+        2.3,
+        4.7,
+        3.5,
+        3.9,
+        2.2,
+        2.6,
+        2.7
+      ],
+      "zoomMs": 39
+    },
+    {
+      "firstRenderMs": 652,
+      "marks": {
+        "chart:first-draw": 652
+      },
+      "tbtMs": 38,
+      "longTasks": 1,
+      "workerMs": 323,
+      "firstRenderAdjustedMs": 1621,
+      "memory": {
+        "tabFootprintMB": 76,
+        "tabPid": 55052,
+        "renderers": [
+          {
+            "pid": 55054,
+            "cpuTimeS": 0.04,
+            "footprintMB": 12
+          },
+          {
+            "pid": 55052,
+            "cpuTimeS": 15.94,
+            "footprintMB": 76
+          },
+          {
+            "pid": 55051,
+            "cpuTimeS": 0.09,
+            "footprintMB": 27
+          }
+        ],
+        "jsHeapUsedMB": 2.5,
+        "perfMemoryUsedMB": 3.6,
+        "uaSpecificMB": 44.4,
+        "uaSpecificBreakdown": [
           {
             "types": [
               "DOM"
@@ -558,6 +614,15 @@
               "http://localhost:4174/runs/long-1m?latency=0&perf"
             ],
             "MB": 3.2
+          },
+          {
+            "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
+            ],
+            "MB": 31
           },
           {
             "types": [
@@ -578,44 +643,57 @@
         ]
       },
       "hoverMs": [
-        49.2,
-        17.5,
+        50,
+        17.6,
+        3.4,
+        4.3,
+        2.6,
+        2.7,
+        3.1,
+        3.2,
+        4.1,
+        3.2,
+        3,
+        3.2,
+        4.4,
+        4.5,
         3.9,
-        3.3,
-        4.7,
-        3.6,
+        3,
+        3.1,
+        4.4,
         3.4,
-        21.6,
-        3.8,
-        3.8,
-        21.2,
-        3.3,
-        3.5,
-        3.6,
-        3.4,
-        3.3,
-        4.2,
-        3.7,
-        3.7,
-        3.4
+        3.6
       ],
       "zoomMs": 50
     },
     {
-      "firstRenderMs": 640,
+      "firstRenderMs": 666,
       "marks": {
-        "chart:first-draw": 640
+        "chart:first-draw": 666
       },
-      "tbtMs": 34,
-      "longTasks": 1,
-      "workerMs": 320,
-      "firstRenderAdjustedMs": 1599,
+      "tbtMs": 42,
+      "longTasks": 2,
+      "workerMs": 324,
+      "firstRenderAdjustedMs": 1637,
       "memory": {
-        "rendererFootprintMB": 113,
-        "rendererPids": [
-          1143,
-          1139,
-          1138
+        "tabFootprintMB": 75,
+        "tabPid": 55426,
+        "renderers": [
+          {
+            "pid": 55428,
+            "cpuTimeS": 0.04,
+            "footprintMB": 11
+          },
+          {
+            "pid": 55426,
+            "cpuTimeS": 9.74,
+            "footprintMB": 75
+          },
+          {
+            "pid": 55425,
+            "cpuTimeS": 0.09,
+            "footprintMB": 27
+          }
         ],
         "jsHeapUsedMB": 2.5,
         "perfMemoryUsedMB": 3.6,
@@ -623,19 +701,12 @@
         "uaSpecificBreakdown": [
           {
             "types": [
-              "Shared"
-            ],
-            "urls": [],
-            "MB": 0.4
-          },
-          {
-            "types": [
               "JavaScript"
             ],
             "urls": [
-              "http://localhost:4174/runs/long-1m?latency=0&perf"
+              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
             ],
-            "MB": 3.2
+            "MB": 31
           },
           {
             "types": [
@@ -648,6 +719,15 @@
           },
           {
             "types": [
+              "JavaScript"
+            ],
+            "urls": [
+              "http://localhost:4174/runs/long-1m?latency=0&perf"
+            ],
+            "MB": 3.2
+          },
+          {
+            "types": [
               "DOM"
             ],
             "urls": [],
@@ -655,38 +735,36 @@
           },
           {
             "types": [
-              "JavaScript"
+              "Shared"
             ],
-            "urls": [
-              "http://localhost:4174/assets/dataWorker-DFBe6dx2.js"
-            ],
-            "MB": 31
+            "urls": [],
+            "MB": 0.4
           }
         ]
       },
       "hoverMs": [
-        63,
-        16.3,
-        3.4,
-        3.8,
-        3.7,
-        2.7,
-        3.5,
-        3.7,
-        3.4,
-        3.8,
-        3.4,
-        3.2,
+        48,
+        17,
+        4.1,
+        3.6,
         2.9,
-        3.3,
-        3.2,
+        5,
         3.4,
-        4,
-        3.3,
-        3.2,
-        3.1
+        3,
+        3.6,
+        5.9,
+        3.7,
+        3,
+        2.9,
+        2.7,
+        3.4,
+        2.8,
+        2.7,
+        3,
+        2.9,
+        3.3
       ],
-      "zoomMs": 37
+      "zoomMs": 39
     }
   ]
 }
