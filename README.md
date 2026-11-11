@@ -3,14 +3,24 @@
 A training-run monitor built to answer one question: *can you show this chart to someone deciding
 whether to stop a $500 run?* The focus is on the chart being **truthful**, not just looking right.
 
-> Work in progress — see `docs/decisions.md` for every decision and its alternatives,
-> `docs/truthfulness.md` for what the tests prove about the chart and what they cannot catch, and
-> `docs/silent-failures.md` for what looks fine but is wrong, and how each case was checked.
-> **Live: https://soup-monitor-seven.vercel.app/** — e.g. [the 1M-point run](https://soup-monitor-seven.vercel.app/runs/long-1m),
-> [all defects at once](https://soup-monitor-seven.vercel.app/runs/kitchen-sink),
-> [a live run whose refreshes fail](https://soup-monitor-seven.vercel.app/runs/live?poll=1000&stale=2500&fail=live@2),
-> [the naive baseline](https://soup-monitor-seven.vercel.app/runs/long-1m?impl=naive).
-> The full e2e suite also passes against the deployed site: `results/e2e-deployed-output.txt`.
+**Live: https://soup-monitor-seven.vercel.app/** — try [the 1M-point run](https://soup-monitor-seven.vercel.app/runs/long-1m),
+[all defects at once](https://soup-monitor-seven.vercel.app/runs/kitchen-sink),
+[a live run whose refreshes fail](https://soup-monitor-seven.vercel.app/runs/live?poll=1000&stale=2500&fail=live@2),
+or [the naive baseline](https://soup-monitor-seven.vercel.app/runs/long-1m?impl=naive).
+
+**Verdict: DON'T SHIP — yet.** The chart is proven truthful for the data it receives; the data
+path from a real backend (NaN over JSON, server timestamps) is not built. Details: [NOTE.md](NOTE.md).
+
+| Document | What is in it |
+|---|---|
+| [NOTE.md](NOTE.md) | the two-page answer: truthfulness, blind spots, performance, silent failures, verdict |
+| [docs/truthfulness.md](docs/truthfulness.md) | each claim about the chart → the test that proves it; what the tests cannot catch |
+| [docs/silent-failures.md](docs/silent-failures.md) | what looks fine but is wrong: reproduction, fix, test, what is still open |
+| [PERF.md](PERF.md) | before/after table (generated from `perf/results-*.json`), traces, Task Manager check |
+| [docs/experiments.md](docs/experiments.md) | the measurement traps checked before measuring (throttling, memory, Event Timing, uPlot) |
+| [docs/decisions.md](docs/decisions.md) | every non-obvious decision and its alternatives |
+| [AI_USAGE.md](AI_USAGE.md) | where AI was used, what was accepted/changed/verified, and where it was wrong |
+| `results/` | saved test output, as is (unit, TZ × locale matrix, e2e local and deployed, mutation check) |
 
 ## Run it
 

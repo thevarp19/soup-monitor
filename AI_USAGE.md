@@ -237,6 +237,26 @@ the previous stage's last commit to its own last commit, so the author's review 
   over HTTPS; a larger `http.postBuffer` fixed it) and deployed on Vercel:
   https://soup-monitor-seven.vercel.app/
 
+## Stage 7 — documents (2026-11-11)
+
+- **AI proposed:** NOTE.md structured by the brief (verdict first, how truthfulness was proven, what
+  the tests cannot catch, performance, silent failures, the cancelled call's questions, what
+  surprised / still concerns); every number taken from `results/` and `perf/` files and re-checked
+  before writing; README turned into a map of the documents.
+- **Accepted:** ✎ the author asked Claude to write all documents.
+- **Changed:** — ✎
+- **Note on authorship:** the author's plan was to rewrite the final NOTE.md text and the
+  "what surprised me" paragraph in their own words. At the author's request, **NOTE.md — including
+  that paragraph — was written by Claude** and is submitted as written. The surprises listed there
+  are the project's documented findings (`docs/experiments.md`, `docs/silent-failures.md`, PERF.md).
+- **Checked by Claude (how):** every figure in NOTE.md compared with the result files (spike value
+  67.094…, 1,705 → 652 / 1,621 ms, TBT 1,503 → 36 ms, 136 → 76 MB, 47 tests failing on the
+  every-2nd-point mutation, …); length checked by rendering to A4 at 11 pt: 1.85 pages.
+- **Where AI was wrong:** the first draft was 1,124 words (over two pages) and quoted the UI's
+  "12 seconds ago" as "12 s ago"; the spike value would have been wrong if taken from memory
+  (62.09… belonged to the first generator) — it was recomputed.
+- **Verified by me:**
+
 ## Author's re-run of all tests (2026-11-11, from 15:09 UTC+5, commit de608eb)
 
 Run by the author in their own terminal on a clean working tree; output shared in the session.

@@ -162,7 +162,7 @@ tagged `perf-baseline` and kept reachable at `?impl=naive`. It does contain the 
 failures (NaN hidden as gaps, no duplicate handling, request race), which stage 5 uses as the
 "reproduce first" step.
 
-## Planned (decided in stage 0, implemented later)
+## Decided in stage 0 (all implemented since)
 
 - **Log scale with values ≤ 0: hide + mark + count.** Points ≤ 0 break the line, are drawn as
   markers on the bottom edge, and a banner says "N points ≤ 0 not representable on log scale".
