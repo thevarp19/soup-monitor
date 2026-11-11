@@ -2,9 +2,12 @@
  * Memory probes used by the perf script and the assumption experiments.
  *
  * Several sources on purpose, because they measure different things (see decisions I1):
- *  - processFootprint: macOS `footprint` of the renderer process(es) — what Chrome Task Manager
- *    calls "Memory footprint"; includes Web Workers (same renderer process) and ArrayBuffer
- *    backing stores. This is the number used for before/after.
+ *  - tabFootprintMB: macOS `footprint` of THE TAB'S renderer process — what Chrome Task Manager
+ *    shows as the tab's memory; includes its Web Worker (same process) and ArrayBuffer backing
+ *    stores. The tab's process is the renderer with the most CPU time (it does all the work).
+ *    A first version summed ALL renderer processes (3 per run: the tab plus spare/utility
+ *    renderers) — found when the author's manual Task Manager screenshot showed far less.
+ *    All renderers are still recorded (`renderers`) for transparency.
  *  - uaSpecific: performance.measureUserAgentSpecificMemory() — JS memory incl. workers; needs
  *    cross-origin isolation.
  *  - jsHeapUsed (CDP Performance.getMetrics) and performance.memory — main-thread V8 heap only.
@@ -13,9 +16,11 @@ import { execFileSync } from 'node:child_process';
 import type { Browser, CDPSession, Page } from '@playwright/test';
 
 export interface MemorySample {
-  /** Sum of macOS footprint over renderer processes, MB. */
-  rendererFootprintMB: number | null;
-  rendererPids: number[];
+  /** macOS footprint of the tab's renderer process (the one with the most CPU time), MB. */
+  tabFootprintMB: number | null;
+  tabPid: number | null;
+  /** Every renderer process seen, for transparency. */
+  renderers: Array<{ pid: number; cpuTimeS: number; footprintMB: number | null }>;
   /** CDP Performance.getMetrics → JSHeapUsedSize, MB. */
   jsHeapUsedMB: number;
   /** performance.memory.usedJSHeapSize, MB (precise only with --enable-precise-memory-info). */
@@ -39,14 +44,14 @@ function footprintMB(pid: number): number | null {
   }
 }
 
-/** PIDs of renderer processes (one page per browser in our scripts, so this is "the tab"). */
-export async function rendererPids(browser: Browser): Promise<number[]> {
+/** Renderer processes with their CPU time (seconds). */
+export async function renderers(browser: Browser): Promise<Array<{ pid: number; cpuTimeS: number }>> {
   const session = await browser.newBrowserCDPSession();
   const { processInfo } = (await session.send('SystemInfo.getProcessInfo')) as {
     processInfo: Array<{ type: string; id: number; cpuTime: number }>;
   };
   await session.detach();
-  return processInfo.filter((p) => p.type === 'renderer').map((p) => p.id);
+  return processInfo.filter((p) => p.type === 'renderer').map((p) => ({ pid: p.id, cpuTimeS: Math.round(p.cpuTime * 100) / 100 }));
 }
 
 export async function sampleMemory(browser: Browser, page: Page, cdp: CDPSession): Promise<MemorySample> {
@@ -62,11 +67,12 @@ export async function sampleMemory(browser: Browser, page: Page, cdp: CDPSession
     return { perfMemory: pm?.usedJSHeapSize ?? null, ua };
   });
 
-  const pids = await rendererPids(browser);
-  const footprints = pids.map(footprintMB);
+  const procs = (await renderers(browser)).map((r) => ({ ...r, footprintMB: footprintMB(r.pid) }));
+  const tab = procs.reduce<(typeof procs)[number] | null>((best, r) => (best === null || r.cpuTimeS > best.cpuTimeS ? r : best), null);
   return {
-    rendererFootprintMB: footprints.every((f) => f !== null) ? Math.round(footprints.reduce((s, f) => s + (f ?? 0), 0) * 10) / 10 : null,
-    rendererPids: pids,
+    tabFootprintMB: tab?.footprintMB ?? null,
+    tabPid: tab?.pid ?? null,
+    renderers: procs,
     jsHeapUsedMB: MB(jsHeapUsed),
     perfMemoryUsedMB: inPage.perfMemory === null ? null : MB(inPage.perfMemory),
     uaSpecificMB: inPage.ua ? MB(inPage.ua.bytes) : null,

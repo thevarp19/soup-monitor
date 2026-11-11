@@ -1,4 +1,4 @@
-import { useCallback, useId, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { fetchRun } from '../api/mockApi.ts';
 import type { Metric } from '../core/types.ts';
 import { useRequest } from '../hooks/useRequest.ts';
@@ -31,6 +31,10 @@ export function RunPage({ id, locale, listSearch }: { id: string; locale: string
   const data = run.data;
   const full: Range | null = data && data.firstStep !== null && data.lastStep !== null ? { x0: data.firstStep, x1: data.lastStep } : null;
   const range = zoom && zoom.runId === id ? zoom.range : full;
+
+  useEffect(() => {
+    document.title = `${data ? data.name : id} · Soup run monitor`;
+  }, [data, id]);
 
   const onRange = useCallback(
     (r: Range, eventTime: number) => {

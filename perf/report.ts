@@ -51,7 +51,7 @@ const rows: Array<[string, (s: Summary) => Stat | null | undefined, string]> = [
   ['Hover → next paint, median of each run', (s) => s.hoverMs_medianPerRun, 'ms'],
   ['Hover → next paint, worst move of each run', (s) => s.hoverMs_maxPerRun, 'ms'],
   ['Zoom (mouseup → new range drawn)', (s) => s.zoomMs, 'ms'],
-  ['Tab memory: renderer footprint (incl. worker)²', (s) => s.memory.rendererFootprintMB, 'MB'],
+  ['Tab memory: footprint of the tab\'s renderer process (incl. worker)²', (s) => s.memory.tabFootprintMB, 'MB'],
   ['measureUserAgentSpecificMemory (JS incl. worker)', (s) => s.memory.uaSpecificMB, 'MB'],
   ['JSHeapUsedSize — main thread only, NOT comparable³', (s) => s.memory.jsHeapUsedMB_mainThreadOnly, 'MB'],
 ];

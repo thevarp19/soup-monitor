@@ -26,6 +26,10 @@ export function RunListPage({ search, locale }: { search: string; locale: string
   const filterRef = useRef<HTMLInputElement>(null);
   const tbodyRef = useRef<HTMLTableSectionElement>(null);
 
+  useEffect(() => {
+    document.title = 'Training runs · Soup run monitor';
+  }, []);
+
   const update = (patch: Partial<ListState>) => navigate(`/${serializeListState({ ...state, ...patch })}`, { replace: true });
 
   // "/" focuses the filter from anywhere on the page (unless the user is typing in a field).

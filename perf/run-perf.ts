@@ -190,7 +190,8 @@ async function main() {
         it = { firstRenderMs: null, marks: {}, tbtMs: null, longTasks: null, workerMs: null, firstRenderAdjustedMs: null, memory: null, hoverMs: [], zoomMs: null, error: String(e) };
       }
       iterations.push(it);
-      console.log(`run ${r + 1}: first render ${it.firstRenderMs} ms (TBT ${it.tbtMs} ms), hover median ${stats(it.hoverMs)?.median} ms, zoom ${it.zoomMs} ms, footprint ${it.memory?.rendererFootprintMB} MB${it.error ? `, ERROR ${it.error}` : ''}`);
+      const others = it.memory?.renderers.filter((p) => p.pid !== it.memory?.tabPid).map((p) => `${p.footprintMB}`).join('+');
+      console.log(`run ${r + 1}: first render ${it.firstRenderMs} ms (TBT ${it.tbtMs} ms), hover median ${stats(it.hoverMs)?.median} ms, zoom ${it.zoomMs} ms, tab footprint ${it.memory?.tabFootprintMB} MB (other renderers ${others} MB)${it.error ? `, ERROR ${it.error}` : ''}`);
       await context.close();
     }
 
@@ -227,7 +228,8 @@ async function main() {
         hoverMs_maxPerRun: stats(iterations.map((i) => stats(i.hoverMs)?.max ?? null)),
         zoomMs: stats(iterations.map((i) => i.zoomMs)),
         memory: {
-          rendererFootprintMB: median((m) => m.rendererFootprintMB),
+          tabFootprintMB: median((m) => m.tabFootprintMB),
+          otherRenderersFootprintMB_notTheTab: median((m) => m.renderers.filter((r) => r.pid !== m.tabPid).reduce((s, r) => s + (r.footprintMB ?? 0), 0)),
           uaSpecificMB: median((m) => m.uaSpecificMB),
           jsHeapUsedMB_mainThreadOnly: median((m) => m.jsHeapUsedMB),
           performanceMemoryMB_mainThreadOnly: median((m) => m.perfMemoryUsedMB),

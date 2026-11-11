@@ -143,12 +143,13 @@ async function main() {
     ['main: 4 × Float64Array(1M) (objects freed)', () => page.evaluate(() => { (window as unknown as Win).freeMain(); (window as unknown as Win).allocTyped(); })],
     ['worker: 4 × Float64Array(1M) (main freed)', async () => { await page.evaluate(() => (window as unknown as Win).freeMain()); await page.evaluate(() => (window as unknown as Win).allocWorker()); }],
   ];
-  console.log('step'.padEnd(46) + 'footprint  JSHeapUsed  perf.memory  uaSpecific');
+  console.log('step'.padEnd(46) + 'tab footprint  JSHeapUsed  perf.memory  uaSpecific   (other renderers)');
   for (const [label, act] of steps) {
     await act();
     const m = await sampleMemory(browser, page, cdp);
     const f = (v: number | null) => (v === null ? 'n/a' : `${v} MB`).padStart(9);
-    console.log(`${label.padEnd(46)}${f(m.rendererFootprintMB)} ${f(m.jsHeapUsedMB)}  ${f(m.perfMemoryUsedMB)}   ${f(m.uaSpecificMB)}`);
+    const others = m.renderers.filter((r) => r.pid !== m.tabPid).map((r) => `${r.footprintMB} MB/${r.cpuTimeS}s`).join(', ');
+    console.log(`${label.padEnd(46)}${f(m.tabFootprintMB)}     ${f(m.jsHeapUsedMB)}  ${f(m.perfMemoryUsedMB)}   ${f(m.uaSpecificMB)}   (${others})`);
     if (m.uaSpecificBreakdown) for (const b of m.uaSpecificBreakdown) console.log(`${''.padEnd(48)}uaSpecific breakdown: ${b.MB} MB ${b.types.join('/') || '(no type)'} ${b.urls.join(' ') || ''}`);
   }
   await browser.close();

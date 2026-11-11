@@ -41,6 +41,10 @@ export function NaiveRunPage({ id }: { id: string }) {
 
   const data = useMemo(() => (rows ? toUPlot(rows) : null), [rows]);
 
+  useEffect(() => {
+    document.title = `[naive] ${id} · Soup run monitor`;
+  }, [id]);
+
   return (
     <main className="naive">
       <p>

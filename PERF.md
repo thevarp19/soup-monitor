@@ -29,9 +29,12 @@ Worker busy time before first render (final, per run): 330, 320, 321, 325, 320 m
 target (`docs/experiments.md` §2). The measured first render of the worker version is therefore
 optimistic. The adjusted row adds `(4 − 1) × worker busy time` — what it would be if the worker ran
 ×4 slower too. It is an upper bound (it assumes all worker time is on the critical path).
-² Chrome Task Manager's "Memory footprint" for the tab = macOS `footprint` of the renderer
-process; the dedicated worker runs in the same process. Screenshots of Task Manager:
-`perf/screenshots/` (taken by hand).
+² What Chrome Task Manager shows as the tab's memory = macOS `footprint` of the tab's renderer
+process (the dedicated worker runs in the same process). The tab's process is the renderer with the
+most CPU time. **Correction:** the first measurements summed all three renderer processes of the
+headless browser (the tab plus two others of ~11 and ~24 MB) and called that "tab memory"; the
+author's manual Task Manager screenshot showed much less and exposed it. After v1 was measured only
+with the old method, hence "n/a". Manual Task Manager screenshots: `perf/screenshots/`.
 ³ Shown only to make the trap visible: CDP `JSHeapUsedSize` counts neither typed-array backing
 stores nor the worker's heap (`docs/experiments.md` §4), so it reports a fake −97%.
 

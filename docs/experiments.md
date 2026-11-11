@@ -37,12 +37,18 @@ cross-checked with `EventDispatch(mousemove)` durations from the trace.
 
 ## 4. What do the memory metrics see? — **`JSHeapUsedSize` misses ArrayBuffers and workers.**
 
-| 1M points × 4 fields | footprint | `JSHeapUsedSize` (CDP) | `performance.memory` | `measureUserAgentSpecificMemory` |
+| 1M points × 4 fields | tab footprint | `JSHeapUsedSize` (CDP) | `performance.memory` | `measureUserAgentSpecificMemory` |
 |---|---|---|---|---|
-| empty page | 60 MB | 1.9 MB | 1.9 MB | 1.4 MB |
-| main thread, 1M row objects | 131 MB | 66.7 MB | 66.7 MB | 66.2 MB |
-| main thread, 4 × Float64Array | 90 MB | **1.9 MB** | 32.4 MB | 31.9 MB |
-| worker, 4 × Float64Array | 91 MB | **1.9 MB** | **1.9 MB** | 31.8 MB (attributed to the worker) |
+| empty page | 21 MB | 1.9 MB | 1.9 MB | 1.4 MB |
+| main thread, 1M row objects | 94 MB | 66.7 MB | 66.7 MB | 66.3 MB |
+| main thread, 4 × Float64Array | 55 MB | **1.9 MB** | 32.4 MB | 31.9 MB |
+| worker, 4 × Float64Array | 55 MB | **1.9 MB** | **1.9 MB** | 31.9 MB (attributed to the worker) |
+
+**Correction.** The first version of this table (and of the perf results) summed the footprint of
+*all* renderer processes — three per run: the tab plus two others (~11 MB and ~24–27 MB, constant).
+That was found when the author's manual Chrome Task Manager screenshot showed far less than the
+script. The tab is now the renderer with the most CPU time; the others are still recorded. Only
+the tab's process changes with the allocations above, which confirms the choice.
 
 `JSHeapUsedSize` does not count typed-array backing stores at all; `performance.memory` does not
 count workers. Comparing objects vs typed arrays in a worker with either of them would report a

@@ -6,6 +6,7 @@ import { naiveFetchRuns } from './naiveApi.ts';
 export function NaiveRunList() {
   const [runs, setRuns] = useState<Array<{ id: string; name: string; status: string }> | null>(null);
   useEffect(() => {
+    document.title = '[naive] Training runs · Soup run monitor';
     naiveFetchRuns().then(setRuns);
   }, []);
   return (
