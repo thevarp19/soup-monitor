@@ -5,6 +5,7 @@
  */
 import { generateRun } from '../core/generate.ts';
 import { RUN_SPECS } from '../core/runSpecs.ts';
+import { parseApiOptions } from '../api/options.ts';
 import { markOnce } from '../perf/marks.ts';
 
 export interface NaiveRow {
@@ -14,20 +15,18 @@ export interface NaiveRow {
   grad_norm: number;
 }
 
-function latency(): number {
-  const q = new URLSearchParams(window.location.search).get('latency');
-  if (q !== null && q !== '' && Number.isFinite(Number(q))) return Number(q);
-  return 100 + Math.random() * 1400;
-}
+// The mock server's latency switches (?latency=…) are shared with the real UI, so the same request
+// race can be reproduced on both (e2e/race.spec.ts).
+const latency = (endpoint: string) => parseApiOptions(window.location.search).latencyFor(endpoint, Math.random);
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function naiveFetchRuns() {
-  await delay(latency());
+  await delay(latency('list'));
   return RUN_SPECS.map(({ id, name, status }) => ({ id, name, status }));
 }
 
 export async function naiveFetchRun(id: string): Promise<NaiveRow[]> {
-  await delay(latency());
+  await delay(latency(id));
   const spec = RUN_SPECS.find((s) => s.id === id);
   if (!spec) throw new Error(`404: run "${id}" not found`);
   if (spec.serverError) throw new Error('500: internal server error');
