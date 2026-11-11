@@ -75,6 +75,28 @@ scenario (load → 20 hover moves → drag-zoom) with CPU ×4; tracing adds over
 uses the 5 untraced runs. Cross-check from the traces (`EventDispatch` durations of `mousemove`,
 `mouseup`) is stored in each result file under `traceEventDispatchMs`.
 
+### What the traces show (author's DevTools screenshot: `perf/screenshots/devtools-traces-before-after.png`)
+
+Left `trace-before.json`, right `trace-after.json`, values as shown by the DevTools Summary for the
+whole recording:
+
+| | before (naive) | after |
+|---|---|---|
+| Scripting | 2,014 ms | 414 ms |
+| Main thread time (localhost + unattributed) | 1,888.4 + 430.7 ms | 320.4 + 522.3 ms |
+| LCP / INP / CLS (DevTools Insights) | 0.20 s / 42 ms / 0 | 0.22 s / 28 ms / 0 |
+
+- Naive: one ~1.5 s long task at the start (generation on the main thread), then conversion and
+  drawing. After: the same work sits in the `dataWorker-….js` track; the main thread has only short
+  tasks. The long "frame" right after navigation in the after trace is a period with nothing new to
+  paint (skeleton shown) while the worker computes — the main thread is free (TBT ≈ 36 ms).
+- **LCP is the wrong metric here**: it is ~0.2 s in both versions because the LCP element is text,
+  not the chart canvas. By Core Web Vitals both pages are "fast", while the naive one shows the
+  chart only after ~1.7 s. Hence the custom `chart:first-draw` mark.
+- INP comes from the drag-zoom (mousedown/mouseup); hover is not part of INP (`docs/experiments.md` §3).
+- Absolute times in the traces are higher than in the table: tracing (CPU sampling, also in the
+  worker) adds overhead, which is why the table uses the five untraced runs.
+
 ## History and honesty notes
 
 - The first baseline (`perf/results-before-v1-superseded.json`, tag `perf-baseline`) was measured
